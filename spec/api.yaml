@@ -1,0 +1,204 @@
+swagger: '2.0'
+
+info:
+  title: Phaxio API
+  description: API Definition for Phaxio
+  version: "2.0.0"
+
+host: "api.phaxio.com"
+schemes:
+- https
+basePath: /v2
+produces:
+  - application/json
+securityDefinitions:
+  UserSecurity:
+    type: basic
+security:
+  - UserSecurity: []
+paths:
+  /faxes/{faxId}:
+    get:
+      summary: Get Fax
+      produces:
+        - application/json
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/FaxInfo'
+  /faxes/{faxId}/cancel:
+    post:
+      summary: Cancel a Fax
+      produces:
+        - application/json
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/SendFaxResponse'
+        'default':
+          description: failure
+          schema:
+            $ref: '#/definitions/FailureResponse'
+  /faxes/{faxId}/resend:
+    post:
+      summary: Resend a Fax
+      produces:
+        - application/json
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/SendFaxResponse'
+        'default':
+          description: failure
+          schema:
+            $ref: '#/definitions/FailureResponse'
+  /faxes:
+    post:
+      summary: Create and Send a Fax
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: to
+          in: formData
+          type: string
+          required: true
+          description: phone number
+        - name: file[]
+          in: formData
+          type: array
+          items:
+            type: file
+          required: false
+          description: file to send
+        - name: content_url[]
+          in: formData
+          type: array
+          items:
+            type: string
+          collectionFormat: "multi"
+          required: false
+          description: url of file to send
+        - name: header_text
+          in: formData
+          type: string
+          required: false
+          description: Text that appears at the top of each page
+        - name: batch_delay
+          in: formData
+          type: integer
+          required: false
+          description: Number of seconds to wait before sending batch
+        - name: batch_collision_avoidance
+          in: formData
+          type: boolean
+          required: false
+          description: When batch_delay is set, fax will be blocked until the receiving machine is no longer busy
+        - name: callback_url
+          in: formData
+          type: string
+          required: false
+          description: Overrides global callback URL
+        - name: cancel_timeout
+          in: formData
+          type: integer
+          required: false
+          description: Number of minutes to wait for successful send before cancelling fax
+        - name: tag
+          in: formData
+          type: integer
+          required: false
+          description: Number of minutes to wait for successful send before cancelling fax
+        - name: caller_id
+          in: formData
+          type: string
+          required: false
+          description: Number to use for caller ID
+        - name: test_fail
+          in: formData
+          type: string
+          required: false
+          description: When sending a test fax, if this is set it will simulate the failure type specified
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/SendFaxResponse'
+        'default':
+          description: failure
+          schema:
+            $ref: '#/definitions/FailureResponse'
+  /account/status:
+    get:
+      summary: Get account status
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/AccountStatus'
+
+definitions:
+  FailureResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+  FaxInfo:
+    type: object
+    properties:
+      id:
+        type: integer
+  SendFaxResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+  AccountStatus:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          balance:
+            type: integer
+          faxes_today:
+            type: integer
+          faxes_this_month:
+            type: integer
