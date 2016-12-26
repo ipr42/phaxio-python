@@ -16,6 +16,126 @@ securityDefinitions:
     type: basic
 security:
   - UserSecurity: []
+
+definitions:
+  # this is a trick for reusable enums, which aren't supported by swagger, but YAML provides a way
+  Status:
+    type: string
+    enum: &statuses
+      - queued
+      - pendingbatch
+      - inprogress
+      - success
+      - failure
+      - partialsuccess
+  Error:
+    type: string
+    # this would be nice but unfortunately we can't use it since there are no nullable enums.
+    enum: &errors
+      - documentConversionError
+      - lineError
+      - faxError
+      - fatalError
+      - generalError
+  FailureResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+  FaxInfo:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+          direction:
+            type: string
+            enum: [ "sent", "received" ]
+          num_pages:
+            type: integer
+          cost:
+            type: integer
+          status:
+            type: string
+            enum: *statuses
+          is_test:
+            type: boolean
+          created_at:
+            type: string
+          from_number:
+            type: string
+          to_number:
+            type: string
+          recipients:
+            type: array
+            items:
+              $ref: '#/definitions/Recipient'
+          tags:
+            type: object
+            additionalProperties:
+              type: string
+          error_type:
+            type: string
+            #enum: *errors
+          error_message:
+            type: string
+          error_id:
+            type: integer
+          completed_at:
+            type: string
+  Recipient:
+    type: object
+    properties:
+      phone_number:
+        type: string
+      status:
+        type: string
+        enum: *statuses
+      completed_at:
+        type: string
+      error_type:
+        type: string
+      error_message:
+        type: string
+      error_id:
+        type: integer
+  SendFaxResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+  AccountStatus:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          balance:
+            type: integer
+          faxes_today:
+            type: integer
+          faxes_this_month:
+            type: integer
+
 paths:
   /faxes/{faxId}:
     get:
@@ -86,11 +206,18 @@ paths:
           type: string
           required: true
           description: phone number
+        - name: direction
+          in: query
+          type: string
+          enum: [ "received" ]
+          required: false
+          description: Set to 'received' to receive test fax.
         - name: file[]
           in: formData
           type: array
           items:
             type: file
+          collectionFormat: "multi"
           required: false
           description: file to send
         - name: content_url[]
@@ -139,6 +266,7 @@ paths:
         - name: test_fail
           in: formData
           type: string
+          enum: *errors
           required: false
           description: When sending a test fax, if this is set it will simulate the failure type specified
       responses:
@@ -160,45 +288,3 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/AccountStatus'
-
-definitions:
-  FailureResponse:
-    type: object
-    properties:
-      success:
-        type: boolean
-      message:
-        type: string
-  FaxInfo:
-    type: object
-    properties:
-      id:
-        type: integer
-  SendFaxResponse:
-    type: object
-    properties:
-      success:
-        type: boolean
-      message:
-        type: string
-      data:
-        type: object
-        properties:
-          id:
-            type: integer
-  AccountStatus:
-    type: object
-    properties:
-      success:
-        type: boolean
-      message:
-        type: string
-      data:
-        type: object
-        properties:
-          balance:
-            type: integer
-          faxes_today:
-            type: integer
-          faxes_this_month:
-            type: integer

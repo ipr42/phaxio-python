@@ -116,6 +116,7 @@ class ApiClient(object):
                                                      collection_formats)
 
         # post parameters
+        post_files = None
         if post_params or files:
             params_and_files = self.prepare_post_parameters(post_params, files)
             post_params = params_and_files.get('params')
@@ -441,13 +442,14 @@ class ApiClient(object):
                     continue
                 file_names = v if type(v) is list else [v]
                 for n in file_names:
-                    #filename = os.path.basename(n)
-                    #files_prepared.append(tuple([k, tuple([filename, open(n, 'rb')])]))
                     with open(n, 'rb') as f:
                         filename = os.path.basename(f.name)
                         filedata = f.read()
                         mimetype = mimetypes.\
                             guess_type(filename)[0] or 'application/octet-stream'
+                        # only use the array notation for keys if there are multiple values
+                        if len(file_names) == 1:
+                            k = k.replace('[]', '')
                         files_prepared.append(tuple([k, tuple([filename, filedata, mimetype])]))
 
         return {'params': params, 'files': files_prepared}
