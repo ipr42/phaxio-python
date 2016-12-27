@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**faxes_fax_id_resend_post**](DefaultApi.md#faxes_fax_id_resend_post) | **POST** /faxes/{faxId}/resend | Resend a Fax
 [**faxes_get**](DefaultApi.md#faxes_get) | **GET** /faxes | List faxes in date range
 [**faxes_post**](DefaultApi.md#faxes_post) | **POST** /faxes | Create and Send a Fax
+[**public_countries_get**](DefaultApi.md#public_countries_get) | **GET** /public/countries | Returns a list of supported countries for sending and receiving faxes
 
 
 # **account_status_get**
@@ -493,6 +494,58 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **public_countries_get**
+> GetCountriesResponse public_countries_get(per_page=per_page, page=page)
+
+Returns a list of supported countries for sending and receiving faxes
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+per_page = 56 # int | How many records to return per page (optional)
+page = 56 # int | Page number to return (optional)
+
+try: 
+    # Returns a list of supported countries for sending and receiving faxes
+    api_response = api_instance.public_countries_get(per_page=per_page, page=page)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->public_countries_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **per_page** | **int**| How many records to return per page | [optional] 
+ **page** | **int**| Page number to return | [optional] 
+
+### Return type
+
+[**GetCountriesResponse**](GetCountriesResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

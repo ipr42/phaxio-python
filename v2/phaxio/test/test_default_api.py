@@ -116,6 +116,12 @@ class TestDefaultApi(unittest.TestCase):
             print('[type={}, result={}]'.format(type(e), e))
             raise e
 
+    def test_get_countries(self):
+        swagger_client.configuration.username = ""
+        swagger_client.configuration.password = ""
+        result = self.api.public_countries_get(per_page=10, page=1)
+        print('type={}, result={}'.format(type(result), result))
+
     #def test_resend_fax(self):
     #    #try:
     #    result = self.api.faxes_fax_id_resend_post(36394889)

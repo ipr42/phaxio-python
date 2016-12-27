@@ -16,9 +16,11 @@ from __future__ import absolute_import
 # import models into model package
 from .account_status import AccountStatus
 from .account_status_data import AccountStatusData
+from .country import Country
 from .error import Error
 from .failure_response import FailureResponse
 from .fax_info import FaxInfo
+from .get_countries_response import GetCountriesResponse
 from .get_fax_info_response import GetFaxInfoResponse
 from .get_faxes_response import GetFaxesResponse
 from .paging import Paging
