@@ -6,8 +6,12 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**account_status_get**](DefaultApi.md#account_status_get) | **GET** /account/status | Get account status
 [**faxes_fax_id_cancel_post**](DefaultApi.md#faxes_fax_id_cancel_post) | **POST** /faxes/{faxId}/cancel | Cancel a Fax
+[**faxes_fax_id_delete**](DefaultApi.md#faxes_fax_id_delete) | **DELETE** /faxes/{faxId} | Delete a fax
+[**faxes_fax_id_file_delete**](DefaultApi.md#faxes_fax_id_file_delete) | **DELETE** /faxes/{faxId}/file | Delete a fax file
+[**faxes_fax_id_file_get**](DefaultApi.md#faxes_fax_id_file_get) | **GET** /faxes/{faxId}/file | Get fax content file or thumbnail
 [**faxes_fax_id_get**](DefaultApi.md#faxes_fax_id_get) | **GET** /faxes/{faxId} | Get Fax
 [**faxes_fax_id_resend_post**](DefaultApi.md#faxes_fax_id_resend_post) | **POST** /faxes/{faxId}/resend | Resend a Fax
+[**faxes_get**](DefaultApi.md#faxes_get) | **GET** /faxes | List faxes in date range
 [**faxes_post**](DefaultApi.md#faxes_post) | **POST** /faxes | Create and Send a Fax
 
 
@@ -107,8 +111,160 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **faxes_fax_id_delete**
+> FailureResponse faxes_fax_id_delete(fax_id)
+
+Delete a fax
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+fax_id = 56 # int | Fax ID
+
+try: 
+    # Delete a fax
+    api_response = api_instance.faxes_fax_id_delete(fax_id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->faxes_fax_id_delete: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fax_id** | **int**| Fax ID | 
+
+### Return type
+
+[**FailureResponse**](FailureResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **faxes_fax_id_file_delete**
+> FailureResponse faxes_fax_id_file_delete(fax_id)
+
+Delete a fax file
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+fax_id = 56 # int | Fax ID
+
+try: 
+    # Delete a fax file
+    api_response = api_instance.faxes_fax_id_file_delete(fax_id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->faxes_fax_id_file_delete: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fax_id** | **int**| Fax ID | 
+
+### Return type
+
+[**FailureResponse**](FailureResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **faxes_fax_id_file_get**
+> file faxes_fax_id_file_get(fax_id, thumbnail=thumbnail)
+
+Get fax content file or thumbnail
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+fax_id = 56 # int | Fax ID
+thumbnail = 'thumbnail_example' # str | if set, request a thumbnail only in specified size (optional)
+
+try: 
+    # Get fax content file or thumbnail
+    api_response = api_instance.faxes_fax_id_file_get(fax_id, thumbnail=thumbnail)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->faxes_fax_id_file_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fax_id** | **int**| Fax ID | 
+ **thumbnail** | **str**| if set, request a thumbnail only in specified size | [optional] 
+
+### Return type
+
+[**file**](file.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/octet-stream
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **faxes_fax_id_get**
-> FaxInfo faxes_fax_id_get(fax_id)
+> GetFaxInfoResponse faxes_fax_id_get(fax_id)
 
 Get Fax
 
@@ -144,7 +300,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**FaxInfo**](FaxInfo.md)
+[**GetFaxInfoResponse**](GetFaxInfoResponse.md)
 
 ### Authorization
 
@@ -195,6 +351,68 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SendFaxResponse**](SendFaxResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **faxes_get**
+> GetFaxesResponse faxes_get(created_before=created_before, created_after=created_after, direction=direction, status=status, phone_number=phone_number, per_page=per_page, page=page)
+
+List faxes in date range
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+created_before = 'created_before_example' # str | End of the range (optional)
+created_after = 'created_after_example' # str | Beginning of the range (optional)
+direction = 'direction_example' # str | Limits results to faxes with the specified direction (optional)
+status = 'status_example' # str | Limits results to faxes with the specified status (optional)
+phone_number = 'phone_number_example' # str | A phone number in E.164 format that you want to use to filter results. (optional)
+per_page = 56 # int | How many records to return per page (optional)
+page = 56 # int | Page number to return (optional)
+
+try: 
+    # List faxes in date range
+    api_response = api_instance.faxes_get(created_before=created_before, created_after=created_after, direction=direction, status=status, phone_number=phone_number, per_page=per_page, page=page)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->faxes_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **created_before** | **str**| End of the range | [optional] 
+ **created_after** | **str**| Beginning of the range | [optional] 
+ **direction** | **str**| Limits results to faxes with the specified direction | [optional] 
+ **status** | **str**| Limits results to faxes with the specified status | [optional] 
+ **phone_number** | **str**| A phone number in E.164 format that you want to use to filter results. | [optional] 
+ **per_page** | **int**| How many records to return per page | [optional] 
+ **page** | **int**| Page number to return | [optional] 
+
+### Return type
+
+[**GetFaxesResponse**](GetFaxesResponse.md)
 
 ### Authorization
 

@@ -47,50 +47,52 @@ definitions:
   FaxInfo:
     type: object
     properties:
+      id:
+        type: integer
+      direction:
+        type: string
+        enum: [ "sent", "received" ]
+      num_pages:
+        type: integer
+      cost:
+        type: integer
+      status:
+        type: string
+        enum: *statuses
+      is_test:
+        type: boolean
+      created_at:
+        type: string
+      from_number:
+        type: string
+      to_number:
+        type: string
+      recipients:
+        type: array
+        items:
+          $ref: '#/definitions/Recipient'
+      tags:
+        type: object
+        additionalProperties:
+          type: string
+      error_type:
+        type: string
+        #enum: *errors
+      error_message:
+        type: string
+      error_id:
+        type: integer
+      completed_at:
+        type: string
+  GetFaxInfoResponse:
+    type: object
+    properties:
       success:
         type: boolean
       message:
         type: string
       data:
-        type: object
-        properties:
-          id:
-            type: integer
-          direction:
-            type: string
-            enum: [ "sent", "received" ]
-          num_pages:
-            type: integer
-          cost:
-            type: integer
-          status:
-            type: string
-            enum: *statuses
-          is_test:
-            type: boolean
-          created_at:
-            type: string
-          from_number:
-            type: string
-          to_number:
-            type: string
-          recipients:
-            type: array
-            items:
-              $ref: '#/definitions/Recipient'
-          tags:
-            type: object
-            additionalProperties:
-              type: string
-          error_type:
-            type: string
-            #enum: *errors
-          error_message:
-            type: string
-          error_id:
-            type: integer
-          completed_at:
-            type: string
+        $ref: '#/definitions/FaxInfo'
   Recipient:
     type: object
     properties:
@@ -101,6 +103,10 @@ definitions:
         enum: *statuses
       completed_at:
         type: string
+      bitrate:
+        type: integer
+      resolution:
+        type: integer
       error_type:
         type: string
       error_message:
@@ -135,6 +141,28 @@ definitions:
             type: integer
           faxes_this_month:
             type: integer
+  Paging:
+    type: object
+    properties:
+      total:
+        type: integer
+      per_page:
+        type: integer
+      page:
+        type: integer
+  GetFaxesResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/FaxInfo'
+      paging:
+        $ref: '#/definitions/Paging'
 
 paths:
   /faxes/{faxId}:
@@ -152,7 +180,63 @@ paths:
         '200':
           description: success response
           schema:
-            $ref: '#/definitions/FaxInfo'
+            $ref: '#/definitions/GetFaxInfoResponse'
+    delete:
+      summary: Delete a fax
+      produces:
+        - application/json
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/FailureResponse'
+  /faxes/{faxId}/file:
+    get:
+      summary: Get fax content file or thumbnail
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+        - name: thumbnail
+          in: query
+          description: if set, request a thumbnail only in specified size
+          required: false
+          type: string
+          enum: [ "l", "s" ]
+      responses:
+        '200':
+          description: success response
+          schema:
+            type: file
+        'default':
+          description: failure
+          schema:
+            $ref: '#/definitions/FailureResponse'
+    delete:
+      summary: Delete a fax file
+      produces:
+        - application/json
+      parameters:
+        - name: faxId
+          in: path
+          description: Fax ID
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/FailureResponse'
   /faxes/{faxId}/cancel:
     post:
       summary: Cancel a Fax
@@ -194,6 +278,54 @@ paths:
           schema:
             $ref: '#/definitions/FailureResponse'
   /faxes:
+    get:
+      summary: List faxes in date range
+      produces:
+        - application/json
+      parameters:
+        - name: created_before
+          in: query
+          type: string
+          required: false
+          description: End of the range
+        - name: created_after
+          in: query
+          type: string
+          required: false
+          description: Beginning of the range
+        - name: direction
+          in: query
+          type: string
+          enum: [ "sent", "received" ]
+          required: false
+          description: Limits results to faxes with the specified direction
+        - name: status
+          in: query
+          type: string
+          enum: *statuses
+          required: false
+          description: Limits results to faxes with the specified status
+        - name: phone_number
+          in: query
+          type: string
+          required: false
+          description: A phone number in E.164 format that you want to use to filter results.
+          # TODO: figure out how to do tag
+        - name: per_page
+          in: query
+          type: integer
+          required: false
+          description: How many records to return per page
+        - name: page
+          in: query
+          type: integer
+          required: false
+          description: Page number to return
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/GetFaxesResponse'
     post:
       summary: Create and Send a Fax
       consumes:

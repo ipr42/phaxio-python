@@ -19,7 +19,9 @@ from .account_status_data import AccountStatusData
 from .error import Error
 from .failure_response import FailureResponse
 from .fax_info import FaxInfo
-from .fax_info_data import FaxInfoData
+from .get_fax_info_response import GetFaxInfoResponse
+from .get_faxes_response import GetFaxesResponse
+from .paging import Paging
 from .recipient import Recipient
 from .send_fax_response import SendFaxResponse
 from .send_fax_response_data import SendFaxResponseData

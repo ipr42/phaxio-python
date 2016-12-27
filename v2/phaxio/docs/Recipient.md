@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 **phone_number** | **str** |  | [optional] 
 **status** | **str** |  | [optional] 
 **completed_at** | **str** |  | [optional] 
+**bitrate** | **int** |  | [optional] 
+**resolution** | **int** |  | [optional] 
 **error_type** | **str** |  | [optional] 
 **error_message** | **str** |  | [optional] 
 **error_id** | **int** |  | [optional] 

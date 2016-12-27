@@ -57,7 +57,7 @@ class TestDefaultApi(unittest.TestCase):
     #    print(result)
 
     def test_send_fax(self):
-        result = self.api.faxes_post(to='7735922266', file=['/mnt/d/src/pyphaxio/generated/fax.pdf'], direction="received")
+        result = self.api.faxes_post(to='7735922266', file=['/mnt/d/src/pyphaxio/v2/phaxio/requirements.txt'])
         print('type={}, result={}'.format(type(result), result))
 
 
@@ -91,13 +91,30 @@ class TestDefaultApi(unittest.TestCase):
         print('request.body={}'.format(r.request.body))
 
 
-    #def test_cancel_fax(self):
-    #    #try:
-    #    result = self.api.faxes_fax_id_cancel_post(36394889)
-    #    print('type={}, result={}'.format(type(result), result))
-        #except ApiException as e:
-        #print('[type={}, result={}]'.format(type(e), e))
-        #    raise e
+    def test_get_fax_data(self):
+        result = self.api.faxes_fax_id_file_get(36394889, thumbnail="s")
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_get_faxes(self):
+        result = self.api.faxes_get(phone_number='+17735922266', per_page=10, page=2, status='success',
+                                    created_before='2016-12-24T01:49:22.000')
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_delete_fax(self):
+        result = self.api.faxes_fax_id_delete(36394889)
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_delete_fax_file(self):
+        result = self.api.faxes_fax_id_file_delete(36507493)
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_cancel_fax(self):
+        try:
+            result = self.api.faxes_fax_id_cancel_post(36394889)
+            print('type={}, result={}'.format(type(result), result))
+        except ApiException as e:
+            print('[type={}, result={}]'.format(type(e), e))
+            raise e
 
     #def test_resend_fax(self):
     #    #try:
