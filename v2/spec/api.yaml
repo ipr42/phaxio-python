@@ -163,6 +163,34 @@ definitions:
           $ref: '#/definitions/FaxInfo'
       paging:
         $ref: '#/definitions/Paging'
+  PhoneNumber:
+    type: object
+    properties:
+      phone_number:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      cost:
+        type: integer
+      last_billed_at:
+        type: string
+      provisioned_at:
+        type: string
+      callback_url:
+        type: string
+  CreatePhoneNumberResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        $ref: '#/definitions/PhoneNumber'
   Country:
     type: object
     properties:
@@ -448,9 +476,37 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/AccountStatus'
+  /phone_numbers:
+    post:
+      summary: Provision a number
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: country_code
+          in: formData
+          type: integer
+          required: true
+          description: The country code (E.164) of the number you'd like to provision
+        - name: area_code
+          in: formData
+          type: integer
+          required: true
+          description: The area code of the number you'd like to provision
+        - name: callback_url
+          in: formData
+          type: string
+          required: false
+          description: A callback URL that we'll post to when a fax is received by this number
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/CreatePhoneNumberResponse'
   /public/countries:
-    security: []
     get:
+      security: []
       summary: Returns a list of supported countries for sending and receiving faxes
       produces:
         - application/json

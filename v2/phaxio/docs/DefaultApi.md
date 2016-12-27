@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**faxes_fax_id_resend_post**](DefaultApi.md#faxes_fax_id_resend_post) | **POST** /faxes/{faxId}/resend | Resend a Fax
 [**faxes_get**](DefaultApi.md#faxes_get) | **GET** /faxes | List faxes in date range
 [**faxes_post**](DefaultApi.md#faxes_post) | **POST** /faxes | Create and Send a Fax
+[**phone_numbers_post**](DefaultApi.md#phone_numbers_post) | **POST** /phone_numbers | Provision a number
 [**public_countries_get**](DefaultApi.md#public_countries_get) | **GET** /public/countries | Returns a list of supported countries for sending and receiving faxes
 
 
@@ -498,10 +499,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **public_countries_get**
-> GetCountriesResponse public_countries_get(per_page=per_page, page=page)
+# **phone_numbers_post**
+> CreatePhoneNumberResponse phone_numbers_post(country_code, area_code, callback_url=callback_url)
 
-Returns a list of supported countries for sending and receiving faxes
+Provision a number
 
 ### Example 
 ```python
@@ -514,6 +515,56 @@ from pprint import pprint
 # Configure HTTP basic authorization: UserSecurity
 swagger_client.configuration.username = 'YOUR_USERNAME'
 swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+country_code = 56 # int | The country code (E.164) of the number you'd like to provision
+area_code = 56 # int | The area code of the number you'd like to provision
+callback_url = 'callback_url_example' # str | A callback URL that we'll post to when a fax is received by this number (optional)
+
+try: 
+    # Provision a number
+    api_response = api_instance.phone_numbers_post(country_code, area_code, callback_url=callback_url)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phone_numbers_post: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **country_code** | **int**| The country code (E.164) of the number you&#39;d like to provision | 
+ **area_code** | **int**| The area code of the number you&#39;d like to provision | 
+ **callback_url** | **str**| A callback URL that we&#39;ll post to when a fax is received by this number | [optional] 
+
+### Return type
+
+[**CreatePhoneNumberResponse**](CreatePhoneNumberResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **public_countries_get**
+> GetCountriesResponse public_countries_get(per_page=per_page, page=page)
+
+Returns a list of supported countries for sending and receiving faxes
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.DefaultApi()
@@ -541,7 +592,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[UserSecurity](../README.md#UserSecurity)
+No authorization required
 
 ### HTTP request headers
 

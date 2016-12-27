@@ -52,9 +52,9 @@ class TestDefaultApi(unittest.TestCase):
         result = self.api.faxes_fax_id_get(36467415)
         print('type={}, result={}'.format(type(result), result))
 
-    #def test_get_account_status(self):
-    #    result = self.api.account_status_get()
-    #    print(result)
+    def test_get_account_status(self):
+        result = self.api.account_status_get()
+        print(result)
 
     def test_send_fax(self):
         result = self.api.faxes_post(to='7735922266', file=['/mnt/d/src/pyphaxio/v2/phaxio/requirements.txt'])
@@ -115,6 +115,10 @@ class TestDefaultApi(unittest.TestCase):
         except ApiException as e:
             print('[type={}, result={}]'.format(type(e), e))
             raise e
+
+    def test_provision_number(self):
+        result = self.api.phone_numbers_post(country_code=1, area_code=206)
+        print('type={}, result={}'.format(type(result), result))
 
     def test_get_countries(self):
         swagger_client.configuration.username = ""

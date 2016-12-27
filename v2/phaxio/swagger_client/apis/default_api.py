@@ -1016,6 +1016,122 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def phone_numbers_post(self, country_code, area_code, **kwargs):
+        """
+        Provision a number
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_post(country_code, area_code, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
+        :param int area_code: The area code of the number you'd like to provision (required)
+        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
+        :return: CreatePhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.phone_numbers_post_with_http_info(country_code, area_code, **kwargs)
+        else:
+            (data) = self.phone_numbers_post_with_http_info(country_code, area_code, **kwargs)
+            return data
+
+    def phone_numbers_post_with_http_info(self, country_code, area_code, **kwargs):
+        """
+        Provision a number
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_post_with_http_info(country_code, area_code, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
+        :param int area_code: The area code of the number you'd like to provision (required)
+        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
+        :return: CreatePhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['country_code', 'area_code', 'callback_url']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method phone_numbers_post" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'country_code' is set
+        if ('country_code' not in params) or (params['country_code'] is None):
+            raise ValueError("Missing the required parameter `country_code` when calling `phone_numbers_post`")
+        # verify the required parameter 'area_code' is set
+        if ('area_code' not in params) or (params['area_code'] is None):
+            raise ValueError("Missing the required parameter `area_code` when calling `phone_numbers_post`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phone_numbers'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+        if 'country_code' in params:
+            form_params.append(('country_code', params['country_code']))
+        if 'area_code' in params:
+            form_params.append(('area_code', params['area_code']))
+        if 'callback_url' in params:
+            form_params.append(('callback_url', params['callback_url']))
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['multipart/form-data'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='CreatePhoneNumberResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def public_countries_get(self, **kwargs):
         """
         Returns a list of supported countries for sending and receiving faxes
@@ -1101,7 +1217,7 @@ class DefaultApi(object):
             select_header_accept(['application/json'])
 
         # Authentication setting
-        auth_settings = ['UserSecurity']
+        auth_settings = []
 
         return self.api_client.call_api(resource_path, 'GET',
                                         path_params,

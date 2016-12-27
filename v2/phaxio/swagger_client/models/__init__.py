@@ -17,6 +17,7 @@ from __future__ import absolute_import
 from .account_status import AccountStatus
 from .account_status_data import AccountStatusData
 from .country import Country
+from .create_phone_number_response import CreatePhoneNumberResponse
 from .error import Error
 from .failure_response import FailureResponse
 from .fax_info import FaxInfo
@@ -24,6 +25,7 @@ from .get_countries_response import GetCountriesResponse
 from .get_fax_info_response import GetFaxInfoResponse
 from .get_faxes_response import GetFaxesResponse
 from .paging import Paging
+from .phone_number import PhoneNumber
 from .recipient import Recipient
 from .send_fax_response import SendFaxResponse
 from .send_fax_response_data import SendFaxResponseData
