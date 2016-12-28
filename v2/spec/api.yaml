@@ -202,6 +202,34 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PhoneNumber'
+  GeneratePhaxCodeJsonResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          identifier:
+            type: string
+  PhaxCode:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: object
+        properties:
+          created_at:
+            type: string
+          identifier:
+            type: string
+          metadata:
+            type: string
   Country:
     type: object
     properties:
@@ -600,6 +628,48 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/FailureResponse'
+  /phax_codes:
+    post:
+      operationId: CreateJsonPhaxCode
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: metadata
+          type: string
+          in: formData
+          required: true
+          description: json file containing the phax code metadata
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/GeneratePhaxCodeJsonResponse'
+  /phax_codes/{phax_code_id}:
+    get:
+      produces:
+        - application/json
+      parameters:
+        - name: phax_code_id
+          in: path
+          type: string
+          required: true
+          description: identifier for the phax code
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/PhaxCode'
+  /phax_code:
+    get:
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/PhaxCode'
   /public/countries:
     get:
       security: []

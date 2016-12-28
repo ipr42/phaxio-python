@@ -140,6 +140,18 @@ class TestDefaultApi(unittest.TestCase):
         result = self.api.public_area_codes_get(per_page=10, page=1, toll_free=True)
         print('type={}, result={}'.format(type(result), result))
 
+    def test_create_phax_code(self):
+        result = self.api.create_json_phax_code(metadata='{"foo": "bar","giraffe": "Mexico"}')
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_create_png_phax_code(self):
+        result = self.api.create_png_phax_code(metadata='{"foo": "bar","giraffe": "Mexico"}')
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_get_phax_code(self):
+        result = self.api.phax_codes_phax_code_id_get('YnGkYz')
+        print('type={}, result={}'.format(type(result), result))
+
     #def test_resend_fax(self):
     #    #try:
     #    result = self.api.faxes_fax_id_resend_post(36394889)

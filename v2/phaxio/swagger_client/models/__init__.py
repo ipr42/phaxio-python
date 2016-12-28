@@ -21,12 +21,16 @@ from .country import Country
 from .error import Error
 from .failure_response import FailureResponse
 from .fax_info import FaxInfo
+from .generate_phax_code_json_response import GeneratePhaxCodeJsonResponse
+from .generate_phax_code_json_response_data import GeneratePhaxCodeJsonResponseData
 from .get_area_codes_response import GetAreaCodesResponse
 from .get_countries_response import GetCountriesResponse
 from .get_fax_info_response import GetFaxInfoResponse
 from .get_faxes_response import GetFaxesResponse
 from .list_phone_numbers_response import ListPhoneNumbersResponse
 from .paging import Paging
+from .phax_code import PhaxCode
+from .phax_code_data import PhaxCodeData
 from .phone_number import PhoneNumber
 from .phone_number_response import PhoneNumberResponse
 from .recipient import Recipient

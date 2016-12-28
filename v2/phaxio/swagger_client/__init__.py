@@ -21,12 +21,16 @@ from .models.country import Country
 from .models.error import Error
 from .models.failure_response import FailureResponse
 from .models.fax_info import FaxInfo
+from .models.generate_phax_code_json_response import GeneratePhaxCodeJsonResponse
+from .models.generate_phax_code_json_response_data import GeneratePhaxCodeJsonResponseData
 from .models.get_area_codes_response import GetAreaCodesResponse
 from .models.get_countries_response import GetCountriesResponse
 from .models.get_fax_info_response import GetFaxInfoResponse
 from .models.get_faxes_response import GetFaxesResponse
 from .models.list_phone_numbers_response import ListPhoneNumbersResponse
 from .models.paging import Paging
+from .models.phax_code import PhaxCode
+from .models.phax_code_data import PhaxCodeData
 from .models.phone_number import PhoneNumber
 from .models.phone_number_response import PhoneNumberResponse
 from .models.recipient import Recipient

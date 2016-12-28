@@ -5,6 +5,7 @@ All URIs are relative to *https://api.phaxio.com/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**account_status_get**](DefaultApi.md#account_status_get) | **GET** /account/status | Get account status
+[**create_json_phax_code**](DefaultApi.md#create_json_phax_code) | **POST** /phax_codes | 
 [**faxes_fax_id_cancel_post**](DefaultApi.md#faxes_fax_id_cancel_post) | **POST** /faxes/{faxId}/cancel | Cancel a Fax
 [**faxes_fax_id_delete**](DefaultApi.md#faxes_fax_id_delete) | **DELETE** /faxes/{faxId} | Delete a fax
 [**faxes_fax_id_file_delete**](DefaultApi.md#faxes_fax_id_file_delete) | **DELETE** /faxes/{faxId}/file | Delete a fax file
@@ -13,6 +14,8 @@ Method | HTTP request | Description
 [**faxes_fax_id_resend_post**](DefaultApi.md#faxes_fax_id_resend_post) | **POST** /faxes/{faxId}/resend | Resend a Fax
 [**faxes_get**](DefaultApi.md#faxes_get) | **GET** /faxes | List faxes in date range
 [**faxes_post**](DefaultApi.md#faxes_post) | **POST** /faxes | Create and Send a Fax
+[**phax_code_get**](DefaultApi.md#phax_code_get) | **GET** /phax_code | 
+[**phax_codes_phax_code_id_get**](DefaultApi.md#phax_codes_phax_code_id_get) | **GET** /phax_codes/{phax_code_id} | 
 [**phone_numbers_get**](DefaultApi.md#phone_numbers_get) | **GET** /phone_numbers | List numbers
 [**phone_numbers_number_delete**](DefaultApi.md#phone_numbers_number_delete) | **DELETE** /phone_numbers/{number} | Release a phone number you no longer need
 [**phone_numbers_number_get**](DefaultApi.md#phone_numbers_number_get) | **GET** /phone_numbers/{number} | Get number info
@@ -63,6 +66,55 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_json_phax_code**
+> GeneratePhaxCodeJsonResponse create_json_phax_code(metadata)
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+metadata = 'metadata_example' # str | json file containing the phax code metadata
+
+try: 
+    api_response = api_instance.create_json_phax_code(metadata)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->create_json_phax_code: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **metadata** | **str**| json file containing the phax code metadata | 
+
+### Return type
+
+[**GeneratePhaxCodeJsonResponse**](GeneratePhaxCodeJsonResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -499,6 +551,100 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **phax_code_get**
+> PhaxCode phax_code_get()
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+
+try: 
+    api_response = api_instance.phax_code_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phax_code_get: %s\n" % e)
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**PhaxCode**](PhaxCode.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **phax_codes_phax_code_id_get**
+> PhaxCode phax_codes_phax_code_id_get(phax_code_id)
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+phax_code_id = 'phax_code_id_example' # str | identifier for the phax code
+
+try: 
+    api_response = api_instance.phax_codes_phax_code_id_get(phax_code_id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phax_codes_phax_code_id_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **phax_code_id** | **str**| identifier for the phax code | 
+
+### Return type
+
+[**PhaxCode**](PhaxCode.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
