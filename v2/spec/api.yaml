@@ -182,7 +182,7 @@ definitions:
         type: string
       callback_url:
         type: string
-  CreatePhoneNumberResponse:
+  PhoneNumberResponse:
     type: object
     properties:
       success:
@@ -191,6 +191,17 @@ definitions:
         type: string
       data:
         $ref: '#/definitions/PhoneNumber'
+  ListPhoneNumbersResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/PhoneNumber'
   Country:
     type: object
     properties:
@@ -219,6 +230,48 @@ definitions:
           $ref: '#/definitions/Country'
       paging:
         $ref: '#/definitions/Paging'
+  AreaCode:
+    type: object
+    properties:
+      country_code:
+        type: integer
+      area_code:
+        type: integer
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      toll_free:
+        type: boolean
+  GetAreaCodesResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/AreaCode'
+      paging:
+        $ref: '#/definitions/Paging'
+
+parameters:
+  pageParam:
+    name: per_page
+    in: query
+    type: integer
+    required: false
+    description: How many records to return per page
+  perPageParam:
+    name: page
+    in: query
+    type: integer
+    required: false
+    description: Page number to return
 
 paths:
   /faxes/{faxId}:
@@ -367,16 +420,8 @@ paths:
           required: false
           description: A phone number in E.164 format that you want to use to filter results.
           # TODO: figure out how to do tag
-        - name: per_page
-          in: query
-          type: integer
-          required: false
-          description: How many records to return per page
-        - name: page
-          in: query
-          type: integer
-          required: false
-          description: Page number to return
+        - $ref: '#/parameters/pageParam'
+        - $ref: '#/parameters/perPageParam'
       responses:
         '200':
           description: success response
@@ -503,7 +548,58 @@ paths:
         '200':
           description: success response
           schema:
-            $ref: '#/definitions/CreatePhoneNumberResponse'
+            $ref: '#/definitions/PhoneNumberResponse'
+    get:
+      summary: List numbers
+      produces:
+        - application/json
+      parameters:
+        - name: country_code
+          in: query
+          type: integer
+          required: false
+          description: A country code you'd like to filter by
+        - name: area_code
+          in: query
+          type: integer
+          required: false
+          description: An area code you'd like to filter by
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/ListPhoneNumbersResponse'
+  /phone_numbers/{number}:
+    get:
+      summary: Get number info
+      produces:
+        - application/json
+      parameters:
+        - name: number
+          in: path
+          type: string
+          required: true
+          description: phone number
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/PhoneNumberResponse'
+    delete:
+      summary: Release a phone number you no longer need
+      produces:
+        - application/json
+      parameters:
+        - name: number
+          in: path
+          type: string
+          required: true
+          description: phone number
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/FailureResponse'
   /public/countries:
     get:
       security: []
@@ -511,18 +607,45 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: per_page
-          in: query
-          type: integer
-          required: false
-          description: How many records to return per page
-        - name: page
-          in: query
-          type: integer
-          required: false
-          description: Page number to return
+        - $ref: '#/parameters/pageParam'
+        - $ref: '#/parameters/perPageParam'
       responses:
         '200':
           description: success response
           schema:
             $ref: '#/definitions/GetCountriesResponse'
+  /public/area_codes:
+    get:
+      security: []
+      summary: List area codes available for purchasing numbers
+      produces:
+        - application/json
+      parameters:
+        - name: toll_free
+          in: query
+          type: boolean
+          required: false
+          description: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
+        - name: country_code
+          in: query
+          type: integer
+          required: false
+          description: A country code (E.164) you'd like to filter by
+        - name: country
+          in: query
+          type: string
+          required: false
+          description: A country code (E.164) you'd like to filter by
+        - name: state
+          in: query
+          type: string
+          required: false
+          description: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
+        - $ref: '#/parameters/pageParam'
+        - $ref: '#/parameters/perPageParam'
+
+      responses:
+        '200':
+          description: success response
+          schema:
+            $ref: '#/definitions/GetAreaCodesResponse'

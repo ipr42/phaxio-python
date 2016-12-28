@@ -1016,6 +1016,310 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
+    def phone_numbers_get(self, **kwargs):
+        """
+        List numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_get(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: A country code you'd like to filter by
+        :param int area_code: An area code you'd like to filter by
+        :return: ListPhoneNumbersResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.phone_numbers_get_with_http_info(**kwargs)
+        else:
+            (data) = self.phone_numbers_get_with_http_info(**kwargs)
+            return data
+
+    def phone_numbers_get_with_http_info(self, **kwargs):
+        """
+        List numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_get_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: A country code you'd like to filter by
+        :param int area_code: An area code you'd like to filter by
+        :return: ListPhoneNumbersResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['country_code', 'area_code']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method phone_numbers_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/phone_numbers'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'country_code' in params:
+            query_params['country_code'] = params['country_code']
+        if 'area_code' in params:
+            query_params['area_code'] = params['area_code']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='ListPhoneNumbersResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def phone_numbers_number_delete(self, number, **kwargs):
+        """
+        Release a phone number you no longer need
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_number_delete(number, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str number: phone number (required)
+        :return: FailureResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.phone_numbers_number_delete_with_http_info(number, **kwargs)
+        else:
+            (data) = self.phone_numbers_number_delete_with_http_info(number, **kwargs)
+            return data
+
+    def phone_numbers_number_delete_with_http_info(self, number, **kwargs):
+        """
+        Release a phone number you no longer need
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_number_delete_with_http_info(number, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str number: phone number (required)
+        :return: FailureResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['number']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method phone_numbers_number_delete" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'number' is set
+        if ('number' not in params) or (params['number'] is None):
+            raise ValueError("Missing the required parameter `number` when calling `phone_numbers_number_delete`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phone_numbers/{number}'.replace('{format}', 'json')
+        path_params = {}
+        if 'number' in params:
+            path_params['number'] = params['number']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'DELETE',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='FailureResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def phone_numbers_number_get(self, number, **kwargs):
+        """
+        Get number info
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_number_get(number, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str number: phone number (required)
+        :return: PhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.phone_numbers_number_get_with_http_info(number, **kwargs)
+        else:
+            (data) = self.phone_numbers_number_get_with_http_info(number, **kwargs)
+            return data
+
+    def phone_numbers_number_get_with_http_info(self, number, **kwargs):
+        """
+        Get number info
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.phone_numbers_number_get_with_http_info(number, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str number: phone number (required)
+        :return: PhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['number']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method phone_numbers_number_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'number' is set
+        if ('number' not in params) or (params['number'] is None):
+            raise ValueError("Missing the required parameter `number` when calling `phone_numbers_number_get`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phone_numbers/{number}'.replace('{format}', 'json')
+        path_params = {}
+        if 'number' in params:
+            path_params['number'] = params['number']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='PhoneNumberResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
     def phone_numbers_post(self, country_code, area_code, **kwargs):
         """
         Provision a number
@@ -1032,7 +1336,7 @@ class DefaultApi(object):
         :param int country_code: The country code (E.164) of the number you'd like to provision (required)
         :param int area_code: The area code of the number you'd like to provision (required)
         :param str callback_url: A callback URL that we'll post to when a fax is received by this number
-        :return: CreatePhoneNumberResponse
+        :return: PhoneNumberResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1059,7 +1363,7 @@ class DefaultApi(object):
         :param int country_code: The country code (E.164) of the number you'd like to provision (required)
         :param int area_code: The area code of the number you'd like to provision (required)
         :param str callback_url: A callback URL that we'll post to when a fax is received by this number
-        :return: CreatePhoneNumberResponse
+        :return: PhoneNumberResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1124,7 +1428,125 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='CreatePhoneNumberResponse',
+                                        response_type='PhoneNumberResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def public_area_codes_get(self, **kwargs):
+        """
+        List area codes available for purchasing numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.public_area_codes_get(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
+        :param int country_code: A country code (E.164) you'd like to filter by
+        :param str country: A country code (E.164) you'd like to filter by
+        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetAreaCodesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.public_area_codes_get_with_http_info(**kwargs)
+        else:
+            (data) = self.public_area_codes_get_with_http_info(**kwargs)
+            return data
+
+    def public_area_codes_get_with_http_info(self, **kwargs):
+        """
+        List area codes available for purchasing numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.public_area_codes_get_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
+        :param int country_code: A country code (E.164) you'd like to filter by
+        :param str country: A country code (E.164) you'd like to filter by
+        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetAreaCodesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['toll_free', 'country_code', 'country', 'state', 'per_page', 'page']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method public_area_codes_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/public/area_codes'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'toll_free' in params:
+            query_params['toll_free'] = params['toll_free']
+        if 'country_code' in params:
+            query_params['country_code'] = params['country_code']
+        if 'country' in params:
+            query_params['country'] = params['country']
+        if 'state' in params:
+            query_params['state'] = params['state']
+        if 'per_page' in params:
+            query_params['per_page'] = params['per_page']
+        if 'page' in params:
+            query_params['page'] = params['page']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = []
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='GetAreaCodesResponse',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),

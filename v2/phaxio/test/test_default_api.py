@@ -120,10 +120,24 @@ class TestDefaultApi(unittest.TestCase):
         result = self.api.phone_numbers_post(country_code=1, area_code=206)
         print('type={}, result={}'.format(type(result), result))
 
+    def test_get_number(self):
+        result = self.api.phone_numbers_number_get('+18773346654')
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_list_numbers(self):
+        result = self.api.phone_numbers_get()
+        print('type={}, result={}'.format(type(result), result))
+
     def test_get_countries(self):
         swagger_client.configuration.username = ""
         swagger_client.configuration.password = ""
         result = self.api.public_countries_get(per_page=10, page=1)
+        print('type={}, result={}'.format(type(result), result))
+
+    def test_get_area_codes(self):
+        swagger_client.configuration.username = ""
+        swagger_client.configuration.password = ""
+        result = self.api.public_area_codes_get(per_page=10, page=1, toll_free=True)
         print('type={}, result={}'.format(type(result), result))
 
     #def test_resend_fax(self):

@@ -191,6 +191,8 @@ class ApiClient(object):
         """
         if obj is None:
             return None
+        elif isinstance(obj, bool):
+            return 'true' if obj else 'false'
         elif isinstance(obj, self.PRIMITIVE_TYPES):
             return obj
         elif isinstance(obj, list):

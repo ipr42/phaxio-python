@@ -13,7 +13,11 @@ Method | HTTP request | Description
 [**faxes_fax_id_resend_post**](DefaultApi.md#faxes_fax_id_resend_post) | **POST** /faxes/{faxId}/resend | Resend a Fax
 [**faxes_get**](DefaultApi.md#faxes_get) | **GET** /faxes | List faxes in date range
 [**faxes_post**](DefaultApi.md#faxes_post) | **POST** /faxes | Create and Send a Fax
+[**phone_numbers_get**](DefaultApi.md#phone_numbers_get) | **GET** /phone_numbers | List numbers
+[**phone_numbers_number_delete**](DefaultApi.md#phone_numbers_number_delete) | **DELETE** /phone_numbers/{number} | Release a phone number you no longer need
+[**phone_numbers_number_get**](DefaultApi.md#phone_numbers_number_get) | **GET** /phone_numbers/{number} | Get number info
 [**phone_numbers_post**](DefaultApi.md#phone_numbers_post) | **POST** /phone_numbers | Provision a number
+[**public_area_codes_get**](DefaultApi.md#public_area_codes_get) | **GET** /public/area_codes | List area codes available for purchasing numbers
 [**public_countries_get**](DefaultApi.md#public_countries_get) | **GET** /public/countries | Returns a list of supported countries for sending and receiving faxes
 
 
@@ -499,8 +503,160 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **phone_numbers_get**
+> ListPhoneNumbersResponse phone_numbers_get(country_code=country_code, area_code=area_code)
+
+List numbers
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+country_code = 56 # int | A country code you'd like to filter by (optional)
+area_code = 56 # int | An area code you'd like to filter by (optional)
+
+try: 
+    # List numbers
+    api_response = api_instance.phone_numbers_get(country_code=country_code, area_code=area_code)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phone_numbers_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **country_code** | **int**| A country code you&#39;d like to filter by | [optional] 
+ **area_code** | **int**| An area code you&#39;d like to filter by | [optional] 
+
+### Return type
+
+[**ListPhoneNumbersResponse**](ListPhoneNumbersResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **phone_numbers_number_delete**
+> FailureResponse phone_numbers_number_delete(number)
+
+Release a phone number you no longer need
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+number = 'number_example' # str | phone number
+
+try: 
+    # Release a phone number you no longer need
+    api_response = api_instance.phone_numbers_number_delete(number)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phone_numbers_number_delete: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **number** | **str**| phone number | 
+
+### Return type
+
+[**FailureResponse**](FailureResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **phone_numbers_number_get**
+> PhoneNumberResponse phone_numbers_number_get(number)
+
+Get number info
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+number = 'number_example' # str | phone number
+
+try: 
+    # Get number info
+    api_response = api_instance.phone_numbers_number_get(number)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->phone_numbers_number_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **number** | **str**| phone number | 
+
+### Return type
+
+[**PhoneNumberResponse**](PhoneNumberResponse.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **phone_numbers_post**
-> CreatePhoneNumberResponse phone_numbers_post(country_code, area_code, callback_url=callback_url)
+> PhoneNumberResponse phone_numbers_post(country_code, area_code, callback_url=callback_url)
 
 Provision a number
 
@@ -540,7 +696,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CreatePhoneNumberResponse**](CreatePhoneNumberResponse.md)
+[**PhoneNumberResponse**](PhoneNumberResponse.md)
 
 ### Authorization
 
@@ -549,6 +705,62 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **public_area_codes_get**
+> GetAreaCodesResponse public_area_codes_get(toll_free=toll_free, country_code=country_code, country=country, state=state, per_page=per_page, page=page)
+
+List area codes available for purchasing numbers
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+toll_free = true # bool | If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned. (optional)
+country_code = 56 # int | A country code (E.164) you'd like to filter by (optional)
+country = 'country_example' # str | A country code (E.164) you'd like to filter by (optional)
+state = 'state_example' # str | A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided. (optional)
+per_page = 56 # int | How many records to return per page (optional)
+page = 56 # int | Page number to return (optional)
+
+try: 
+    # List area codes available for purchasing numbers
+    api_response = api_instance.public_area_codes_get(toll_free=toll_free, country_code=country_code, country=country, state=state, per_page=per_page, page=page)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->public_area_codes_get: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **toll_free** | **bool**| If set to &#x60;true&#x60;, only toll free area codes will be returned. If specified and set to &#x60;false&#x60;, only non-toll free area codes will be returned. | [optional] 
+ **country_code** | **int**| A country code (E.164) you&#39;d like to filter by | [optional] 
+ **country** | **str**| A country code (E.164) you&#39;d like to filter by | [optional] 
+ **state** | **str**| A two character state or province abbreviation (ISO 3166; e.g. &#x60;IL&#x60; or &#x60;YT&#x60;) you&#39;d like to filter by. When using this parameter, &#x60;country_code&#x60; or &#x60;country&#x60; must also be provided. | [optional] 
+ **per_page** | **int**| How many records to return per page | [optional] 
+ **page** | **int**| Page number to return | [optional] 
+
+### Return type
+
+[**GetAreaCodesResponse**](GetAreaCodesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
