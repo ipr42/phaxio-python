@@ -514,11 +514,7 @@ paths:
           type: integer
           required: false
           description: Number of minutes to wait for successful send before cancelling fax
-        - name: tag
-          in: formData
-          type: integer
-          required: false
-          description: Number of minutes to wait for successful send before cancelling fax
+          # TODO: figure out how to support tag
         - name: caller_id
           in: formData
           type: string
@@ -630,6 +626,7 @@ paths:
             $ref: '#/definitions/FailureResponse'
   /phax_codes:
     post:
+      # TODO: figure out how to support png phax codes
       operationId: CreateJsonPhaxCode
       consumes:
         - multipart/form-data
