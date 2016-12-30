@@ -37,7 +37,7 @@ definitions:
       - faxError
       - fatalError
       - generalError
-  FailureResponse:
+  OperationStatus:
     type: object
     properties:
       success:
@@ -100,7 +100,7 @@ definitions:
         type: string
       status:
         type: string
-        enum: *statuses
+        #enum: *statuses
       completed_at:
         type: string
       bitrate:
@@ -304,6 +304,7 @@ parameters:
 paths:
   /faxes/{faxId}:
     get:
+      operationId: get_fax
       summary: Get Fax
       produces:
         - application/json
@@ -319,6 +320,7 @@ paths:
           schema:
             $ref: '#/definitions/GetFaxInfoResponse'
     delete:
+      operationId: delete_fax
       summary: Delete a fax
       produces:
         - application/json
@@ -332,9 +334,10 @@ paths:
         '200':
           description: success response
           schema:
-            $ref: '#/definitions/FailureResponse'
+            $ref: '#/definitions/OperationStatus'
   /faxes/{faxId}/file:
     get:
+      operationId: get_fax_file
       summary: Get fax content file or thumbnail
       produces:
         - application/octet-stream
@@ -355,11 +358,8 @@ paths:
           description: success response
           schema:
             type: file
-        'default':
-          description: failure
-          schema:
-            $ref: '#/definitions/FailureResponse'
     delete:
+      operationId: delete_fax_file
       summary: Delete a fax file
       produces:
         - application/json
@@ -373,9 +373,10 @@ paths:
         '200':
           description: success response
           schema:
-            $ref: '#/definitions/FailureResponse'
+            $ref: '#/definitions/OperationStatus'
   /faxes/{faxId}/cancel:
     post:
+      operationId: cancel_fax
       summary: Cancel a Fax
       produces:
         - application/json
@@ -390,12 +391,9 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/SendFaxResponse'
-        'default':
-          description: failure
-          schema:
-            $ref: '#/definitions/FailureResponse'
   /faxes/{faxId}/resend:
     post:
+      operationId: resend_fax
       summary: Resend a Fax
       produces:
         - application/json
@@ -410,12 +408,9 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/SendFaxResponse'
-        'default':
-          description: failure
-          schema:
-            $ref: '#/definitions/FailureResponse'
   /faxes:
     get:
+      operationId: query_faxes
       summary: List faxes in date range
       produces:
         - application/json
@@ -456,6 +451,7 @@ paths:
           schema:
             $ref: '#/definitions/GetFaxesResponse'
     post:
+      operationId: send_fax
       summary: Create and Send a Fax
       consumes:
         - multipart/form-data
@@ -531,12 +527,9 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/SendFaxResponse'
-        'default':
-          description: failure
-          schema:
-            $ref: '#/definitions/FailureResponse'
   /account/status:
     get:
+      operationId: get_account_status
       summary: Get account status
       produces:
         - application/json
@@ -547,6 +540,7 @@ paths:
             $ref: '#/definitions/AccountStatus'
   /phone_numbers:
     post:
+      operationId: provision_phone_number
       summary: Provision a number
       consumes:
         - multipart/form-data
@@ -574,6 +568,7 @@ paths:
           schema:
             $ref: '#/definitions/PhoneNumberResponse'
     get:
+      operationId: query_phone_numbers
       summary: List numbers
       produces:
         - application/json
@@ -595,6 +590,7 @@ paths:
             $ref: '#/definitions/ListPhoneNumbersResponse'
   /phone_numbers/{number}:
     get:
+      operationId: get_phone_number
       summary: Get number info
       produces:
         - application/json
@@ -610,6 +606,7 @@ paths:
           schema:
             $ref: '#/definitions/PhoneNumberResponse'
     delete:
+      operationId: release_phone_number
       summary: Release a phone number you no longer need
       produces:
         - application/json
@@ -623,11 +620,11 @@ paths:
         '200':
           description: success response
           schema:
-            $ref: '#/definitions/FailureResponse'
+            $ref: '#/definitions/OperationStatus'
   /phax_codes:
     post:
       # TODO: figure out how to support png phax codes
-      operationId: CreateJsonPhaxCode
+      operationId: create_phax_code_json
       consumes:
         - multipart/form-data
       produces:
@@ -645,6 +642,7 @@ paths:
             $ref: '#/definitions/GeneratePhaxCodeJsonResponse'
   /phax_codes/{phax_code_id}:
     get:
+      operationId: get_phax_code
       produces:
         - application/json
       parameters:
@@ -660,6 +658,7 @@ paths:
             $ref: '#/definitions/PhaxCode'
   /phax_code:
     get:
+      operationId: get_default_phax_code
       produces:
         - application/json
       responses:
@@ -669,6 +668,7 @@ paths:
             $ref: '#/definitions/PhaxCode'
   /public/countries:
     get:
+      operationId: get_countries
       security: []
       summary: Returns a list of supported countries for sending and receiving faxes
       produces:
@@ -683,6 +683,7 @@ paths:
             $ref: '#/definitions/GetCountriesResponse'
   /public/area_codes:
     get:
+      operationId: get_area_codes
       security: []
       summary: List area codes available for purchasing numbers
       produces:
@@ -710,7 +711,6 @@ paths:
           description: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
         - $ref: '#/parameters/pageParam'
         - $ref: '#/parameters/perPageParam'
-
       responses:
         '200':
           description: success response

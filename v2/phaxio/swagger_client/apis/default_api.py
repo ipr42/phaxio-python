@@ -40,49 +40,51 @@ class DefaultApi(object):
                 config.api_client = ApiClient()
             self.api_client = config.api_client
 
-    def account_status_get(self, **kwargs):
+    def cancel_fax(self, fax_id, **kwargs):
         """
-        Get account status
+        Cancel a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.account_status_get(callback=callback_function)
+        >>> thread = api.cancel_fax(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: AccountStatus
+        :param int fax_id: Fax ID (required)
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.account_status_get_with_http_info(**kwargs)
+            return self.cancel_fax_with_http_info(fax_id, **kwargs)
         else:
-            (data) = self.account_status_get_with_http_info(**kwargs)
+            (data) = self.cancel_fax_with_http_info(fax_id, **kwargs)
             return data
 
-    def account_status_get_with_http_info(self, **kwargs):
+    def cancel_fax_with_http_info(self, fax_id, **kwargs):
         """
-        Get account status
+        Cancel a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.account_status_get_with_http_info(callback=callback_function)
+        >>> thread = api.cancel_fax_with_http_info(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :return: AccountStatus
+        :param int fax_id: Fax ID (required)
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = []
+        all_params = ['fax_id']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -93,15 +95,21 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method account_status_get" % key
+                    " to method cancel_fax" % key
                 )
             params[key] = val
         del params['kwargs']
+        # verify the required parameter 'fax_id' is set
+        if ('fax_id' not in params) or (params['fax_id'] is None):
+            raise ValueError("Missing the required parameter `fax_id` when calling `cancel_fax`")
+
 
         collection_formats = {}
 
-        resource_path = '/account/status'.replace('{format}', 'json')
+        resource_path = '/faxes/{faxId}/cancel'.replace('{format}', 'json')
         path_params = {}
+        if 'fax_id' in params:
+            path_params['faxId'] = params['fax_id']
 
         query_params = {}
 
@@ -118,14 +126,14 @@ class DefaultApi(object):
         # Authentication setting
         auth_settings = ['UserSecurity']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='AccountStatus',
+                                        response_type='SendFaxResponse',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -133,7 +141,7 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def create_json_phax_code(self, metadata, **kwargs):
+    def create_phax_code_json(self, metadata, **kwargs):
         """
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -141,7 +149,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_json_phax_code(metadata, callback=callback_function)
+        >>> thread = api.create_phax_code_json(metadata, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -152,12 +160,12 @@ class DefaultApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.create_json_phax_code_with_http_info(metadata, **kwargs)
+            return self.create_phax_code_json_with_http_info(metadata, **kwargs)
         else:
-            (data) = self.create_json_phax_code_with_http_info(metadata, **kwargs)
+            (data) = self.create_phax_code_json_with_http_info(metadata, **kwargs)
             return data
 
-    def create_json_phax_code_with_http_info(self, metadata, **kwargs):
+    def create_phax_code_json_with_http_info(self, metadata, **kwargs):
         """
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
@@ -165,7 +173,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.create_json_phax_code_with_http_info(metadata, callback=callback_function)
+        >>> thread = api.create_phax_code_json_with_http_info(metadata, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -186,13 +194,13 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method create_json_phax_code" % key
+                    " to method create_phax_code_json" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'metadata' is set
         if ('metadata' not in params) or (params['metadata'] is None):
-            raise ValueError("Missing the required parameter `metadata` when calling `create_json_phax_code`")
+            raise ValueError("Missing the required parameter `metadata` when calling `create_phax_code_json`")
 
 
         collection_formats = {}
@@ -236,46 +244,46 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_fax_id_cancel_post(self, fax_id, **kwargs):
+    def delete_fax(self, fax_id, **kwargs):
         """
-        Cancel a Fax
+        Delete a fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_cancel_post(fax_id, callback=callback_function)
+        >>> thread = api.delete_fax(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int fax_id: Fax ID (required)
-        :return: SendFaxResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_fax_id_cancel_post_with_http_info(fax_id, **kwargs)
+            return self.delete_fax_with_http_info(fax_id, **kwargs)
         else:
-            (data) = self.faxes_fax_id_cancel_post_with_http_info(fax_id, **kwargs)
+            (data) = self.delete_fax_with_http_info(fax_id, **kwargs)
             return data
 
-    def faxes_fax_id_cancel_post_with_http_info(self, fax_id, **kwargs):
+    def delete_fax_with_http_info(self, fax_id, **kwargs):
         """
-        Cancel a Fax
+        Delete a fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_cancel_post_with_http_info(fax_id, callback=callback_function)
+        >>> thread = api.delete_fax_with_http_info(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int fax_id: Fax ID (required)
-        :return: SendFaxResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -291,114 +299,13 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_cancel_post" % key
+                    " to method delete_fax" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'fax_id' is set
         if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_cancel_post`")
-
-
-        collection_formats = {}
-
-        resource_path = '/faxes/{faxId}/cancel'.replace('{format}', 'json')
-        path_params = {}
-        if 'fax_id' in params:
-            path_params['faxId'] = params['fax_id']
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # Authentication setting
-        auth_settings = ['UserSecurity']
-
-        return self.api_client.call_api(resource_path, 'POST',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='SendFaxResponse',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def faxes_fax_id_delete(self, fax_id, **kwargs):
-        """
-        Delete a fax
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.faxes_fax_id_delete(fax_id, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: FailureResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.faxes_fax_id_delete_with_http_info(fax_id, **kwargs)
-        else:
-            (data) = self.faxes_fax_id_delete_with_http_info(fax_id, **kwargs)
-            return data
-
-    def faxes_fax_id_delete_with_http_info(self, fax_id, **kwargs):
-        """
-        Delete a fax
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.faxes_fax_id_delete_with_http_info(fax_id, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: FailureResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['fax_id']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_delete" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'fax_id' is set
-        if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_delete`")
+            raise ValueError("Missing the required parameter `fax_id` when calling `delete_fax`")
 
 
         collection_formats = {}
@@ -430,7 +337,7 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='FailureResponse',
+                                        response_type='OperationStatus',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -438,7 +345,7 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_fax_id_file_delete(self, fax_id, **kwargs):
+    def delete_fax_file(self, fax_id, **kwargs):
         """
         Delete a fax file
         This method makes a synchronous HTTP request by default. To make an
@@ -447,23 +354,23 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_file_delete(fax_id, callback=callback_function)
+        >>> thread = api.delete_fax_file(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int fax_id: Fax ID (required)
-        :return: FailureResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_fax_id_file_delete_with_http_info(fax_id, **kwargs)
+            return self.delete_fax_file_with_http_info(fax_id, **kwargs)
         else:
-            (data) = self.faxes_fax_id_file_delete_with_http_info(fax_id, **kwargs)
+            (data) = self.delete_fax_file_with_http_info(fax_id, **kwargs)
             return data
 
-    def faxes_fax_id_file_delete_with_http_info(self, fax_id, **kwargs):
+    def delete_fax_file_with_http_info(self, fax_id, **kwargs):
         """
         Delete a fax file
         This method makes a synchronous HTTP request by default. To make an
@@ -472,12 +379,12 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_file_delete_with_http_info(fax_id, callback=callback_function)
+        >>> thread = api.delete_fax_file_with_http_info(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param int fax_id: Fax ID (required)
-        :return: FailureResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -493,13 +400,13 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_file_delete" % key
+                    " to method delete_fax_file" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'fax_id' is set
         if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_file_delete`")
+            raise ValueError("Missing the required parameter `fax_id` when calling `delete_fax_file`")
 
 
         collection_formats = {}
@@ -531,7 +438,7 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='FailureResponse',
+                                        response_type='OperationStatus',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -539,7 +446,512 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_fax_id_file_get(self, fax_id, **kwargs):
+    def get_account_status(self, **kwargs):
+        """
+        Get account status
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_account_status(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: AccountStatus
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_account_status_with_http_info(**kwargs)
+        else:
+            (data) = self.get_account_status_with_http_info(**kwargs)
+            return data
+
+    def get_account_status_with_http_info(self, **kwargs):
+        """
+        Get account status
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_account_status_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: AccountStatus
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_account_status" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        resource_path = '/account/status'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='AccountStatus',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_area_codes(self, **kwargs):
+        """
+        List area codes available for purchasing numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_area_codes(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
+        :param int country_code: A country code (E.164) you'd like to filter by
+        :param str country: A country code (E.164) you'd like to filter by
+        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetAreaCodesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_area_codes_with_http_info(**kwargs)
+        else:
+            (data) = self.get_area_codes_with_http_info(**kwargs)
+            return data
+
+    def get_area_codes_with_http_info(self, **kwargs):
+        """
+        List area codes available for purchasing numbers
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_area_codes_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
+        :param int country_code: A country code (E.164) you'd like to filter by
+        :param str country: A country code (E.164) you'd like to filter by
+        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetAreaCodesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['toll_free', 'country_code', 'country', 'state', 'per_page', 'page']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_area_codes" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/public/area_codes'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'toll_free' in params:
+            query_params['toll_free'] = params['toll_free']
+        if 'country_code' in params:
+            query_params['country_code'] = params['country_code']
+        if 'country' in params:
+            query_params['country'] = params['country']
+        if 'state' in params:
+            query_params['state'] = params['state']
+        if 'per_page' in params:
+            query_params['per_page'] = params['per_page']
+        if 'page' in params:
+            query_params['page'] = params['page']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = []
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='GetAreaCodesResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_countries(self, **kwargs):
+        """
+        Returns a list of supported countries for sending and receiving faxes
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_countries(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetCountriesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_countries_with_http_info(**kwargs)
+        else:
+            (data) = self.get_countries_with_http_info(**kwargs)
+            return data
+
+    def get_countries_with_http_info(self, **kwargs):
+        """
+        Returns a list of supported countries for sending and receiving faxes
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_countries_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
+        :return: GetCountriesResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['per_page', 'page']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_countries" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+
+        collection_formats = {}
+
+        resource_path = '/public/countries'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+        if 'per_page' in params:
+            query_params['per_page'] = params['per_page']
+        if 'page' in params:
+            query_params['page'] = params['page']
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = []
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='GetCountriesResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_default_phax_code(self, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_default_phax_code(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: PhaxCode
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_default_phax_code_with_http_info(**kwargs)
+        else:
+            (data) = self.get_default_phax_code_with_http_info(**kwargs)
+            return data
+
+    def get_default_phax_code_with_http_info(self, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_default_phax_code_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: PhaxCode
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_default_phax_code" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        resource_path = '/phax_code'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='PhaxCode',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_fax(self, fax_id, **kwargs):
+        """
+        Get Fax
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_fax(fax_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int fax_id: Fax ID (required)
+        :return: GetFaxInfoResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_fax_with_http_info(fax_id, **kwargs)
+        else:
+            (data) = self.get_fax_with_http_info(fax_id, **kwargs)
+            return data
+
+    def get_fax_with_http_info(self, fax_id, **kwargs):
+        """
+        Get Fax
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_fax_with_http_info(fax_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int fax_id: Fax ID (required)
+        :return: GetFaxInfoResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['fax_id']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_fax" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'fax_id' is set
+        if ('fax_id' not in params) or (params['fax_id'] is None):
+            raise ValueError("Missing the required parameter `fax_id` when calling `get_fax`")
+
+
+        collection_formats = {}
+
+        resource_path = '/faxes/{faxId}'.replace('{format}', 'json')
+        path_params = {}
+        if 'fax_id' in params:
+            path_params['faxId'] = params['fax_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='GetFaxInfoResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_fax_file(self, fax_id, **kwargs):
         """
         Get fax content file or thumbnail
         This method makes a synchronous HTTP request by default. To make an
@@ -548,7 +960,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_file_get(fax_id, callback=callback_function)
+        >>> thread = api.get_fax_file(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -560,12 +972,12 @@ class DefaultApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_fax_id_file_get_with_http_info(fax_id, **kwargs)
+            return self.get_fax_file_with_http_info(fax_id, **kwargs)
         else:
-            (data) = self.faxes_fax_id_file_get_with_http_info(fax_id, **kwargs)
+            (data) = self.get_fax_file_with_http_info(fax_id, **kwargs)
             return data
 
-    def faxes_fax_id_file_get_with_http_info(self, fax_id, **kwargs):
+    def get_fax_file_with_http_info(self, fax_id, **kwargs):
         """
         Get fax content file or thumbnail
         This method makes a synchronous HTTP request by default. To make an
@@ -574,7 +986,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_file_get_with_http_info(fax_id, callback=callback_function)
+        >>> thread = api.get_fax_file_with_http_info(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -596,13 +1008,13 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_file_get" % key
+                    " to method get_fax_file" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'fax_id' is set
         if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_file_get`")
+            raise ValueError("Missing the required parameter `fax_id` when calling `get_fax_file`")
 
 
         collection_formats = {}
@@ -644,51 +1056,49 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_fax_id_get(self, fax_id, **kwargs):
+    def get_phax_code(self, phax_code_id, **kwargs):
         """
-        Get Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_get(fax_id, callback=callback_function)
+        >>> thread = api.get_phax_code(phax_code_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: GetFaxInfoResponse
+        :param str phax_code_id: identifier for the phax code (required)
+        :return: PhaxCode
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_fax_id_get_with_http_info(fax_id, **kwargs)
+            return self.get_phax_code_with_http_info(phax_code_id, **kwargs)
         else:
-            (data) = self.faxes_fax_id_get_with_http_info(fax_id, **kwargs)
+            (data) = self.get_phax_code_with_http_info(phax_code_id, **kwargs)
             return data
 
-    def faxes_fax_id_get_with_http_info(self, fax_id, **kwargs):
+    def get_phax_code_with_http_info(self, phax_code_id, **kwargs):
         """
-        Get Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_get_with_http_info(fax_id, callback=callback_function)
+        >>> thread = api.get_phax_code_with_http_info(phax_code_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: GetFaxInfoResponse
+        :param str phax_code_id: identifier for the phax code (required)
+        :return: PhaxCode
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['fax_id']
+        all_params = ['phax_code_id']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -699,21 +1109,21 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_get" % key
+                    " to method get_phax_code" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'fax_id' is set
-        if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_get`")
+        # verify the required parameter 'phax_code_id' is set
+        if ('phax_code_id' not in params) or (params['phax_code_id'] is None):
+            raise ValueError("Missing the required parameter `phax_code_id` when calling `get_phax_code`")
 
 
         collection_formats = {}
 
-        resource_path = '/faxes/{faxId}'.replace('{format}', 'json')
+        resource_path = '/phax_codes/{phax_code_id}'.replace('{format}', 'json')
         path_params = {}
-        if 'fax_id' in params:
-            path_params['faxId'] = params['fax_id']
+        if 'phax_code_id' in params:
+            path_params['phax_code_id'] = params['phax_code_id']
 
         query_params = {}
 
@@ -737,7 +1147,7 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='GetFaxInfoResponse',
+                                        response_type='PhaxCode',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -745,51 +1155,51 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_fax_id_resend_post(self, fax_id, **kwargs):
+    def get_phone_number(self, number, **kwargs):
         """
-        Resend a Fax
+        Get number info
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_resend_post(fax_id, callback=callback_function)
+        >>> thread = api.get_phone_number(number, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: SendFaxResponse
+        :param str number: phone number (required)
+        :return: PhoneNumberResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_fax_id_resend_post_with_http_info(fax_id, **kwargs)
+            return self.get_phone_number_with_http_info(number, **kwargs)
         else:
-            (data) = self.faxes_fax_id_resend_post_with_http_info(fax_id, **kwargs)
+            (data) = self.get_phone_number_with_http_info(number, **kwargs)
             return data
 
-    def faxes_fax_id_resend_post_with_http_info(self, fax_id, **kwargs):
+    def get_phone_number_with_http_info(self, number, **kwargs):
         """
-        Resend a Fax
+        Get number info
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_fax_id_resend_post_with_http_info(fax_id, callback=callback_function)
+        >>> thread = api.get_phone_number_with_http_info(number, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int fax_id: Fax ID (required)
-        :return: SendFaxResponse
+        :param str number: phone number (required)
+        :return: PhoneNumberResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['fax_id']
+        all_params = ['number']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -800,21 +1210,21 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_fax_id_resend_post" % key
+                    " to method get_phone_number" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'fax_id' is set
-        if ('fax_id' not in params) or (params['fax_id'] is None):
-            raise ValueError("Missing the required parameter `fax_id` when calling `faxes_fax_id_resend_post`")
+        # verify the required parameter 'number' is set
+        if ('number' not in params) or (params['number'] is None):
+            raise ValueError("Missing the required parameter `number` when calling `get_phone_number`")
 
 
         collection_formats = {}
 
-        resource_path = '/faxes/{faxId}/resend'.replace('{format}', 'json')
+        resource_path = '/phone_numbers/{number}'.replace('{format}', 'json')
         path_params = {}
-        if 'fax_id' in params:
-            path_params['faxId'] = params['fax_id']
+        if 'number' in params:
+            path_params['number'] = params['number']
 
         query_params = {}
 
@@ -831,14 +1241,14 @@ class DefaultApi(object):
         # Authentication setting
         auth_settings = ['UserSecurity']
 
-        return self.api_client.call_api(resource_path, 'POST',
+        return self.api_client.call_api(resource_path, 'GET',
                                         path_params,
                                         query_params,
                                         header_params,
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='SendFaxResponse',
+                                        response_type='PhoneNumberResponse',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -846,7 +1256,123 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_get(self, **kwargs):
+    def provision_phone_number(self, country_code, area_code, **kwargs):
+        """
+        Provision a number
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.provision_phone_number(country_code, area_code, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
+        :param int area_code: The area code of the number you'd like to provision (required)
+        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
+        :return: PhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.provision_phone_number_with_http_info(country_code, area_code, **kwargs)
+        else:
+            (data) = self.provision_phone_number_with_http_info(country_code, area_code, **kwargs)
+            return data
+
+    def provision_phone_number_with_http_info(self, country_code, area_code, **kwargs):
+        """
+        Provision a number
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.provision_phone_number_with_http_info(country_code, area_code, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
+        :param int area_code: The area code of the number you'd like to provision (required)
+        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
+        :return: PhoneNumberResponse
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['country_code', 'area_code', 'callback_url']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method provision_phone_number" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'country_code' is set
+        if ('country_code' not in params) or (params['country_code'] is None):
+            raise ValueError("Missing the required parameter `country_code` when calling `provision_phone_number`")
+        # verify the required parameter 'area_code' is set
+        if ('area_code' not in params) or (params['area_code'] is None):
+            raise ValueError("Missing the required parameter `area_code` when calling `provision_phone_number`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phone_numbers'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+        if 'country_code' in params:
+            form_params.append(('country_code', params['country_code']))
+        if 'area_code' in params:
+            form_params.append(('area_code', params['area_code']))
+        if 'callback_url' in params:
+            form_params.append(('callback_url', params['callback_url']))
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['application/json'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['multipart/form-data'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='PhoneNumberResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def query_faxes(self, **kwargs):
         """
         List faxes in date range
         This method makes a synchronous HTTP request by default. To make an
@@ -855,7 +1381,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_get(callback=callback_function)
+        >>> thread = api.query_faxes(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -872,12 +1398,12 @@ class DefaultApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.faxes_get_with_http_info(**kwargs)
+            return self.query_faxes_with_http_info(**kwargs)
         else:
-            (data) = self.faxes_get_with_http_info(**kwargs)
+            (data) = self.query_faxes_with_http_info(**kwargs)
             return data
 
-    def faxes_get_with_http_info(self, **kwargs):
+    def query_faxes_with_http_info(self, **kwargs):
         """
         List faxes in date range
         This method makes a synchronous HTTP request by default. To make an
@@ -886,7 +1412,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.faxes_get_with_http_info(callback=callback_function)
+        >>> thread = api.query_faxes_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -913,7 +1439,7 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method faxes_get" % key
+                    " to method query_faxes" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -968,348 +1494,7 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def faxes_post(self, to, **kwargs):
-        """
-        Create and Send a Fax
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.faxes_post(to, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str to: phone number (required)
-        :param str direction: Set to 'received' to receive test fax.
-        :param list[file] file: file to send
-        :param list[str] content_url: url of file to send
-        :param str header_text: Text that appears at the top of each page
-        :param int batch_delay: Number of seconds to wait before sending batch
-        :param bool batch_collision_avoidance: When batch_delay is set, fax will be blocked until the receiving machine is no longer busy
-        :param str callback_url: Overrides global callback URL
-        :param int cancel_timeout: Number of minutes to wait for successful send before cancelling fax
-        :param int tag: Number of minutes to wait for successful send before cancelling fax
-        :param str caller_id: Number to use for caller ID
-        :param str test_fail: When sending a test fax, if this is set it will simulate the failure type specified
-        :return: SendFaxResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.faxes_post_with_http_info(to, **kwargs)
-        else:
-            (data) = self.faxes_post_with_http_info(to, **kwargs)
-            return data
-
-    def faxes_post_with_http_info(self, to, **kwargs):
-        """
-        Create and Send a Fax
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.faxes_post_with_http_info(to, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str to: phone number (required)
-        :param str direction: Set to 'received' to receive test fax.
-        :param list[file] file: file to send
-        :param list[str] content_url: url of file to send
-        :param str header_text: Text that appears at the top of each page
-        :param int batch_delay: Number of seconds to wait before sending batch
-        :param bool batch_collision_avoidance: When batch_delay is set, fax will be blocked until the receiving machine is no longer busy
-        :param str callback_url: Overrides global callback URL
-        :param int cancel_timeout: Number of minutes to wait for successful send before cancelling fax
-        :param int tag: Number of minutes to wait for successful send before cancelling fax
-        :param str caller_id: Number to use for caller ID
-        :param str test_fail: When sending a test fax, if this is set it will simulate the failure type specified
-        :return: SendFaxResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['to', 'direction', 'file', 'content_url', 'header_text', 'batch_delay', 'batch_collision_avoidance', 'callback_url', 'cancel_timeout', 'tag', 'caller_id', 'test_fail']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method faxes_post" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'to' is set
-        if ('to' not in params) or (params['to'] is None):
-            raise ValueError("Missing the required parameter `to` when calling `faxes_post`")
-
-
-        collection_formats = {}
-
-        resource_path = '/faxes'.replace('{format}', 'json')
-        path_params = {}
-
-        query_params = {}
-        if 'direction' in params:
-            query_params['direction'] = params['direction']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-        if 'to' in params:
-            form_params.append(('to', params['to']))
-        if 'file' in params:
-            local_var_files['file[]'] = params['file']
-            collection_formats['file[]'] = 'multi'
-        if 'content_url' in params:
-            form_params.append(('content_url[]', params['content_url']))
-            collection_formats['content_url[]'] = 'multi'
-        if 'header_text' in params:
-            form_params.append(('header_text', params['header_text']))
-        if 'batch_delay' in params:
-            form_params.append(('batch_delay', params['batch_delay']))
-        if 'batch_collision_avoidance' in params:
-            form_params.append(('batch_collision_avoidance', params['batch_collision_avoidance']))
-        if 'callback_url' in params:
-            form_params.append(('callback_url', params['callback_url']))
-        if 'cancel_timeout' in params:
-            form_params.append(('cancel_timeout', params['cancel_timeout']))
-        if 'tag' in params:
-            form_params.append(('tag', params['tag']))
-        if 'caller_id' in params:
-            form_params.append(('caller_id', params['caller_id']))
-        if 'test_fail' in params:
-            form_params.append(('test_fail', params['test_fail']))
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.\
-            select_header_content_type(['multipart/form-data'])
-
-        # Authentication setting
-        auth_settings = ['UserSecurity']
-
-        return self.api_client.call_api(resource_path, 'POST',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='SendFaxResponse',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def phax_code_get(self, **kwargs):
-        """
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.phax_code_get(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :return: PhaxCode
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.phax_code_get_with_http_info(**kwargs)
-        else:
-            (data) = self.phax_code_get_with_http_info(**kwargs)
-            return data
-
-    def phax_code_get_with_http_info(self, **kwargs):
-        """
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.phax_code_get_with_http_info(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :return: PhaxCode
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = []
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method phax_code_get" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-        collection_formats = {}
-
-        resource_path = '/phax_code'.replace('{format}', 'json')
-        path_params = {}
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # Authentication setting
-        auth_settings = ['UserSecurity']
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='PhaxCode',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def phax_codes_phax_code_id_get(self, phax_code_id, **kwargs):
-        """
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.phax_codes_phax_code_id_get(phax_code_id, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str phax_code_id: identifier for the phax code (required)
-        :return: PhaxCode
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.phax_codes_phax_code_id_get_with_http_info(phax_code_id, **kwargs)
-        else:
-            (data) = self.phax_codes_phax_code_id_get_with_http_info(phax_code_id, **kwargs)
-            return data
-
-    def phax_codes_phax_code_id_get_with_http_info(self, phax_code_id, **kwargs):
-        """
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.phax_codes_phax_code_id_get_with_http_info(phax_code_id, callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param str phax_code_id: identifier for the phax code (required)
-        :return: PhaxCode
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['phax_code_id']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method phax_codes_phax_code_id_get" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'phax_code_id' is set
-        if ('phax_code_id' not in params) or (params['phax_code_id'] is None):
-            raise ValueError("Missing the required parameter `phax_code_id` when calling `phax_codes_phax_code_id_get`")
-
-
-        collection_formats = {}
-
-        resource_path = '/phax_codes/{phax_code_id}'.replace('{format}', 'json')
-        path_params = {}
-        if 'phax_code_id' in params:
-            path_params['phax_code_id'] = params['phax_code_id']
-
-        query_params = {}
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # Authentication setting
-        auth_settings = ['UserSecurity']
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='PhaxCode',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def phone_numbers_get(self, **kwargs):
+    def query_phone_numbers(self, **kwargs):
         """
         List numbers
         This method makes a synchronous HTTP request by default. To make an
@@ -1318,7 +1503,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_get(callback=callback_function)
+        >>> thread = api.query_phone_numbers(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1330,12 +1515,12 @@ class DefaultApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.phone_numbers_get_with_http_info(**kwargs)
+            return self.query_phone_numbers_with_http_info(**kwargs)
         else:
-            (data) = self.phone_numbers_get_with_http_info(**kwargs)
+            (data) = self.query_phone_numbers_with_http_info(**kwargs)
             return data
 
-    def phone_numbers_get_with_http_info(self, **kwargs):
+    def query_phone_numbers_with_http_info(self, **kwargs):
         """
         List numbers
         This method makes a synchronous HTTP request by default. To make an
@@ -1344,7 +1529,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_get_with_http_info(callback=callback_function)
+        >>> thread = api.query_phone_numbers_with_http_info(callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
@@ -1366,7 +1551,7 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method phone_numbers_get" % key
+                    " to method query_phone_numbers" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -1411,7 +1596,7 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def phone_numbers_number_delete(self, number, **kwargs):
+    def release_phone_number(self, number, **kwargs):
         """
         Release a phone number you no longer need
         This method makes a synchronous HTTP request by default. To make an
@@ -1420,23 +1605,23 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_number_delete(number, callback=callback_function)
+        >>> thread = api.release_phone_number(number, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str number: phone number (required)
-        :return: FailureResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.phone_numbers_number_delete_with_http_info(number, **kwargs)
+            return self.release_phone_number_with_http_info(number, **kwargs)
         else:
-            (data) = self.phone_numbers_number_delete_with_http_info(number, **kwargs)
+            (data) = self.release_phone_number_with_http_info(number, **kwargs)
             return data
 
-    def phone_numbers_number_delete_with_http_info(self, number, **kwargs):
+    def release_phone_number_with_http_info(self, number, **kwargs):
         """
         Release a phone number you no longer need
         This method makes a synchronous HTTP request by default. To make an
@@ -1445,12 +1630,12 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_number_delete_with_http_info(number, callback=callback_function)
+        >>> thread = api.release_phone_number_with_http_info(number, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
         :param str number: phone number (required)
-        :return: FailureResponse
+        :return: OperationStatus
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1466,13 +1651,13 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method phone_numbers_number_delete" % key
+                    " to method release_phone_number" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'number' is set
         if ('number' not in params) or (params['number'] is None):
-            raise ValueError("Missing the required parameter `number` when calling `phone_numbers_number_delete`")
+            raise ValueError("Missing the required parameter `number` when calling `release_phone_number`")
 
 
         collection_formats = {}
@@ -1504,7 +1689,7 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='FailureResponse',
+                                        response_type='OperationStatus',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1512,51 +1697,51 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def phone_numbers_number_get(self, number, **kwargs):
+    def resend_fax(self, fax_id, **kwargs):
         """
-        Get number info
+        Resend a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_number_get(number, callback=callback_function)
+        >>> thread = api.resend_fax(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str number: phone number (required)
-        :return: PhoneNumberResponse
+        :param int fax_id: Fax ID (required)
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.phone_numbers_number_get_with_http_info(number, **kwargs)
+            return self.resend_fax_with_http_info(fax_id, **kwargs)
         else:
-            (data) = self.phone_numbers_number_get_with_http_info(number, **kwargs)
+            (data) = self.resend_fax_with_http_info(fax_id, **kwargs)
             return data
 
-    def phone_numbers_number_get_with_http_info(self, number, **kwargs):
+    def resend_fax_with_http_info(self, fax_id, **kwargs):
         """
-        Get number info
+        Resend a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_number_get_with_http_info(number, callback=callback_function)
+        >>> thread = api.resend_fax_with_http_info(fax_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str number: phone number (required)
-        :return: PhoneNumberResponse
+        :param int fax_id: Fax ID (required)
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['number']
+        all_params = ['fax_id']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1567,21 +1752,21 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method phone_numbers_number_get" % key
+                    " to method resend_fax" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'number' is set
-        if ('number' not in params) or (params['number'] is None):
-            raise ValueError("Missing the required parameter `number` when calling `phone_numbers_number_get`")
+        # verify the required parameter 'fax_id' is set
+        if ('fax_id' not in params) or (params['fax_id'] is None):
+            raise ValueError("Missing the required parameter `fax_id` when calling `resend_fax`")
 
 
         collection_formats = {}
 
-        resource_path = '/phone_numbers/{number}'.replace('{format}', 'json')
+        resource_path = '/faxes/{faxId}/resend'.replace('{format}', 'json')
         path_params = {}
-        if 'number' in params:
-            path_params['number'] = params['number']
+        if 'fax_id' in params:
+            path_params['faxId'] = params['fax_id']
 
         query_params = {}
 
@@ -1598,14 +1783,14 @@ class DefaultApi(object):
         # Authentication setting
         auth_settings = ['UserSecurity']
 
-        return self.api_client.call_api(resource_path, 'GET',
+        return self.api_client.call_api(resource_path, 'POST',
                                         path_params,
                                         query_params,
                                         header_params,
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='PhoneNumberResponse',
+                                        response_type='SendFaxResponse',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1613,55 +1798,71 @@ class DefaultApi(object):
                                         _request_timeout=params.get('_request_timeout'),
                                         collection_formats=collection_formats)
 
-    def phone_numbers_post(self, country_code, area_code, **kwargs):
+    def send_fax(self, to, **kwargs):
         """
-        Provision a number
+        Create and Send a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_post(country_code, area_code, callback=callback_function)
+        >>> thread = api.send_fax(to, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
-        :param int area_code: The area code of the number you'd like to provision (required)
-        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
-        :return: PhoneNumberResponse
+        :param str to: phone number (required)
+        :param str direction: Set to 'received' to receive test fax.
+        :param list[file] file: file to send
+        :param list[str] content_url: url of file to send
+        :param str header_text: Text that appears at the top of each page
+        :param int batch_delay: Number of seconds to wait before sending batch
+        :param bool batch_collision_avoidance: When batch_delay is set, fax will be blocked until the receiving machine is no longer busy
+        :param str callback_url: Overrides global callback URL
+        :param int cancel_timeout: Number of minutes to wait for successful send before cancelling fax
+        :param str caller_id: Number to use for caller ID
+        :param str test_fail: When sending a test fax, if this is set it will simulate the failure type specified
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('callback'):
-            return self.phone_numbers_post_with_http_info(country_code, area_code, **kwargs)
+            return self.send_fax_with_http_info(to, **kwargs)
         else:
-            (data) = self.phone_numbers_post_with_http_info(country_code, area_code, **kwargs)
+            (data) = self.send_fax_with_http_info(to, **kwargs)
             return data
 
-    def phone_numbers_post_with_http_info(self, country_code, area_code, **kwargs):
+    def send_fax_with_http_info(self, to, **kwargs):
         """
-        Provision a number
+        Create and Send a Fax
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please define a `callback` function
         to be invoked when receiving the response.
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.phone_numbers_post_with_http_info(country_code, area_code, callback=callback_function)
+        >>> thread = api.send_fax_with_http_info(to, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param int country_code: The country code (E.164) of the number you'd like to provision (required)
-        :param int area_code: The area code of the number you'd like to provision (required)
-        :param str callback_url: A callback URL that we'll post to when a fax is received by this number
-        :return: PhoneNumberResponse
+        :param str to: phone number (required)
+        :param str direction: Set to 'received' to receive test fax.
+        :param list[file] file: file to send
+        :param list[str] content_url: url of file to send
+        :param str header_text: Text that appears at the top of each page
+        :param int batch_delay: Number of seconds to wait before sending batch
+        :param bool batch_collision_avoidance: When batch_delay is set, fax will be blocked until the receiving machine is no longer busy
+        :param str callback_url: Overrides global callback URL
+        :param int cancel_timeout: Number of minutes to wait for successful send before cancelling fax
+        :param str caller_id: Number to use for caller ID
+        :param str test_fail: When sending a test fax, if this is set it will simulate the failure type specified
+        :return: SendFaxResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['country_code', 'area_code', 'callback_url']
+        all_params = ['to', 'direction', 'file', 'content_url', 'header_text', 'batch_delay', 'batch_collision_avoidance', 'callback_url', 'cancel_timeout', 'caller_id', 'test_fail']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1672,35 +1873,50 @@ class DefaultApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method phone_numbers_post" % key
+                    " to method send_fax" % key
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'country_code' is set
-        if ('country_code' not in params) or (params['country_code'] is None):
-            raise ValueError("Missing the required parameter `country_code` when calling `phone_numbers_post`")
-        # verify the required parameter 'area_code' is set
-        if ('area_code' not in params) or (params['area_code'] is None):
-            raise ValueError("Missing the required parameter `area_code` when calling `phone_numbers_post`")
+        # verify the required parameter 'to' is set
+        if ('to' not in params) or (params['to'] is None):
+            raise ValueError("Missing the required parameter `to` when calling `send_fax`")
 
 
         collection_formats = {}
 
-        resource_path = '/phone_numbers'.replace('{format}', 'json')
+        resource_path = '/faxes'.replace('{format}', 'json')
         path_params = {}
 
         query_params = {}
+        if 'direction' in params:
+            query_params['direction'] = params['direction']
 
         header_params = {}
 
         form_params = []
         local_var_files = {}
-        if 'country_code' in params:
-            form_params.append(('country_code', params['country_code']))
-        if 'area_code' in params:
-            form_params.append(('area_code', params['area_code']))
+        if 'to' in params:
+            form_params.append(('to', params['to']))
+        if 'file' in params:
+            local_var_files['file[]'] = params['file']
+            collection_formats['file[]'] = 'multi'
+        if 'content_url' in params:
+            form_params.append(('content_url[]', params['content_url']))
+            collection_formats['content_url[]'] = 'multi'
+        if 'header_text' in params:
+            form_params.append(('header_text', params['header_text']))
+        if 'batch_delay' in params:
+            form_params.append(('batch_delay', params['batch_delay']))
+        if 'batch_collision_avoidance' in params:
+            form_params.append(('batch_collision_avoidance', params['batch_collision_avoidance']))
         if 'callback_url' in params:
             form_params.append(('callback_url', params['callback_url']))
+        if 'cancel_timeout' in params:
+            form_params.append(('cancel_timeout', params['cancel_timeout']))
+        if 'caller_id' in params:
+            form_params.append(('caller_id', params['caller_id']))
+        if 'test_fail' in params:
+            form_params.append(('test_fail', params['test_fail']))
 
         body_params = None
         # HTTP header `Accept`
@@ -1721,227 +1937,7 @@ class DefaultApi(object):
                                         body=body_params,
                                         post_params=form_params,
                                         files=local_var_files,
-                                        response_type='PhoneNumberResponse',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def public_area_codes_get(self, **kwargs):
-        """
-        List area codes available for purchasing numbers
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.public_area_codes_get(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
-        :param int country_code: A country code (E.164) you'd like to filter by
-        :param str country: A country code (E.164) you'd like to filter by
-        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
-        :param int per_page: How many records to return per page
-        :param int page: Page number to return
-        :return: GetAreaCodesResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.public_area_codes_get_with_http_info(**kwargs)
-        else:
-            (data) = self.public_area_codes_get_with_http_info(**kwargs)
-            return data
-
-    def public_area_codes_get_with_http_info(self, **kwargs):
-        """
-        List area codes available for purchasing numbers
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.public_area_codes_get_with_http_info(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param bool toll_free: If set to `true`, only toll free area codes will be returned. If specified and set to `false`, only non-toll free area codes will be returned.
-        :param int country_code: A country code (E.164) you'd like to filter by
-        :param str country: A country code (E.164) you'd like to filter by
-        :param str state: A two character state or province abbreviation (ISO 3166; e.g. `IL` or `YT`) you'd like to filter by. When using this parameter, `country_code` or `country` must also be provided.
-        :param int per_page: How many records to return per page
-        :param int page: Page number to return
-        :return: GetAreaCodesResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['toll_free', 'country_code', 'country', 'state', 'per_page', 'page']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method public_area_codes_get" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-
-        collection_formats = {}
-
-        resource_path = '/public/area_codes'.replace('{format}', 'json')
-        path_params = {}
-
-        query_params = {}
-        if 'toll_free' in params:
-            query_params['toll_free'] = params['toll_free']
-        if 'country_code' in params:
-            query_params['country_code'] = params['country_code']
-        if 'country' in params:
-            query_params['country'] = params['country']
-        if 'state' in params:
-            query_params['state'] = params['state']
-        if 'per_page' in params:
-            query_params['per_page'] = params['per_page']
-        if 'page' in params:
-            query_params['page'] = params['page']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # Authentication setting
-        auth_settings = []
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='GetAreaCodesResponse',
-                                        auth_settings=auth_settings,
-                                        callback=params.get('callback'),
-                                        _return_http_data_only=params.get('_return_http_data_only'),
-                                        _preload_content=params.get('_preload_content', True),
-                                        _request_timeout=params.get('_request_timeout'),
-                                        collection_formats=collection_formats)
-
-    def public_countries_get(self, **kwargs):
-        """
-        Returns a list of supported countries for sending and receiving faxes
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.public_countries_get(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param int per_page: How many records to return per page
-        :param int page: Page number to return
-        :return: GetCountriesResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('callback'):
-            return self.public_countries_get_with_http_info(**kwargs)
-        else:
-            (data) = self.public_countries_get_with_http_info(**kwargs)
-            return data
-
-    def public_countries_get_with_http_info(self, **kwargs):
-        """
-        Returns a list of supported countries for sending and receiving faxes
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please define a `callback` function
-        to be invoked when receiving the response.
-        >>> def callback_function(response):
-        >>>     pprint(response)
-        >>>
-        >>> thread = api.public_countries_get_with_http_info(callback=callback_function)
-
-        :param callback function: The callback function
-            for asynchronous request. (optional)
-        :param int per_page: How many records to return per page
-        :param int page: Page number to return
-        :return: GetCountriesResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['per_page', 'page']
-        all_params.append('callback')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method public_countries_get" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-
-        collection_formats = {}
-
-        resource_path = '/public/countries'.replace('{format}', 'json')
-        path_params = {}
-
-        query_params = {}
-        if 'per_page' in params:
-            query_params['per_page'] = params['per_page']
-        if 'page' in params:
-            query_params['page'] = params['page']
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.\
-            select_header_accept(['application/json'])
-
-        # Authentication setting
-        auth_settings = []
-
-        return self.api_client.call_api(resource_path, 'GET',
-                                        path_params,
-                                        query_params,
-                                        header_params,
-                                        body=body_params,
-                                        post_params=form_params,
-                                        files=local_var_files,
-                                        response_type='GetCountriesResponse',
+                                        response_type='SendFaxResponse',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
