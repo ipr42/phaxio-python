@@ -71,3 +71,12 @@ class TestV2Api(unittest.TestCase):
         self.assertTrue(delete_response.success)
         self.logger.debug('delete_response={}'.format(delete_response))
 
+    def test_get_countries(self):
+        result = self.client.Countries.get_countries(page=1, per_page=10)
+        self.logger.debug("countries result={}".format(result))
+
+        self.assertTrue(result.success)
+        self.assertEqual(result.paging.page, 1)
+        self.assertEqual(result.paging.per_page, 10)
+        self.assertEqual(len(result.data), 10)
+

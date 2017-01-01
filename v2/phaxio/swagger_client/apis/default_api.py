@@ -1509,6 +1509,8 @@ class DefaultApi(object):
             for asynchronous request. (optional)
         :param int country_code: A country code you'd like to filter by
         :param int area_code: An area code you'd like to filter by
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
         :return: ListPhoneNumbersResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1535,12 +1537,14 @@ class DefaultApi(object):
             for asynchronous request. (optional)
         :param int country_code: A country code you'd like to filter by
         :param int area_code: An area code you'd like to filter by
+        :param int per_page: How many records to return per page
+        :param int page: Page number to return
         :return: ListPhoneNumbersResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['country_code', 'area_code']
+        all_params = ['country_code', 'area_code', 'per_page', 'page']
         all_params.append('callback')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1567,6 +1571,10 @@ class DefaultApi(object):
             query_params['country_code'] = params['country_code']
         if 'area_code' in params:
             query_params['area_code'] = params['area_code']
+        if 'per_page' in params:
+            query_params['per_page'] = params['per_page']
+        if 'page' in params:
+            query_params['page'] = params['page']
 
         header_params = {}
 

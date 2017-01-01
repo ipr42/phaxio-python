@@ -736,7 +736,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **query_phone_numbers**
-> ListPhoneNumbersResponse query_phone_numbers(country_code=country_code, area_code=area_code)
+> ListPhoneNumbersResponse query_phone_numbers(country_code=country_code, area_code=area_code, per_page=per_page, page=page)
 
 List numbers
 
@@ -756,10 +756,12 @@ swagger_client.configuration.password = 'YOUR_PASSWORD'
 api_instance = swagger_client.DefaultApi()
 country_code = 56 # int | A country code you'd like to filter by (optional)
 area_code = 56 # int | An area code you'd like to filter by (optional)
+per_page = 56 # int | How many records to return per page (optional)
+page = 56 # int | Page number to return (optional)
 
 try: 
     # List numbers
-    api_response = api_instance.query_phone_numbers(country_code=country_code, area_code=area_code)
+    api_response = api_instance.query_phone_numbers(country_code=country_code, area_code=area_code, per_page=per_page, page=page)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling DefaultApi->query_phone_numbers: %s\n" % e)
@@ -771,6 +773,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **country_code** | **int**| A country code you&#39;d like to filter by | [optional] 
  **area_code** | **int**| An area code you&#39;d like to filter by | [optional] 
+ **per_page** | **int**| How many records to return per page | [optional] 
+ **page** | **int**| Page number to return | [optional] 
 
 ### Return type
 

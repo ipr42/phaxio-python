@@ -589,6 +589,8 @@ paths:
           type: integer
           required: false
           description: An area code you'd like to filter by
+        - $ref: '#/parameters/pageParam'
+        - $ref: '#/parameters/perPageParam'
       responses:
         '200':
           description: success response
