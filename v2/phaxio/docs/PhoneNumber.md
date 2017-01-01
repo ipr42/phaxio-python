@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **state** | **str** |  | [optional] 
 **country** | **str** |  | [optional] 
 **cost** | **int** |  | [optional] 
-**last_billed_at** | **str** |  | [optional] 
-**provisioned_at** | **str** |  | [optional] 
+**last_billed_at** | **datetime** |  | [optional] 
+**provisioned_at** | **datetime** |  | [optional] 
 **callback_url** | **str** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

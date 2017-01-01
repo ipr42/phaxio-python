@@ -45,14 +45,18 @@ class TestV2Api(unittest.TestCase):
         self.logger.debug('response={}'.format(response))
         self.assertTrue(response.success)
         fax_id = response.data.id
+
+        # get fax metadata
         time.sleep(7)
         status_response = self.client.Fax.status(fax_id)
         self.logger.debug('status={}'.format(status_response))
         self.assertEqual(status_response.data.recipients[0].error_type, 'lineError')
 
+        self.logger.debug('created_at type={}, val={}'.format(type(status_response.data.created_at), status_response.data.created_at))
+
         # try downloading the file
         time.sleep(2)
-        response = self.client.Fax.get_file(fax_id)
+        response = self.client.Fax.get_file(fax_id, thumbnail='l')
         self.logger.debug('file download response={}'.format(response))
 
         time.sleep(2)

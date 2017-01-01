@@ -63,6 +63,7 @@ definitions:
         type: boolean
       created_at:
         type: string
+        format: date-time
       from_number:
         type: string
       to_number:
@@ -84,6 +85,7 @@ definitions:
         type: integer
       completed_at:
         type: string
+        format: date-time
   GetFaxInfoResponse:
     type: object
     properties:
@@ -103,6 +105,7 @@ definitions:
         #enum: *statuses
       completed_at:
         type: string
+        format: date-time
       bitrate:
         type: integer
       resolution:
@@ -178,8 +181,10 @@ definitions:
         type: integer
       last_billed_at:
         type: string
+        format: date-time
       provisioned_at:
         type: string
+        format: date-time
       callback_url:
         type: string
   PhoneNumberResponse:
@@ -226,6 +231,7 @@ definitions:
         properties:
           created_at:
             type: string
+            format: date-time
           identifier:
             type: string
           metadata:

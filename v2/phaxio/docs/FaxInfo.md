@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **cost** | **int** |  | [optional] 
 **status** | **str** |  | [optional] 
 **is_test** | **bool** |  | [optional] 
-**created_at** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
 **from_number** | **str** |  | [optional] 
 **to_number** | **str** |  | [optional] 
 **recipients** | [**list[Recipient]**](Recipient.md) |  | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **error_type** | **str** |  | [optional] 
 **error_message** | **str** |  | [optional] 
 **error_id** | **int** |  | [optional] 
-**completed_at** | **str** |  | [optional] 
+**completed_at** | **datetime** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

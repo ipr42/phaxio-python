@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **phone_number** | **str** |  | [optional] 
 **status** | **str** |  | [optional] 
-**completed_at** | **str** |  | [optional] 
+**completed_at** | **datetime** |  | [optional] 
 **bitrate** | **int** |  | [optional] 
 **resolution** | **int** |  | [optional] 
 **error_type** | **str** |  | [optional] 

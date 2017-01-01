@@ -33,7 +33,7 @@ class Recipient(object):
         self.swagger_types = {
             'phone_number': 'str',
             'status': 'str',
-            'completed_at': 'str',
+            'completed_at': 'datetime',
             'bitrate': 'int',
             'resolution': 'int',
             'error_type': 'str',
@@ -109,7 +109,7 @@ class Recipient(object):
         Gets the completed_at of this Recipient.
 
         :return: The completed_at of this Recipient.
-        :rtype: str
+        :rtype: datetime
         """
         return self._completed_at
 
@@ -119,7 +119,7 @@ class Recipient(object):
         Sets the completed_at of this Recipient.
 
         :param completed_at: The completed_at of this Recipient.
-        :type: str
+        :type: datetime
         """
 
         self._completed_at = completed_at

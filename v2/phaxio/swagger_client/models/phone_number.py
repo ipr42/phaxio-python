@@ -36,8 +36,8 @@ class PhoneNumber(object):
             'state': 'str',
             'country': 'str',
             'cost': 'int',
-            'last_billed_at': 'str',
-            'provisioned_at': 'str',
+            'last_billed_at': 'datetime',
+            'provisioned_at': 'datetime',
             'callback_url': 'str'
         }
 
@@ -172,7 +172,7 @@ class PhoneNumber(object):
         Gets the last_billed_at of this PhoneNumber.
 
         :return: The last_billed_at of this PhoneNumber.
-        :rtype: str
+        :rtype: datetime
         """
         return self._last_billed_at
 
@@ -182,7 +182,7 @@ class PhoneNumber(object):
         Sets the last_billed_at of this PhoneNumber.
 
         :param last_billed_at: The last_billed_at of this PhoneNumber.
-        :type: str
+        :type: datetime
         """
 
         self._last_billed_at = last_billed_at
@@ -193,7 +193,7 @@ class PhoneNumber(object):
         Gets the provisioned_at of this PhoneNumber.
 
         :return: The provisioned_at of this PhoneNumber.
-        :rtype: str
+        :rtype: datetime
         """
         return self._provisioned_at
 
@@ -203,7 +203,7 @@ class PhoneNumber(object):
         Sets the provisioned_at of this PhoneNumber.
 
         :param provisioned_at: The provisioned_at of this PhoneNumber.
-        :type: str
+        :type: datetime
         """
 
         self._provisioned_at = provisioned_at

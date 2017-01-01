@@ -37,7 +37,7 @@ class FaxInfo(object):
             'cost': 'int',
             'status': 'str',
             'is_test': 'bool',
-            'created_at': 'str',
+            'created_at': 'datetime',
             'from_number': 'str',
             'to_number': 'str',
             'recipients': 'list[Recipient]',
@@ -45,7 +45,7 @@ class FaxInfo(object):
             'error_type': 'str',
             'error_message': 'str',
             'error_id': 'int',
-            'completed_at': 'str'
+            'completed_at': 'datetime'
         }
 
         self.attribute_map = {
@@ -226,7 +226,7 @@ class FaxInfo(object):
         Gets the created_at of this FaxInfo.
 
         :return: The created_at of this FaxInfo.
-        :rtype: str
+        :rtype: datetime
         """
         return self._created_at
 
@@ -236,7 +236,7 @@ class FaxInfo(object):
         Sets the created_at of this FaxInfo.
 
         :param created_at: The created_at of this FaxInfo.
-        :type: str
+        :type: datetime
         """
 
         self._created_at = created_at
@@ -394,7 +394,7 @@ class FaxInfo(object):
         Gets the completed_at of this FaxInfo.
 
         :return: The completed_at of this FaxInfo.
-        :rtype: str
+        :rtype: datetime
         """
         return self._completed_at
 
@@ -404,7 +404,7 @@ class FaxInfo(object):
         Sets the completed_at of this FaxInfo.
 
         :param completed_at: The completed_at of this FaxInfo.
-        :type: str
+        :type: datetime
         """
 
         self._completed_at = completed_at
