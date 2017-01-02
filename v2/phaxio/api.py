@@ -93,7 +93,7 @@ class _PhoneNumber(object):
         opt_args = opt_args_to_dict(page=page, per_page=per_page)
         return self.client.get_area_codes(**opt_args)
 
-    def get_phone_number(self, number):
+    def get_phone_number_info(self, number):
         return self.client.get_phone_number(number)
 
     def release_phone_number(self, number):
