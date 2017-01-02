@@ -4,7 +4,7 @@ import sys
 
 from setuptools import setup, find_packages
 
-version = '0.11'
+version = '0.2'
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -23,10 +23,10 @@ if sys.argv[-1] == 'readme':
     print(readme)
     sys.exit()
 
-requirements = ['requests']
+requirements = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", "requests", "dateutils"]
 
 setup(
-    name='pyphaxio',
+    name='phaxio',
     version=version,
     packages=find_packages(),
     test_suite='tests',
@@ -34,11 +34,11 @@ setup(
     include_package_data=True,
 
     # metadata for upload to PyPI
-    author='Joshua Fialkoff',
-    author_email='joshua.fialkoff@setaris.com',
-    description='Python client for Phaxio',
+    author='Aryeh Polsky',
+    author_email='anpolsky@gmail.com',
+    description='Python client for Phaxio v2 API',
     long_description=readme,
     license='MIT License',
     keywords='python phaxio fax api',
-    url='https://github.com/jfialkoff/pyphaxio',
+    url='https://github.com/anpolsky/phaxio-python',
 )

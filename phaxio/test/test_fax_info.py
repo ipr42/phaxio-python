@@ -19,11 +19,11 @@ import unittest
 
 import swagger_client
 from swagger_client.rest import ApiException
-from swagger_client.models.create_phone_number_response import CreatePhoneNumberResponse
+from swagger_client.models.fax_info import FaxInfo
 
 
-class TestCreatePhoneNumberResponse(unittest.TestCase):
-    """ CreatePhoneNumberResponse unit test stubs """
+class TestFaxInfo(unittest.TestCase):
+    """ FaxInfo unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,11 @@ class TestCreatePhoneNumberResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testCreatePhoneNumberResponse(self):
+    def testFaxInfo(self):
         """
-        Test CreatePhoneNumberResponse
+        Test FaxInfo
         """
-        model = swagger_client.models.create_phone_number_response.CreatePhoneNumberResponse()
+        model = swagger_client.models.fax_info.FaxInfo()
 
 
 if __name__ == '__main__':

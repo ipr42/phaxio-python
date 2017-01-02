@@ -19,11 +19,11 @@ import unittest
 
 import swagger_client
 from swagger_client.rest import ApiException
-from swagger_client.models.fax_info_data import FaxInfoData
+from swagger_client.models.send_fax_response_data import SendFaxResponseData
 
 
-class TestFaxInfoData(unittest.TestCase):
-    """ FaxInfoData unit test stubs """
+class TestSendFaxResponseData(unittest.TestCase):
+    """ SendFaxResponseData unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,11 @@ class TestFaxInfoData(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testFaxInfoData(self):
+    def testSendFaxResponseData(self):
         """
-        Test FaxInfoData
+        Test SendFaxResponseData
         """
-        model = swagger_client.models.fax_info_data.FaxInfoData()
+        model = swagger_client.models.send_fax_response_data.SendFaxResponseData()
 
 
 if __name__ == '__main__':

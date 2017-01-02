@@ -19,11 +19,11 @@ import unittest
 
 import swagger_client
 from swagger_client.rest import ApiException
-from swagger_client.models.response_base import ResponseBase
+from swagger_client.models.account_status_data import AccountStatusData
 
 
-class TestResponseBase(unittest.TestCase):
-    """ ResponseBase unit test stubs """
+class TestAccountStatusData(unittest.TestCase):
+    """ AccountStatusData unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,11 @@ class TestResponseBase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testResponseBase(self):
+    def testAccountStatusData(self):
         """
-        Test ResponseBase
+        Test AccountStatusData
         """
-        model = swagger_client.models.response_base.ResponseBase()
+        model = swagger_client.models.account_status_data.AccountStatusData()
 
 
 if __name__ == '__main__':

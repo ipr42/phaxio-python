@@ -1,107 +1,244 @@
-import collections
-import requests
+import swagger_client
+from swagger_client.apis.default_api import DefaultApi
 
-from .utils import curry
-from .exceptions import AuthenticationError, APIError, ServerError
+#from v2.phaxio.exceptions import throw_if_not_authenticated
 
-try:
-    basestring
-except NameError:
-    basestring = str
+
+def opt_args_to_dict(**kwargs):
+    # return kwargs as a dictionary that excludes parameters that are set to None. It's handy because some APIs don't
+    # like having optional params set to null when None was passed in, so we return the kwargs without the nulls
+    ret = {}
+    for k, v in kwargs.iteritems():
+        if v is not None:
+            ret[k] = v
+    return ret
+
 
 class PhaxioApi(object):
-    VERSION = 1
-    BASE_URL = 'https://api.phaxio.com'
-    __IMPLEMENTED = ('send', 'testReceive', 'attachPhaxCodeToPdf',
-        'createPhaxCode', 'getHostedDocument', 'provisionNumber',
-        'releaseNumber', 'numberList', 'faxFile', 'faxList',
-        'faxStatus', 'faxCancel', 'accountStatus'
-    )
 
-    api_key = None
-    api_secret = None
+    def __init__(self, api_key="", api_secret="", file_download_path=None):
+        # default to "" instead of None because the swagger-generated code will try string ops on it
+        swagger_client.configuration.username = api_key
+        swagger_client.configuration.password = api_secret
+        if file_download_path:
+            swagger_client.configuration.temp_folder_path = file_download_path
+        self.client = DefaultApi()
 
-    def __init__(self, key, secret, raise_errors=False):
-        """Construct a Phaxio API object
+        # create objects to group related functions together
+        self.Fax = _Fax(self.client)
+        self.Account = _Account(self.client)
+        self.PhoneNumber = _PhoneNumber(self.client)
+        self.PhaxCode = _PhaxCode(self.client)
+        self.Countries = _Countries(self.client)
 
-        :param key: Phaxio api key
-        :param secret: Phaxio api secret
-        :param raise_errors: If set to False (default)
-            an api call will return the json response
-            as it did previously. If set to True, an api
-            call will now raise an appropriate error.
-        """
-        self.api_key = key
-        self.api_secret = secret
-        self._raise_errors = raise_errors
 
-    def parse_response(self, response):
-        """Parses the API response and raises appropriate
-        errors if raise_errors was set to True
+class _Fax(object):
 
-        :param response: response from requests http call
-        :returns: dictionary of response
-        :rtype: dict
-        """
-        payload = None
-        try:
-            if isinstance(response.json, collections.Callable):
-                payload = response.json()
-            else:
-                # json isn't callable in old versions of requests
-                payload = response.json
-        except ValueError:
-            # response does not have JSON content
-            payload = response.content
+    def __init__(self, client):
+        self.client = client
 
-        if not self._raise_errors:
-            return payload
-        else:
-            if response.status_code == 401:
-                raise AuthenticationError(payload['message'])
-            elif response.status_code == 500:
-                raise ServerError(payload['message'])
-            elif isinstance(payload, dict) and not payload['success']:
-                raise APIError(payload['message'])
-            else:
-                return payload
-
-    def _get(self, method, **kwargs):
-        """Builds the url for the specified method and arguments and returns
-        the response as a dictionary.
+    def send(self, to, files=None, content_urls=None, header_text=None, batch_delay=None,
+             batch_collision_avoidance=None, callback_url=None, cancel_timeout=None, caller_id=None, test_fail=None):
         """
 
-        payload = kwargs.copy()
-        payload['api_key'] = self.api_key
-        payload['api_secret'] = self.api_secret
+        :param to:
+        :param files:
+        :param content_urls:
+        :param header_text:
+        :param batch_delay:
+        :param batch_collision_avoidance:
+        :param callback_url:
+        :param cancel_timeout:
+        :param caller_id:
+        :param test_fail:
+        :return: Fax
+        """
+        # make sure files and content_urls are lists
+        if isinstance(files, basestring):
+            files = [files]
+        if isinstance(content_urls, basestring):
+            content_urls = [content_urls]
 
-        to = payload.pop('to', None)
-        if to:
-            if isinstance(to, basestring):
-                payload['to'] = to
-            else:
-                # Presumably it's a list or tuple
-                for num_i, fax_num in enumerate(to):
-                    payload['to[%d]' % num_i] = fax_num
+        opt_args = opt_args_to_dict(file=files, content_url=content_urls, header_text=header_text,
+                                    batch_delay=batch_delay, batch_collision_avoidance=batch_collision_avoidance,
+                                    callback_url=callback_url, cancel_timeout=cancel_timeout,
+                                    caller_id=caller_id, test_fail=test_fail)
 
-        files = payload.pop('files', [])
-        if not isinstance(files, (list, tuple)): files = (files,)
+        return self.client.send_fax(to=to, **opt_args)
 
-        req_files = {}
-        for file_i, f in enumerate(files):
-            if isinstance(f, basestring):
-                req_files['filename[%d]' % file_i] = open(f, 'rb')
-            else:
-                f.seek(0)
-                req_files['filename[%d]' % file_i] = f
+    def status(self, fax_id):
+        """
 
-        url = '%s/v%d/%s' % (self.BASE_URL, self.VERSION, method)
+        :param fax_id:
+        :return: FaxInfo
+        """
+        return self.client.get_fax(fax_id)
 
-        r = requests.post(url, data=payload, files=req_files)
+    def cancel(self, fax_id):
+        """
 
-        return self.parse_response(r)
+        :param fax_id:
+        :return:
+        """
+        return self.client.cancel_fax(fax_id)
 
-    def __getattribute__(self, name):
-        if name in PhaxioApi.__IMPLEMENTED:
-            return curry(self._get, name)
-        return super(PhaxioApi, self).__getattribute__(name)
+    def get_file(self, fax_id, thumbnail=None):
+        """
+
+        :param fax_id:
+        :param thumbnail:
+        :return:
+        """
+        opt_args = opt_args_to_dict(thumbnail=thumbnail)
+        return self.client.get_fax_file(fax_id, **opt_args)
+
+    def delete(self, fax_id):
+        """
+
+        :param fax_id:
+        :return:
+        """
+        return self.client.delete_fax(fax_id)
+
+    def delete_file(self, fax_id):
+        """
+
+        :param fax_id:
+        :return:
+        """
+        return self.client.delete_fax_file(fax_id)
+
+    def resend(self, fax_id):
+        """
+
+        :param fax_id:
+        :return:
+        """
+        return self.client.resend_fax(fax_id)
+
+    def query_faxes(self, created_before=None, created_after=None, direction=None, status=None, phone_number=None,
+                    per_page=None, page=None):
+        """
+
+        :param created_before:
+        :param created_after:
+        :param direction:
+        :param status:
+        :param phone_number:
+        :param per_page:
+        :param page:
+        :return:
+        """
+
+        opt_args = opt_args_to_dict(created_before=created_before, created_after=created_after, direction=direction,
+                                    status=status, phone_number=phone_number, per_page=per_page, page=page)
+        return self.client.query_faxes(**opt_args)
+
+
+class _Account(object):
+    def __init__(self, client):
+        self.client = client
+
+    def get_status(self):
+        """
+
+        :return:
+        """
+        return self.client.get_account_status()
+
+
+class _PhoneNumber(object):
+    def __init__(self, client):
+        self.client = client
+
+    def get_area_codes(self, page=None, per_page=None):
+        """
+
+        :param page:
+        :param per_page:
+        :return:
+        """
+        opt_args = opt_args_to_dict(page=page, per_page=per_page)
+        return self.client.get_area_codes(**opt_args)
+
+    def get_phone_number_info(self, number):
+        """
+
+        :param number:
+        :return:
+        """
+        return self.client.get_phone_number(number)
+
+    def release_phone_number(self, number):
+        """
+
+        :param number:
+        :return:
+        """
+        return self.client.release_phone_number(number)
+
+    def provision_phone_number(self, country_code, area_code, callback_url=None):
+        """
+
+        :param country_code:
+        :param area_code:
+        :param callback_url:
+        :return:
+        """
+        opt_args = opt_args_to_dict(callback_url=callback_url)
+        return self.client.provision_phone_number(country_code, area_code, **opt_args)
+
+    def query_phone_numbers(self, country_code=None, area_code=None, page=None, per_page=None):
+        """
+
+        :param country_code:
+        :param area_code:
+        :param page:
+        :param per_page:
+        :return:
+        """
+        opt_args = opt_args_to_dict(country_code=country_code, area_code=area_code, page=page, per_page=per_page)
+        return self.client.query_phone_numbers(**opt_args)
+
+
+class _PhaxCode(object):
+    def __init__(self, client):
+        self.client = client
+
+    def get_phax_code(self, phax_code_id=None):
+        """
+
+        :param phax_code_id:
+        :return:
+        """
+        if not phax_code_id:
+            return self.client.get_default_phax_code()
+
+        return self.client.get_phax_code(phax_code_id)
+
+    def create_json_phax_code(self, metadata):
+        """
+
+        :param metadata:
+        :return:
+        """
+        return self.client.create_phax_code_json(metadata=metadata)
+
+
+class _Countries(object):
+    def __init__(self, client):
+        self.client = client
+
+    def get_countries(self, page=None, per_page=None):
+        """
+
+        :param page:
+        :param per_page:
+        :return:
+        """
+        opt_args = opt_args_to_dict(page=page, per_page=per_page)
+
+        return self.client.get_countries(**opt_args)
+
+
+

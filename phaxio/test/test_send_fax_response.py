@@ -19,11 +19,11 @@ import unittest
 
 import swagger_client
 from swagger_client.rest import ApiException
-from swagger_client.models.message import Message
+from swagger_client.models.send_fax_response import SendFaxResponse
 
 
-class TestMessage(unittest.TestCase):
-    """ Message unit test stubs """
+class TestSendFaxResponse(unittest.TestCase):
+    """ SendFaxResponse unit test stubs """
 
     def setUp(self):
         pass
@@ -31,11 +31,11 @@ class TestMessage(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testMessage(self):
+    def testSendFaxResponse(self):
         """
-        Test Message
+        Test SendFaxResponse
         """
-        model = swagger_client.models.message.Message()
+        model = swagger_client.models.send_fax_response.SendFaxResponse()
 
 
 if __name__ == '__main__':
