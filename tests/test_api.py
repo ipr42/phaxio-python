@@ -1,16 +1,14 @@
 import os
 import time
 import json
+from datetime import datetime, timedelta
+from dateutil.tz import tzlocal
 
 from phaxio.api import PhaxioApi
-from phaxio.swagger_client.configuration import Configuration
 
-import sys
 import unittest
 import logging
 
-from phaxio import Fax
-from phaxio import FaxInfo
 
 class TestV2Api(unittest.TestCase):
     logger = logging.getLogger(__name__)
@@ -22,6 +20,10 @@ class TestV2Api(unittest.TestCase):
 
     test_number = '4145556984'
 
+    def _pause(self):
+        # wait between API calls to avoid being rate-limited
+        time.sleep(1)
+
     def setUp(self):
 
         api_key = os.getenv('API_KEY')
@@ -31,9 +33,7 @@ class TestV2Api(unittest.TestCase):
         self.client = PhaxioApi(api_key, api_secret, file_download_path=file_download_path)
 
     def tearDown(self):
-        #self.logger.removeHandler(self.stream_handler)
-        # needed to prevent rate-limiting
-        time.sleep(1)
+        self._pause()
 
     def test_send_fax(self):
         response = self.client.Fax.send(self.test_number, files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
@@ -59,24 +59,24 @@ class TestV2Api(unittest.TestCase):
         self.logger.debug('created_at type={}, val={}'.format(type(status_response.data.created_at), status_response.data.created_at))
 
         # try downloading the file
-        time.sleep(2)
+        self._pause()
         response = self.client.Fax.get_file(fax_id, thumbnail='l')
         self.logger.debug('file download response={}'.format(response))
 
         # resend the fax
-        time.sleep(2)
+        self._pause()
         resend_response = self.client.Fax.resend(fax_id)
         self.logger.debug('resend_response={}'.format(resend_response))
         self.assertTrue(resend_response.success)
 
-        time.sleep(2)
+        self._pause()
         # now verify delete, file first
         delete_response = self.client.Fax.delete_file(fax_id)
         self.assertTrue(delete_response.success)
         self.logger.debug('delete_file_response={}'.format(delete_response))
 
         # now delete the fax itself
-        time.sleep(2)
+        self._pause()
         delete_response = self.client.Fax.delete(fax_id)
         self.assertTrue(delete_response.success)
         self.logger.debug('delete_response={}'.format(delete_response))
@@ -99,6 +99,20 @@ class TestV2Api(unittest.TestCase):
         self.assertTrue(result.success)
         self._assert_paging_params(result, 1, 20)
 
+        self._pause()
+        localtimezone = tzlocal()
+        result = self.client.Fax.query_faxes(created_after=datetime.now(localtimezone))
+        self.logger.debug('query_result={}'.format(result))
+        self.assertTrue(result.success)
+        self.assertTrue(len(result.data) == 0)
+
+        self._pause()
+        result = self.client.Fax.query_faxes(created_before=datetime.now())
+        self.logger.debug('query_result={}'.format(result))
+        self.assertTrue(result.success)
+        self.assertTrue(len(result.data) > 0)
+
+
     def test_area_codes(self):
         result = self.client.PhoneNumber.get_area_codes(page=3, per_page=10)
         self.logger.debug('area_codes_results={}'.format(result))
@@ -111,7 +125,7 @@ class TestV2Api(unittest.TestCase):
         self.assertTrue(result.success)
         phax_id = result.data.identifier
 
-        time.sleep(2)
+        self._pause()
         result = self.client.PhaxCode.get_phax_code(phax_code_id=phax_id)
         self.logger.debug('get_phax_code_result={}'.format(result))
         self.assertTrue(result.success)

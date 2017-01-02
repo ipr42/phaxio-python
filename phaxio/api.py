@@ -1,10 +1,8 @@
 import swagger_client
 from swagger_client.apis.default_api import DefaultApi
 
-#from v2.phaxio.exceptions import throw_if_not_authenticated
 
-
-def opt_args_to_dict(**kwargs):
+def _opt_args_to_dict(**kwargs):
     # return kwargs as a dictionary that excludes parameters that are set to None. It's handy because some APIs don't
     # like having optional params set to null when None was passed in, so we return the kwargs without the nulls
     ret = {}
@@ -59,10 +57,10 @@ class _Fax(object):
         if isinstance(content_urls, basestring):
             content_urls = [content_urls]
 
-        opt_args = opt_args_to_dict(file=files, content_url=content_urls, header_text=header_text,
-                                    batch_delay=batch_delay, batch_collision_avoidance=batch_collision_avoidance,
-                                    callback_url=callback_url, cancel_timeout=cancel_timeout,
-                                    caller_id=caller_id, test_fail=test_fail)
+        opt_args = _opt_args_to_dict(file=files, content_url=content_urls, header_text=header_text,
+                                     batch_delay=batch_delay, batch_collision_avoidance=batch_collision_avoidance,
+                                     callback_url=callback_url, cancel_timeout=cancel_timeout,
+                                     caller_id=caller_id, test_fail=test_fail)
 
         return self.client.send_fax(to=to, **opt_args)
 
@@ -89,7 +87,7 @@ class _Fax(object):
         :param thumbnail:
         :return:
         """
-        opt_args = opt_args_to_dict(thumbnail=thumbnail)
+        opt_args = _opt_args_to_dict(thumbnail=thumbnail)
         return self.client.get_fax_file(fax_id, **opt_args)
 
     def delete(self, fax_id):
@@ -120,8 +118,8 @@ class _Fax(object):
                     per_page=None, page=None):
         """
 
-        :param created_before:
-        :param created_after:
+        :param created_before: timestamp in ISO-3339 format or datetime object
+        :param created_after: timestamp in ISO-3339 format or datetime object
         :param direction:
         :param status:
         :param phone_number:
@@ -130,8 +128,8 @@ class _Fax(object):
         :return:
         """
 
-        opt_args = opt_args_to_dict(created_before=created_before, created_after=created_after, direction=direction,
-                                    status=status, phone_number=phone_number, per_page=per_page, page=page)
+        opt_args = _opt_args_to_dict(created_before=created_before, created_after=created_after, direction=direction,
+                                     status=status, phone_number=phone_number, per_page=per_page, page=page)
         return self.client.query_faxes(**opt_args)
 
 
@@ -158,7 +156,7 @@ class _PhoneNumber(object):
         :param per_page:
         :return:
         """
-        opt_args = opt_args_to_dict(page=page, per_page=per_page)
+        opt_args = _opt_args_to_dict(page=page, per_page=per_page)
         return self.client.get_area_codes(**opt_args)
 
     def get_phone_number_info(self, number):
@@ -185,7 +183,7 @@ class _PhoneNumber(object):
         :param callback_url:
         :return:
         """
-        opt_args = opt_args_to_dict(callback_url=callback_url)
+        opt_args = _opt_args_to_dict(callback_url=callback_url)
         return self.client.provision_phone_number(country_code, area_code, **opt_args)
 
     def query_phone_numbers(self, country_code=None, area_code=None, page=None, per_page=None):
@@ -197,7 +195,7 @@ class _PhoneNumber(object):
         :param per_page:
         :return:
         """
-        opt_args = opt_args_to_dict(country_code=country_code, area_code=area_code, page=page, per_page=per_page)
+        opt_args = _opt_args_to_dict(country_code=country_code, area_code=area_code, page=page, per_page=per_page)
         return self.client.query_phone_numbers(**opt_args)
 
 
@@ -236,7 +234,7 @@ class _Countries(object):
         :param per_page:
         :return:
         """
-        opt_args = opt_args_to_dict(page=page, per_page=per_page)
+        opt_args = _opt_args_to_dict(page=page, per_page=per_page)
 
         return self.client.get_countries(**opt_args)
 

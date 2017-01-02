@@ -25,12 +25,15 @@ if sys.argv[-1] == 'readme':
 
 requirements = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", "requests", "dateutils"]
 
+test_requirements = ["mock"]
+
 setup(
     name='phaxio',
     version=version,
     packages=find_packages(),
     test_suite='tests',
     install_requires=requirements,
+    tests_require=test_requirements,
     include_package_data=True,
 
     # metadata for upload to PyPI
