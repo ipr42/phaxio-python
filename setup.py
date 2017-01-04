@@ -25,7 +25,7 @@ if sys.argv[-1] == 'readme':
 
 requirements = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", "requests", "dateutils"]
 
-test_requirements = ["mock"]
+test_requirements = ["mock", "urllib3_mock"]
 
 setup(
     name='phaxio',
