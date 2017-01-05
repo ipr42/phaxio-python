@@ -7,6 +7,7 @@ import json
 import urllib3
 import urllib
 from urllib3_mock import Responses
+from datetime import datetime
 
 from phaxio import PhaxioApi
 from phaxio.swagger_client.models.phone_number_response import PhoneNumberResponse
@@ -17,6 +18,9 @@ from phaxio.swagger_client.api_client import ApiException
 responses_requests = Responses('requests.packages.urllib3')
 responses_urllib = Responses()
 
+
+test_phone_number = '2065551234'
+test_fax_id = 12345
 
 class PhaxioApiUnitTests(unittest.TestCase):
 
@@ -55,8 +59,8 @@ class PhaxioApiUnitTests(unittest.TestCase):
     @responses_urllib.activate
     @responses_requests.activate
     def test_phone_numbers_api(self):
-        self.client.PhoneNumber.get_phone_number_info('4132343233')
-        self.assert_request_is_correct('GET', '/v2/phone_numbers/4132343233')
+        self.client.PhoneNumber.get_phone_number_info(test_phone_number)
+        self.assert_request_is_correct('GET', '/v2/phone_numbers/{}'.format(test_phone_number))
 
         self.client.PhoneNumber.get_area_codes(page=3, per_page=49)
         self.assert_request_is_correct('GET', '/v2/public/area_codes?per_page=49&page=3')
@@ -75,8 +79,8 @@ class PhaxioApiUnitTests(unittest.TestCase):
         self.client.PhoneNumber.query_phone_numbers(country_code=1, area_code=206, page=4, per_page=12)
         self.assert_request_is_correct('GET', '/v2/phone_numbers?per_page=12&area_code=206&page=4&country_code=1')
 
-        self.client.PhoneNumber.release_phone_number('2065551234')
-        self.assert_request_is_correct('DELETE', '/v2/phone_numbers/2065551234')
+        self.client.PhoneNumber.release_phone_number(test_phone_number)
+        self.assert_request_is_correct('DELETE', '/v2/phone_numbers/{}'.format(test_phone_number))
 
     @responses_urllib.activate
     @responses_requests.activate
@@ -109,13 +113,89 @@ class PhaxioApiUnitTests(unittest.TestCase):
     @responses_urllib.activate
     @responses_requests.activate
     def test_fax_api(self):
-        pass
+        self.client.Fax.cancel(test_fax_id)
+        self.assert_request_is_correct('POST', '/v2/faxes/{}/cancel'.format(test_fax_id))
 
+        self.client.Fax.resend(test_fax_id)
+        self.assert_request_is_correct('POST', '/v2/faxes/{}/resend'.format(test_fax_id))
 
+        self.client.Fax.delete(test_fax_id)
+        self.assert_request_is_correct('DELETE', '/v2/faxes/{}'.format(test_fax_id))
 
+        self.client.Fax.delete_file(test_fax_id)
+        self.assert_request_is_correct('DELETE', '/v2/faxes/{}/file'.format(test_fax_id))
 
+        self.client.Fax.status(test_fax_id)
+        self.assert_request_is_correct('GET', '/v2/faxes/{}'.format(test_fax_id))
 
+        self.client.Fax.get_file(test_fax_id)
+        self.assert_request_is_correct('GET', '/v2/faxes/{}/file'.format(test_fax_id),
+                                       headers_dict={'Accept': 'application/octet-stream'})
 
+        self.client.Fax.get_file(test_fax_id, thumbnail='l')
+        self.assert_request_is_correct('GET', '/v2/faxes/{}/file?thumbnail=l'.format(test_fax_id),
+                                       headers_dict={'Accept': 'application/octet-stream'})
+        timestamp = datetime.now().replace(microsecond=0)
+        ts_str = timestamp.isoformat('T')
+        ts_str_encoded = urllib.quote_plus(ts_str)
 
+        # send timestamp as datetime object
+        self.client.Fax.query_faxes(created_before=timestamp, created_after=timestamp, direction='send',
+                                    status='success', phone_number=test_phone_number, per_page=2, page=1)
+        self.assert_request_is_correct('GET', '/v2/faxes?status=success&phone_number=2065551234&direction=send&'
+                                       'created_after={}&per_page=2&created_before={}&page=1'.format(ts_str_encoded, ts_str_encoded))
+        # send timestamp as string
+        self.client.Fax.query_faxes(created_before=ts_str, created_after=ts_str)
+        self.assert_request_is_correct('GET',
+                                       '/v2/faxes?created_before={}&created_after={}'.format(ts_str_encoded, ts_str_encoded))
 
+    @responses_urllib.activate
+    @responses_requests.activate
+    def test_send_fax(self):
+        try:
+            self.client.Fax.send(test_phone_number, content_urls=['http://www.google.com', 'http://www.bing.com'],
+                             header_text='foo header text', batch_delay=10, batch_collision_avoidance=True,
+                             callback_url='http://a.callback.url.com', cancel_timeout='30', caller_id=test_phone_number,
+                             test_fail=False)
+        except Exception as e:
+            pass
 
+        self.assert_request_is_correct('POST', '/v2/faxes', {'Content-Type': 'application/x-www-form-urlencoded'})
+        body = urllib.unquote_plus(self.request.body)
+        actual_vals = body.split('&')
+        correct_vals = ['to={}'.format(test_phone_number), 'caller_id={}'.format(test_phone_number),
+                        'content_url[]=http://www.google.com', 'content_url[]=http://www.bing.com',
+                        'header_text=foo header text', 'batch_delay=10', 'batch_collision_avoidance=true',
+                        'callback_url=http://a.callback.url.com', 'cancel_timeout=30', 'test_fail=false'
+        ]
+        actual_vals.sort()
+        correct_vals.sort()
+        self.assertListEqual(actual_vals, correct_vals)
+
+        with open('./_test_fax_file1.pdf', mode='w+') as file:
+            file.write('test file 1 contents')
+
+        with open('./_test_fax_file2.doc', mode='w+') as file:
+            file.write('test file 2 contents')
+        try:
+            self.client.Fax.send(test_phone_number, files=['./_test_fax_file1.pdf', './_test_fax_file2.doc'],
+                                 content_urls=['http://www.google.com', 'http://www.bing.com'])
+        except Exception as e:
+            pass
+        self.assert_request_is_correct('POST', '/v2/faxes')
+        # find the delimiter in the header, split up the body by the delimiter, then verify that each value is correct
+        self.assertTrue(self.request.headers['Content-Type'].startswith('multipart/form-data'))
+        delim = '--' + self.request.headers['Content-Type'].split('=')[-1]
+        self.logger.debug('delim={}'.format(delim))
+        body_lst = re.split('\s*{}-*\s*'.format(delim), self.request.body)
+        body_lst = [x for x in body_lst if x]  # remove empty strings from list
+        self.logger.debug('body_lst={}'.format(body_lst))
+        correct_vals = ['Content-Disposition: form-data; name="to"\r\n\r\n2065551234',
+                        'Content-Disposition: form-data; name="content_url[]"\r\n\r\nhttp://www.google.com',
+                        'Content-Disposition: form-data; name="content_url[]"\r\n\r\nhttp://www.bing.com',
+                        'Content-Disposition: form-data; name="file[]"; filename="_test_fax_file1.pdf"\r\nContent-Type: application/pdf\r\n\r\ntest file 1 contents',
+                        'Content-Disposition: form-data; name="file[]"; filename="_test_fax_file2.doc"\r\nContent-Type: application/msword\r\n\r\ntest file 2 contents',
+                        ]
+        correct_vals.sort()
+        body_lst.sort()
+        self.assertListEqual(body_lst, correct_vals)
