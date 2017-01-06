@@ -89,6 +89,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -117,6 +118,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -188,6 +196,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -217,6 +226,13 @@ class DefaultApi(object):
         if 'metadata' in params:
             form_params.append(('metadata', params['metadata']))
 
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
@@ -237,6 +253,117 @@ class DefaultApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='GeneratePhaxCodeJsonResponse',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def create_phax_code_png(self, metadata, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_phax_code_png(metadata, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str metadata: json file containing the phax code metadata (required)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.create_phax_code_png_with_http_info(metadata, **kwargs)
+        else:
+            (data) = self.create_phax_code_png_with_http_info(metadata, **kwargs)
+            return data
+
+    def create_phax_code_png_with_http_info(self, metadata, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.create_phax_code_png_with_http_info(metadata, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str metadata: json file containing the phax code metadata (required)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['metadata']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+        all_params.append('_extra_args')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_phax_code_png" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'metadata' is set
+        if ('metadata' not in params) or (params['metadata'] is None):
+            raise ValueError("Missing the required parameter `metadata` when calling `create_phax_code_png`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phax_codes.png'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+        if 'metadata' in params:
+            form_params.append(('metadata', params['metadata']))
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['image/png'])
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.\
+            select_header_content_type(['multipart/form-data'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'POST',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='file',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -293,6 +420,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -321,6 +449,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -394,6 +529,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -422,6 +558,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -493,6 +636,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -515,6 +659,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -598,6 +749,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -633,6 +785,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -708,6 +867,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -735,6 +895,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -804,6 +971,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -827,6 +995,13 @@ class DefaultApi(object):
         form_params = []
         local_var_files = {}
 
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
@@ -843,6 +1018,105 @@ class DefaultApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='PhaxCode',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_default_phax_code_png(self, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_default_phax_code_png(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_default_phax_code_png_with_http_info(**kwargs)
+        else:
+            (data) = self.get_default_phax_code_png_with_http_info(**kwargs)
+            return data
+
+    def get_default_phax_code_png_with_http_info(self, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_default_phax_code_png_with_http_info(callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+        all_params.append('_extra_args')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_default_phax_code_png" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        resource_path = '/phax_code.png'.replace('{format}', 'json')
+        path_params = {}
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['image/png'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='file',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -899,6 +1173,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -927,6 +1202,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1002,6 +1284,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1032,6 +1315,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1103,6 +1393,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1132,6 +1423,13 @@ class DefaultApi(object):
         form_params = []
         local_var_files = {}
 
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.\
@@ -1148,6 +1446,113 @@ class DefaultApi(object):
                                         post_params=form_params,
                                         files=local_var_files,
                                         response_type='PhaxCode',
+                                        auth_settings=auth_settings,
+                                        callback=params.get('callback'),
+                                        _return_http_data_only=params.get('_return_http_data_only'),
+                                        _preload_content=params.get('_preload_content', True),
+                                        _request_timeout=params.get('_request_timeout'),
+                                        collection_formats=collection_formats)
+
+    def get_phax_code_png(self, phax_code_id, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_phax_code_png(phax_code_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str phax_code_id: identifier for the phax code (required)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('callback'):
+            return self.get_phax_code_png_with_http_info(phax_code_id, **kwargs)
+        else:
+            (data) = self.get_phax_code_png_with_http_info(phax_code_id, **kwargs)
+            return data
+
+    def get_phax_code_png_with_http_info(self, phax_code_id, **kwargs):
+        """
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please define a `callback` function
+        to be invoked when receiving the response.
+        >>> def callback_function(response):
+        >>>     pprint(response)
+        >>>
+        >>> thread = api.get_phax_code_png_with_http_info(phax_code_id, callback=callback_function)
+
+        :param callback function: The callback function
+            for asynchronous request. (optional)
+        :param str phax_code_id: identifier for the phax code (required)
+        :return: file
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['phax_code_id']
+        all_params.append('callback')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+        all_params.append('_extra_args')
+
+        params = locals()
+        for key, val in iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_phax_code_png" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'phax_code_id' is set
+        if ('phax_code_id' not in params) or (params['phax_code_id'] is None):
+            raise ValueError("Missing the required parameter `phax_code_id` when calling `get_phax_code_png`")
+
+
+        collection_formats = {}
+
+        resource_path = '/phax_codes/{phax_code_id}.png'.replace('{format}', 'json')
+        path_params = {}
+        if 'phax_code_id' in params:
+            path_params['phax_code_id'] = params['phax_code_id']
+
+        query_params = {}
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.\
+            select_header_accept(['image/png'])
+
+        # Authentication setting
+        auth_settings = ['UserSecurity']
+
+        return self.api_client.call_api(resource_path, 'GET',
+                                        path_params,
+                                        query_params,
+                                        header_params,
+                                        body=body_params,
+                                        post_params=form_params,
+                                        files=local_var_files,
+                                        response_type='file',
                                         auth_settings=auth_settings,
                                         callback=params.get('callback'),
                                         _return_http_data_only=params.get('_return_http_data_only'),
@@ -1204,6 +1609,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1232,6 +1638,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1309,6 +1722,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1344,6 +1758,13 @@ class DefaultApi(object):
             form_params.append(('area_code', params['area_code']))
         if 'callback_url' in params:
             form_params.append(('callback_url', params['callback_url']))
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1433,6 +1854,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1470,6 +1892,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1549,6 +1978,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1580,6 +2010,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1653,6 +2090,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1681,6 +2119,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1754,6 +2199,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1782,6 +2228,13 @@ class DefaultApi(object):
 
         form_params = []
         local_var_files = {}
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`
@@ -1875,6 +2328,7 @@ class DefaultApi(object):
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
+        all_params.append('_extra_args')
 
         params = locals()
         for key, val in iteritems(params['kwargs']):
@@ -1925,6 +2379,13 @@ class DefaultApi(object):
             form_params.append(('caller_id', params['caller_id']))
         if 'test_fail' in params:
             form_params.append(('test_fail', params['test_fail']))
+
+        if '_extra_args' in params:
+            for k, v in params['_extra_args'].iteritems():
+                if form_params:
+                    form_params.append((k, v))
+                else:
+                    query_params[k] = v
 
         body_params = None
         # HTTP header `Accept`

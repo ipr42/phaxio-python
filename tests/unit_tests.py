@@ -1,18 +1,11 @@
 import unittest
-import os
 import re
 import logging
-import requests
-import json
-import urllib3
 import urllib
 from urllib3_mock import Responses
 from datetime import datetime
 
 from phaxio import PhaxioApi
-from phaxio.swagger_client.models.phone_number_response import PhoneNumberResponse
-from phaxio.swagger_client.models.phone_number import PhoneNumber
-from phaxio.swagger_client.api_client import ApiException
 
 # need to set up mocks for both urllib3-based requests (used for most everything) and requests-based ones (used for some posts)
 responses_requests = Responses('requests.packages.urllib3')
@@ -21,6 +14,7 @@ responses_urllib = Responses()
 
 test_phone_number = '2065551234'
 test_fax_id = 12345
+
 
 class PhaxioApiUnitTests(unittest.TestCase):
 
@@ -55,6 +49,13 @@ class PhaxioApiUnitTests(unittest.TestCase):
             self.assertDictContainsSubset(headers_dict, self.request.headers)
         if body:
             self.assertEqual(body, self.request.body)
+
+    def create_test_files(self):
+        with open('./_test_fax_file1.pdf', mode='w+') as file:
+            file.write('test file 1 contents')
+
+        with open('./_test_fax_file2.doc', mode='w+') as file:
+            file.write('test file 2 contents')
 
     @responses_urllib.activate
     @responses_requests.activate
@@ -92,7 +93,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
     @responses_requests.activate
     def test_phax_code_api(self):
         try:
-            self.client.PhaxCode.create_json_phax_code('{"test_key": "test_val"}')
+            self.client.PhaxCode.create_phax_code_json_response('{"test_key": "test_val"}')
         except Exception as e:
             pass
 
@@ -141,8 +142,9 @@ class PhaxioApiUnitTests(unittest.TestCase):
 
         # send timestamp as datetime object
         self.client.Fax.query_faxes(created_before=timestamp, created_after=timestamp, direction='send',
-                                    status='success', phone_number=test_phone_number, per_page=2, page=1)
-        self.assert_request_is_correct('GET', '/v2/faxes?status=success&phone_number=2065551234&direction=send&'
+                                    status='success', phone_number=test_phone_number,
+                                    tags_dict={'foo': 'bar'}, per_page=2, page=1)
+        self.assert_request_is_correct('GET', '/v2/faxes?status=success&phone_number=2065551234&direction=send&tag%5Bfoo%5D=bar&'
                                        'created_after={}&per_page=2&created_before={}&page=1'.format(ts_str_encoded, ts_str_encoded))
         # send timestamp as string
         self.client.Fax.query_faxes(created_before=ts_str, created_after=ts_str)
@@ -152,11 +154,13 @@ class PhaxioApiUnitTests(unittest.TestCase):
     @responses_urllib.activate
     @responses_requests.activate
     def test_send_fax(self):
+        test_tags = {'foo': 'bar', 'abc': 'xyz'}
+
         try:
             self.client.Fax.send(test_phone_number, content_urls=['http://www.google.com', 'http://www.bing.com'],
                              header_text='foo header text', batch_delay=10, batch_collision_avoidance=True,
                              callback_url='http://a.callback.url.com', cancel_timeout='30', caller_id=test_phone_number,
-                             test_fail=False)
+                             test_fail=False, tags_dict=test_tags)
         except Exception as e:
             pass
 
@@ -166,20 +170,17 @@ class PhaxioApiUnitTests(unittest.TestCase):
         correct_vals = ['to={}'.format(test_phone_number), 'caller_id={}'.format(test_phone_number),
                         'content_url[]=http://www.google.com', 'content_url[]=http://www.bing.com',
                         'header_text=foo header text', 'batch_delay=10', 'batch_collision_avoidance=true',
-                        'callback_url=http://a.callback.url.com', 'cancel_timeout=30', 'test_fail=false'
+                        'callback_url=http://a.callback.url.com', 'cancel_timeout=30', 'test_fail=false',
+                        'tag[foo]=bar', 'tag[abc]=xyz'
         ]
         actual_vals.sort()
         correct_vals.sort()
         self.assertListEqual(actual_vals, correct_vals)
 
-        with open('./_test_fax_file1.pdf', mode='w+') as file:
-            file.write('test file 1 contents')
-
-        with open('./_test_fax_file2.doc', mode='w+') as file:
-            file.write('test file 2 contents')
+        self.create_test_files()
         try:
             self.client.Fax.send(test_phone_number, files=['./_test_fax_file1.pdf', './_test_fax_file2.doc'],
-                                 content_urls=['http://www.google.com', 'http://www.bing.com'])
+                                 content_urls=['http://www.google.com', 'http://www.bing.com'], tags_dict=test_tags)
         except Exception as e:
             pass
         self.assert_request_is_correct('POST', '/v2/faxes')
@@ -191,6 +192,8 @@ class PhaxioApiUnitTests(unittest.TestCase):
         body_lst = [x for x in body_lst if x]  # remove empty strings from list
         self.logger.debug('body_lst={}'.format(body_lst))
         correct_vals = ['Content-Disposition: form-data; name="to"\r\n\r\n2065551234',
+                        'Content-Disposition: form-data; name="tag[foo]"\r\n\r\nbar',
+                        'Content-Disposition: form-data; name="tag[abc]"\r\n\r\nxyz',
                         'Content-Disposition: form-data; name="content_url[]"\r\n\r\nhttp://www.google.com',
                         'Content-Disposition: form-data; name="content_url[]"\r\n\r\nhttp://www.bing.com',
                         'Content-Disposition: form-data; name="file[]"; filename="_test_fax_file1.pdf"\r\nContent-Type: application/pdf\r\n\r\ntest file 1 contents',

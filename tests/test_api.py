@@ -1,7 +1,7 @@
 import os
 import time
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.tz import tzlocal
 
 from phaxio.api import PhaxioApi
@@ -36,17 +36,19 @@ class TestV2Api(unittest.TestCase):
         self._pause()
 
     def test_send_fax(self):
+
         response = self.client.Fax.send(self.test_number, files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
-                        content_urls=['http://www.google.com', 'http://www.bing.com'])
+                        content_urls=['http://www.google.com', 'http://www.bing.com'], tags_dict={'foo': 'bar'})
         self.logger.info('response={}'.format(response))
-        #self.logger.info('send_fax request body={}\nheaders={}'.format(Configuration().last_request.body, Configuration().last_request.headers))
         self.assertTrue(response.success)
 
 
     def test_send_fax_with_test_failure(self):
+        test_dict = {'test_tag_key': 'test_tag_val'}
         # send fax with test_fail set, get its status, delete the file then delete the fax, verify each
-        response = self.client.Fax.send(self.test_number, content_urls='http://www.google.com', test_fail='lineError')
-        self.logger.debug('response={}'.format(response))
+        response = self.client.Fax.send(self.test_number, content_urls='http://www.google.com', test_fail='lineError',
+                                        tags_dict=test_dict)
+        self.logger.debug('response_type={}, response={}'.format(type(response), response))
         self.assertTrue(response.success)
         fax_id = response.data.id
 
@@ -55,6 +57,7 @@ class TestV2Api(unittest.TestCase):
         status_response = self.client.Fax.status(fax_id)
         self.logger.debug('status={}'.format(status_response))
         self.assertEqual(status_response.data.recipients[0].error_type, 'lineError')
+        self.assertDictEqual(status_response.data.tags, test_dict)
 
         self.logger.debug('created_at type={}, val={}'.format(type(status_response.data.created_at), status_response.data.created_at))
 
@@ -94,9 +97,11 @@ class TestV2Api(unittest.TestCase):
         self._assert_paging_params(result, 1, 10)
 
     def test_query_fax(self):
-        result = self.client.Fax.query_faxes(direction='sent', status='success', per_page=20, page=1)
+        result = self.client.Fax.query_faxes(direction='sent', status='success', per_page=20, page=1,
+                                             tags_dict={'foo': 'bar'})
         self.logger.debug('query_result={}'.format(result))
         self.assertTrue(result.success)
+        self.assertTrue(result.paging.total > 0)
         self._assert_paging_params(result, 1, 20)
 
         self._pause()
@@ -105,22 +110,23 @@ class TestV2Api(unittest.TestCase):
         self.logger.debug('query_result={}'.format(result))
         self.assertTrue(result.success)
         self.assertTrue(len(result.data) == 0)
+        self.assertTrue(result.paging.total == 0)
 
         self._pause()
         result = self.client.Fax.query_faxes(created_before=datetime.now())
         self.logger.debug('query_result={}'.format(result))
         self.assertTrue(result.success)
         self.assertTrue(len(result.data) > 0)
-
+        self.assertTrue(result.paging.total > 0)
 
     def test_area_codes(self):
         result = self.client.PhoneNumber.get_area_codes(page=3, per_page=10)
         self.logger.debug('area_codes_results={}'.format(result))
         self._assert_paging_params(result, 3, 10)
 
-    def test_phax_codes(self):
+    def test_phax_codes_json(self):
         test_metadata = {'testkey': 'testval'}
-        result = self.client.PhaxCode.create_json_phax_code(json.dumps(test_metadata))
+        result = self.client.PhaxCode.create_phax_code_json_response(json.dumps(test_metadata))
         self.logger.debug('create_phax_code_result={}'.format(result))
         self.assertTrue(result.success)
         phax_id = result.data.identifier
@@ -132,3 +138,17 @@ class TestV2Api(unittest.TestCase):
 
         metadata_dict = json.loads(result.data.metadata)
         self.assertDictEqual(metadata_dict, test_metadata)
+
+    def test_phax_codes_png(self):
+        test_metadata = "{'testkey': 'testval'}"
+        result = self.client.PhaxCode.get_phax_code_png_response('Y3jOfA')
+        self.logger.debug('create_phax_code_result={}'.format(result))
+
+        self._pause()
+        result = self.client.PhaxCode.get_phax_code_png_response()
+        self.logger.debug('create_phax_code_result={}'.format(result))
+
+        self._pause()
+        result = self.client.PhaxCode.create_phax_code_png_response(metadata=test_metadata)
+        self.logger.debug('create_phax_code_result={}'.format(result))
+
