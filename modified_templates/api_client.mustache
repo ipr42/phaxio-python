@@ -532,14 +532,17 @@ class ApiClient(object):
         os.remove(path)
 
         content_disposition = response.getheader("Content-Disposition")
-        if content_disposition:
+        if content_disposition and 'filename' in content_disposition:
             filename = re.\
                 search(r'filename=[\'"]?([^\'"\s]+)[\'"]?', content_disposition).\
                 group(1)
             path = os.path.join(os.path.dirname(path), filename)
 
         with open(path, "w") as f:
-            f.write(response.data)
+            if isinstance(response.data, unicode):
+                f.write(str(bytearray(response.data, 'utf8')))
+            else:
+                f.write(response.data)
 
         return path
 

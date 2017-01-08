@@ -648,6 +648,25 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/GeneratePhaxCodeJsonResponse'
+  /phax_codes.png:
+    post:
+      # TODO: figure out how to support png phax codes
+      operationId: create_phax_code_png
+      consumes:
+        - multipart/form-data
+      produces:
+        - image/png
+      parameters:
+        - name: metadata
+          type: string
+          in: formData
+          required: true
+          description: json file containing the phax code metadata
+      responses:
+        '200':
+          description: success response
+          schema:
+            type: file
   /phax_codes/{phax_code_id}:
     get:
       operationId: get_phax_code
@@ -664,6 +683,22 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/PhaxCode'
+  /phax_codes/{phax_code_id}.png:
+    get:
+      operationId: get_phax_code_png
+      produces:
+        - image/png
+      parameters:
+        - name: phax_code_id
+          in: path
+          type: string
+          required: true
+          description: identifier for the phax code
+      responses:
+        '200':
+          description: success response
+          schema:
+            type: file
   /phax_code:
     get:
       operationId: get_default_phax_code
@@ -674,6 +709,16 @@ paths:
           description: success response
           schema:
             $ref: '#/definitions/PhaxCode'
+  /phax_code.png:
+    get:
+      operationId: get_default_phax_code_png
+      produces:
+        - image/png
+      responses:
+        '200':
+          description: success response
+          schema:
+            type: file
   /public/countries:
     get:
       operationId: get_countries

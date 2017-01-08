@@ -6,15 +6,18 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**cancel_fax**](DefaultApi.md#cancel_fax) | **POST** /faxes/{faxId}/cancel | Cancel a Fax
 [**create_phax_code_json**](DefaultApi.md#create_phax_code_json) | **POST** /phax_codes | 
+[**create_phax_code_png**](DefaultApi.md#create_phax_code_png) | **POST** /phax_codes.png | 
 [**delete_fax**](DefaultApi.md#delete_fax) | **DELETE** /faxes/{faxId} | Delete a fax
 [**delete_fax_file**](DefaultApi.md#delete_fax_file) | **DELETE** /faxes/{faxId}/file | Delete a fax file
 [**get_account_status**](DefaultApi.md#get_account_status) | **GET** /account/status | Get account status
 [**get_area_codes**](DefaultApi.md#get_area_codes) | **GET** /public/area_codes | List area codes available for purchasing numbers
 [**get_countries**](DefaultApi.md#get_countries) | **GET** /public/countries | Returns a list of supported countries for sending and receiving faxes
 [**get_default_phax_code**](DefaultApi.md#get_default_phax_code) | **GET** /phax_code | 
+[**get_default_phax_code_png**](DefaultApi.md#get_default_phax_code_png) | **GET** /phax_code.png | 
 [**get_fax**](DefaultApi.md#get_fax) | **GET** /faxes/{faxId} | Get Fax
 [**get_fax_file**](DefaultApi.md#get_fax_file) | **GET** /faxes/{faxId}/file | Get fax content file or thumbnail
 [**get_phax_code**](DefaultApi.md#get_phax_code) | **GET** /phax_codes/{phax_code_id} | 
+[**get_phax_code_png**](DefaultApi.md#get_phax_code_png) | **GET** /phax_codes/{phax_code_id}.png | 
 [**get_phone_number**](DefaultApi.md#get_phone_number) | **GET** /phone_numbers/{number} | Get number info
 [**provision_phone_number**](DefaultApi.md#provision_phone_number) | **POST** /phone_numbers | Provision a number
 [**query_faxes**](DefaultApi.md#query_faxes) | **GET** /faxes | List faxes in date range
@@ -120,6 +123,55 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_phax_code_png**
+> file create_phax_code_png(metadata)
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+metadata = 'metadata_example' # str | json file containing the phax code metadata
+
+try: 
+    api_response = api_instance.create_phax_code_png(metadata)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->create_phax_code_png: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **metadata** | **str**| json file containing the phax code metadata | 
+
+### Return type
+
+[**file**](file.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: image/png
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -418,6 +470,51 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_default_phax_code_png**
+> file get_default_phax_code_png()
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+
+try: 
+    api_response = api_instance.get_default_phax_code_png()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->get_default_phax_code_png: %s\n" % e)
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**file**](file.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: image/png
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_fax**
 > GetFaxInfoResponse get_fax(fax_id)
 
@@ -566,6 +663,55 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_phax_code_png**
+> file get_phax_code_png(phax_code_id)
+
+
+
+### Example 
+```python
+from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure HTTP basic authorization: UserSecurity
+swagger_client.configuration.username = 'YOUR_USERNAME'
+swagger_client.configuration.password = 'YOUR_PASSWORD'
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+phax_code_id = 'phax_code_id_example' # str | identifier for the phax code
+
+try: 
+    api_response = api_instance.get_phax_code_png(phax_code_id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->get_phax_code_png: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **phax_code_id** | **str**| identifier for the phax code | 
+
+### Return type
+
+[**file**](file.md)
+
+### Authorization
+
+[UserSecurity](../README.md#UserSecurity)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: image/png
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
