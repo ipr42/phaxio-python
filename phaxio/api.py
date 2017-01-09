@@ -60,7 +60,7 @@ class _Fax(object):
         """
         Send a fax
         :param to: A phone number or list of phone numbers in E.164 format
-        :param files: The file of list of files you wish to fax. A least one file or content_url parameter is required.
+        :param files: The file or list of files you wish to fax. A least one file or content_url parameter is required.
         :param content_urls: A URL or list of URLs to be rendered and sent as the fax content. A least one file or content_url parameter is required.
         :param header_text: Text that will be displayed at the top of each page of the fax. 50 characters maximum.
         :param batch_delay: Enables batching and specifies the amount of time, in seconds, before the batch is fired. Maximum delay is 3600 (1 hour).

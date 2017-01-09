@@ -12,7 +12,7 @@ Via pip:
 
 ::
 
-    $ pip install pyphaxio
+    $ pip install phaxio
 
 Usage
 -----
@@ -24,58 +24,29 @@ Send a fax to multiple people using HTML message:
     from phaxio import PhaxioApi
 
     api = PhaxioApi(key, secret)
-    r = api.send(to=['4141234567', '5141234567', '6151234567'],
-        string_data='Hello World!',
-        string_data_type='text')
-    print(r.get('faxId'))
+    response = api.Fax.send(to=['4141234567', '5141234567', '6151234567'],
+        files='/path/to/supported/file.pdf')
+    print(response.data.id)
+
+The full set of Phaxio APIs is available and split into functional groups:
+
+Fax
+PhoneNumber
+PhaxCode
+Account
+Countries
 
 Generally, each supported method takes keyword arguments with the exact
 same names of the API method parameters as they’re described in the
-`documentation`_. One exception to this rule is that ``filename`` is
-instead referred to as ``files``. For example, to send a fax using
-files:
-
-.. code:: python
-
-    llama = os.path.join(os.path.dirname(__file__), 'tests/llama.pdf')
-    alpaca = os.path.join(os.path.dirname(__file__), 'tests/alpaca.pdf')
-    f = open(alpaca, 'rb')
-    r = api.send(to='4141234567', files=(llama, f))
+`documentation`_.
 
 See the `tests`_ for additional examples.
 
 Error Handling
 ~~~~~~~~~~~~~~
 
-By default, the api calls return a dictionary. However, you can use
-``PhaxioApi(key, secret, raise_errors=True)`` which will raise the
-following errors: \* ``AuthenticationError`` - key/secret are invalid \*
-``APIError`` - error with api call \* ``ServerError`` - server had an
-error and could not complete your request
+Errors will cause an ApiException, with fields for HTTP status code, reponse headers, and json response data in the body.
 
-Errors can be imported from the ``phaxio.exceptions`` module.
-
-Currently Supported API Calls
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Implemented and tested:
-
--  send
--  testReceive
--  faxStatus
--  faxFile
-
-Implemented and untested:
-
--  attachPhaxCodeToPdf
--  createPhaxCode
--  getHostedDocument
--  provisionNumber
--  releaseNumber
--  numberList
--  faxList
--  faxCancel
--  accountStatus
 
 Testing
 -------
@@ -84,21 +55,14 @@ Testing
 
     python setup.py test
 
-You will be prompted for a test api key and secret
 
 Contributing
 ------------
-
-1. Fork it
-2. Create your feature branch (``git checkout -b my-new-feature``)
-3. Commit your changes (``git commit -am 'Added some feature'``)
-4. Push to the branch (``git push origin my-new-feature``)
-5. Create new Pull Request
 
 .. _Phaxio API: https://www.phaxio.com/docs
 .. _documentation: https://www.phaxio.com/docs
 .. _tests: tests/test_api.py
 .. |PyPI| image:: https://img.shields.io/pypi/v/pyphaxio.svg
-    :target: https://pypi.python.org/pypi/pyphaxio
+    :target: https://pypi.python.org/pypi/phaxio
 .. |GitHub license| image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target: https://github.com/jfialkoff/pyphaxio/blob/master/LICENSE
+    :target: https://github.com/anpolsky/phaxio-python/blob/master/LICENSE
