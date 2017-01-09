@@ -5,6 +5,7 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 
 from phaxio.api import PhaxioApi
+from phaxio import ApiException
 
 import unittest
 import logging
@@ -151,4 +152,7 @@ class TestV2Api(unittest.TestCase):
         self._pause()
         result = self.client.PhaxCode.create_phax_code_png_response(metadata=test_metadata)
         self.logger.debug('create_phax_code_result={}'.format(result))
+
+    def test_exceptions(self):
+        self.assertRaises(ApiException, self.client.Fax.get_file, 36965299, thumbnail='x')
 

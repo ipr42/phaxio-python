@@ -19,4 +19,5 @@ from .swagger_client.models.response_base import ResponseBase
 from .swagger_client.models.recipient import Recipient
 from .swagger_client.models.phone_number_response import PhoneNumberResponse
 from .swagger_client.models.operation_status import OperationStatus
+from .swagger_client.rest import ApiException
 
