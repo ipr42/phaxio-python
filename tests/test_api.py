@@ -142,7 +142,7 @@ class TestV2Api(unittest.TestCase):
         phax_id = result.data.identifier
 
         self._pause()
-        result = self.client.PhaxCode.get_phax_code(phax_code_id=phax_id)
+        result = self.client.PhaxCode.get_phax_code_json_response(phax_code_id=phax_id)
         self.logger.debug('get_phax_code_result={}'.format(result))
         self.assertTrue(result.success)
 

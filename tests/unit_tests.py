@@ -101,7 +101,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
         self.assert_request_is_correct('POST', '/v2/phax_codes',
                                        headers_dict={'Content-Type': 'application/x-www-form-urlencoded'},
                                        body='metadata=%7B%22test_key%22%3A+%22test_val%22%7D')
-        self.client.PhaxCode.get_phax_code('phax_code_id')
+        self.client.PhaxCode.get_phax_code_json_response('phax_code_id')
         self.assert_request_is_correct('GET', '/v2/phax_codes/phax_code_id')
 
     @responses_urllib.activate
