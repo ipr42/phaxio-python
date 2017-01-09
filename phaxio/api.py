@@ -66,11 +66,14 @@ class _Fax(object):
         :param test_fail:
         :return: Fax
         """
-        # make sure files and content_urls are lists
+        # make sure array parameters are lists if only one instance was passed in
         if isinstance(files, basestring):
             files = [files]
         if isinstance(content_urls, basestring):
             content_urls = [content_urls]
+        if isinstance(to, basestring):
+            to = [to]
+
 
         opt_args = _opt_args_to_dict(file=files, content_url=content_urls, header_text=header_text,
                                      batch_delay=batch_delay, batch_collision_avoidance=batch_collision_avoidance,

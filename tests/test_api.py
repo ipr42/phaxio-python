@@ -43,6 +43,15 @@ class TestV2Api(unittest.TestCase):
         self.logger.info('response={}'.format(response))
         self.assertTrue(response.success)
 
+        self._pause()
+        # test multiple recipients
+        response = self.client.Fax.send([self.test_number, '2065551234'],
+                                        files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
+                                        content_urls=['http://www.google.com', 'http://www.bing.com'],
+                                        tags_dict={'foo': 'bar'})
+        self.logger.info('response={}'.format(response))
+        self.assertTrue(response.success)
+
 
     def test_send_fax_with_test_failure(self):
         test_dict = {'test_tag_key': 'test_tag_val'}

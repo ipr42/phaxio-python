@@ -464,9 +464,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: to
+        - name: to[]
           in: formData
-          type: string
+          type: array
+          items:
+            type: string
+          collectionFormat: "multi"
           required: true
           description: phone number
         - name: direction

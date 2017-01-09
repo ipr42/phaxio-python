@@ -13,6 +13,7 @@ responses_urllib = Responses()
 
 
 test_phone_number = '2065551234'
+test_phone_number2 = '2065551235'
 test_fax_id = 12345
 
 
@@ -157,17 +158,19 @@ class PhaxioApiUnitTests(unittest.TestCase):
         test_tags = {'foo': 'bar', 'abc': 'xyz'}
 
         try:
-            self.client.Fax.send(test_phone_number, content_urls=['http://www.google.com', 'http://www.bing.com'],
-                             header_text='foo header text', batch_delay=10, batch_collision_avoidance=True,
-                             callback_url='http://a.callback.url.com', cancel_timeout='30', caller_id=test_phone_number,
-                             test_fail=False, tags_dict=test_tags)
+            self.client.Fax.send(to=[test_phone_number, test_phone_number2],
+                                 content_urls=['http://www.google.com', 'http://www.bing.com'],
+                                 header_text='foo header text', batch_delay=10, batch_collision_avoidance=True,
+                                 callback_url='http://a.callback.url.com', cancel_timeout='30',
+                                 caller_id=test_phone_number, test_fail=False, tags_dict=test_tags)
         except Exception as e:
             pass
 
         self.assert_request_is_correct('POST', '/v2/faxes', {'Content-Type': 'application/x-www-form-urlencoded'})
         body = urllib.unquote_plus(self.request.body)
         actual_vals = body.split('&')
-        correct_vals = ['to={}'.format(test_phone_number), 'caller_id={}'.format(test_phone_number),
+        correct_vals = ['to[]={}'.format(test_phone_number), 'to[]={}'.format(test_phone_number2),
+                        'caller_id={}'.format(test_phone_number),
                         'content_url[]=http://www.google.com', 'content_url[]=http://www.bing.com',
                         'header_text=foo header text', 'batch_delay=10', 'batch_collision_avoidance=true',
                         'callback_url=http://a.callback.url.com', 'cancel_timeout=30', 'test_fail=false',
@@ -191,7 +194,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
         body_lst = re.split('\s*{}-*\s*'.format(delim), self.request.body)
         body_lst = [x for x in body_lst if x]  # remove empty strings from list
         self.logger.debug('body_lst={}'.format(body_lst))
-        correct_vals = ['Content-Disposition: form-data; name="to"\r\n\r\n2065551234',
+        correct_vals = ['Content-Disposition: form-data; name="to[]"\r\n\r\n2065551234',
                         'Content-Disposition: form-data; name="tag[foo]"\r\n\r\nbar',
                         'Content-Disposition: form-data; name="tag[abc]"\r\n\r\nxyz',
                         'Content-Disposition: form-data; name="content_url[]"\r\n\r\nhttp://www.google.com',

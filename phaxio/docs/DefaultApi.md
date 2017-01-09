@@ -1056,7 +1056,7 @@ swagger_client.configuration.password = 'YOUR_PASSWORD'
 
 # create an instance of the API class
 api_instance = swagger_client.DefaultApi()
-to = 'to_example' # str | phone number
+to = ['to_example'] # list[str] | phone number
 direction = 'direction_example' # str | Set to 'received' to receive test fax. (optional)
 file = ['/path/to/file.txt'] # list[file] | file to send (optional)
 content_url = ['content_url_example'] # list[str] | url of file to send (optional)
@@ -1080,7 +1080,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **to** | **str**| phone number | 
+ **to** | [**list[str]**](str.md)| phone number | 
  **direction** | **str**| Set to &#39;received&#39; to receive test fax. | [optional] 
  **file** | **list[file]**| file to send | [optional] 
  **content_url** | [**list[str]**](str.md)| url of file to send | [optional] 
