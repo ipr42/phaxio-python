@@ -1,3 +1,8 @@
+"""
+Created December 2016
+@author Ari Polsky
+"""
+
 import swagger_client
 import os
 from swagger_client.apis.default_api import DefaultApi
@@ -27,10 +32,18 @@ def _add_tags_dict(tags_dict, opt_args):
 
 
 class PhaxioApi(object):
+    """
+    :ivar _Fax Fax: Object for all fax-related functionality
+    :ivar _PhaxCode PhaxCode: Object for creating and retrieving PhaxCodes
+    :ivar _PhoneNumber PhoneNumber: Object for provisioning and querying phone numbers
+    :ivar _Countries Countries: Object for querying countries
+    :ivar _Account Account: Object for querying account info
+    """
 
     def __init__(self, api_key="", api_secret="", file_download_path=None):
         """
         Initialize a Phaxio Api client
+
         :param api_key: Your API key
         :param api_secret: Your API secret
         :param file_download_path: Destination directory for downloaded files
@@ -51,6 +64,9 @@ class PhaxioApi(object):
 
 
 class _Fax(object):
+    """
+    class for all APIs related to faxes. Don't instantiate directly - use the Fax instance in the PhaxioApi object.
+    """
 
     def __init__(self, client):
         self._client = client
@@ -59,6 +75,7 @@ class _Fax(object):
              callback_url=None, cancel_timeout=None, tags_dict=None, caller_id=None, test_fail=None):
         """
         Send a fax
+
         :param to: A phone number or list of phone numbers in E.164 format
         :param files: The file or list of files you wish to fax. A least one file or content_url parameter is required.
         :param content_urls: A URL or list of URLs to be rendered and sent as the fax content. A least one file or content_url parameter is required.
@@ -92,6 +109,7 @@ class _Fax(object):
     def status(self, fax_id):
         """
         Get the status of a fax by ID
+
         :param fax_id: Fax ID
         :return: FaxInfo
         """
@@ -100,6 +118,7 @@ class _Fax(object):
     def cancel(self, fax_id):
         """
         Cancel sending a fax
+
         :param fax_id: Fax ID
         :return: SendFaxResponse
         """
@@ -108,6 +127,7 @@ class _Fax(object):
     def get_file(self, fax_id, thumbnail=None):
         """
         Get fax content file or thumbnail
+
         :param fax_id: Fax ID
         :param thumbnail: Either 's' (small) or 'l' (large). If specified, a thumbnail of the requested size will be returned
         :return: Filename of downloaded fax file
@@ -118,6 +138,7 @@ class _Fax(object):
     def delete(self, fax_id):
         """
         Delete a fax. May only be used with test API credentials.
+
         :param fax_id: Fax ID
         :return: OperationStatus
         """
@@ -126,6 +147,7 @@ class _Fax(object):
     def delete_file(self, fax_id):
         """
         Delete fax document files
+
         :param fax_id: Fax ID
         :return: OperationStatus
         """
@@ -134,6 +156,7 @@ class _Fax(object):
     def resend(self, fax_id):
         """
         Resend a fax
+
         :param fax_id: Fax ID
         :return: SendFaxResponse
         """
@@ -143,6 +166,7 @@ class _Fax(object):
                     tags_dict=None, per_page=None, page=None):
         """
         List faxes in date range
+
         :param created_before: timestamp string in ISO-3339 format or datetime object
         :param created_after: timestamp string in ISO-3339 format or datetime object
         :param direction: Either '`sent`' or '`received`'. Limits results to faxes with the specified direction.
@@ -161,24 +185,32 @@ class _Fax(object):
 
 
 class _Account(object):
+    """
+    class for retrieving account information. Don't instantiate directly - use the Account instance in the PhaxioApi object.
+    """
     def __init__(self, client):
         self._client = client
 
     def get_status(self):
         """
         Get Account Status
+
         :return: AccountStatus
         """
         return self._client.get_account_status()
 
 
 class _PhoneNumber(object):
+    """
+    class for all APIs related to phone numbers. Don't instantiate directly - use the PhoneNumber instance in the PhaxioApi object.
+    """
     def __init__(self, client):
         self._client = client
 
     def get_area_codes(self, page=None, per_page=None):
         """
         List area codes available for purchasing numbers
+
         :param page: The maximum number of results to return per call or "page" (1000 max).
         :param per_page: The page number to return for the request. 1-based.
         :return: GetAreaCodesResponse
@@ -189,6 +221,7 @@ class _PhoneNumber(object):
     def get_phone_number_info(self, number):
         """
         Get number info
+
         :param number: A phone number in E.164 format
         :return: PhoneNumberResponse
         """
@@ -197,6 +230,7 @@ class _PhoneNumber(object):
     def release_phone_number(self, number):
         """
         Release a phone number you no longer need
+
         :param number: A phone number in E.164 format
         :return: OperationStatus
         """
@@ -205,6 +239,7 @@ class _PhoneNumber(object):
     def provision_phone_number(self, country_code, area_code, callback_url=None):
         """
         Provision a phone number that you can use to receive faxes in your Phaxio account.
+
         :param country_code: The country code (E.164) of the number you'd like to provision.
         :param area_code: The area code of the number you'd like to provision.
         :param callback_url: A callback URL that we'll post to when a fax is received by this number.
@@ -216,6 +251,7 @@ class _PhoneNumber(object):
     def query_phone_numbers(self, country_code=None, area_code=None, page=None, per_page=None):
         """
         Get a detailed list of the phone numbers that you currently own on Phaxio.
+
         :param country_code: A country code (E.164) you'd like to filter by.
         :param area_code: An area code you'd like to filter by.
         :param page: The maximum number of results to return per call or "page" (1000 max).
@@ -227,12 +263,16 @@ class _PhoneNumber(object):
 
 
 class _PhaxCode(object):
+    """
+    class for all APIs related to PhaxCodes. Don't instantiate directly - use the PhaxCode instance in the PhaxioApi object.
+    """
     def __init__(self, client):
         self._client = client
 
     def get_phax_code_json_response(self, phax_code_id=None):
         """
         Retrieve a PhaxCode. Response is JSON.
+
         :param phax_code_id: PhaxCode ID to retrieve. If omitted, gets the default PhaxCode.
         :return: PhaxCode
         """
@@ -244,6 +284,7 @@ class _PhaxCode(object):
     def get_phax_code_png_response(self, phax_code_id=None):
         """
         Retrieve a PhaxCode. Response is filename of downloaded png file.
+
         :param phax_code_id: PhaxCode ID to retrieve. If omitted, gets the default PhaxCode.
         :return: Filename of downloaded png file.
         """
@@ -261,6 +302,7 @@ class _PhaxCode(object):
     def create_phax_code_json_response(self, metadata):
         """
         Create a custom PhaxCode. Response is JSON.
+
         :param metadata: Custom metadata to be associated with this barcode.
         :return: GeneratePhaxCodeJsonResponse
         """
@@ -269,6 +311,7 @@ class _PhaxCode(object):
     def create_phax_code_png_response(self, metadata):
         """
         Create a custom PhaxCode. Response is filename of downloaded png file.
+
         :param metadata: Custom metadata to be associated with this barcode.
         :return: Filename of downloaded png file.
         """
@@ -281,12 +324,16 @@ class _PhaxCode(object):
 
 
 class _Countries(object):
+    """
+    class for retrieving a list of countries Phaxio supports. Don't instantiate directly - use the Countries instance in the PhaxioApi object.
+    """
     def __init__(self, client):
         self._client = client
 
     def get_countries(self, page=None, per_page=None):
         """
         Get a list of supported countries for sending faxes
+
         :param page: The maximum number of results to return per call or "page" (1000 max).
         :param per_page: The page number to return for the request. 1-based.
         :return: GetCountriesResponse
