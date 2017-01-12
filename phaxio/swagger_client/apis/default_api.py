@@ -1354,7 +1354,7 @@ class DefaultApi(object):
         >>> def callback_function(response):
         >>>     pprint(response)
         >>>
-        >>> thread = api.get_phax_code_json_response(phax_code_id, callback=callback_function)
+        >>> thread = api.get_phax_code(phax_code_id, callback=callback_function)
 
         :param callback function: The callback function
             for asynchronous request. (optional)

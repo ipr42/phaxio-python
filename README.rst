@@ -59,6 +59,8 @@ Testing
 
 ::
 
+    export API_KEY="MY_API_KEY"
+    export API_SECRET="MY_API_SECRET"
     python setup.py test
 
 
