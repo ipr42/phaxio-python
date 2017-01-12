@@ -41,6 +41,23 @@ extensions = [
 autosummary_generate = True
 autodoc_default_flags = ['members', 'undoc-members']
 
+# skips dccumenting to_dict and to_str in model types
+def skip_member(app, what, name, obj, skip, options):
+    if name in ['to_dict', 'to_str']:
+        return True
+    return skip
+
+# skips all docstrings in model types, but leave the :rtype: tags so we have type information and links
+def remove_module_docstring(app, what, name, obj, options, lines):
+    if name.startswith("phaxio.swagger_client"):
+        print("skipping={}".format(name))
+        lines[:] = [x for x in lines if 'rtype' in x]
+
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip_member)
+    app.connect("autodoc-process-docstring", remove_module_docstring)
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

@@ -9,7 +9,6 @@ phaxio.api module
 
 .. automodule:: phaxio.api
     :members:
-    :special-members: __init__
     :undoc-members:
     :show-inheritance:
 

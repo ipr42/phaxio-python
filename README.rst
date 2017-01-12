@@ -14,6 +14,12 @@ Via pip:
 
     $ pip install phaxio
 
+
+Full Documentation
+------------------
+
+http://phaxio-python.readthedocs.io/en/latest/
+
 Usage
 -----
 

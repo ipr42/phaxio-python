@@ -12,6 +12,7 @@ Welcome to phaxio-python's documentation!
 
 .. include:: modules.rst
 .. include:: phaxio.rst
+.. include:: models.rst
 
 Indices and tables
 ==================

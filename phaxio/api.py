@@ -1,5 +1,6 @@
 """
 Created December 2016
+
 @author Ari Polsky
 """
 
@@ -33,13 +34,16 @@ def _add_tags_dict(tags_dict, opt_args):
 
 class PhaxioApi(object):
     """
+    :param api_key: Your API key
+    :param api_secret: Your API secret
+    :param file_download_path: Destination directory for downloaded files
+
     :ivar _Fax Fax: Object for all fax-related functionality
     :ivar _PhaxCode PhaxCode: Object for creating and retrieving PhaxCodes
     :ivar _PhoneNumber PhoneNumber: Object for provisioning and querying phone numbers
     :ivar _Countries Countries: Object for querying countries
     :ivar _Account Account: Object for querying account info
     """
-
     def __init__(self, api_key="", api_secret="", file_download_path=None):
         """
         Initialize a Phaxio Api client
@@ -87,7 +91,7 @@ class _Fax(object):
         :param tags_dict: A dictionary of metadata that is relevant to your application.
         :param caller_id: A Phaxio phone number you would like to use for the caller id.
         :param test_fail: When using a test API key, this will simulate a sending failure at Phaxio. The contents of this parameter should be one of the Phaxio error types which will dictate how the fax will "fail".
-        :return: SendFaxResponse
+        :rtype: SendFaxResponse
         """
         # make sure array parameters are lists if only one instance was passed in
         if isinstance(files, basestring):
@@ -111,7 +115,7 @@ class _Fax(object):
         Get the status of a fax by ID
 
         :param fax_id: Fax ID
-        :return: FaxInfo
+        :rtype: FaxInfo
         """
         return self._client.get_fax(fax_id)
 
@@ -120,7 +124,7 @@ class _Fax(object):
         Cancel sending a fax
 
         :param fax_id: Fax ID
-        :return: SendFaxResponse
+        :rtype: SendFaxResponse
         """
         return self._client.cancel_fax(fax_id)
 
@@ -140,7 +144,7 @@ class _Fax(object):
         Delete a fax. May only be used with test API credentials.
 
         :param fax_id: Fax ID
-        :return: OperationStatus
+        :rtype: OperationStatus
         """
         return self._client.delete_fax(fax_id)
 
@@ -149,7 +153,7 @@ class _Fax(object):
         Delete fax document files
 
         :param fax_id: Fax ID
-        :return: OperationStatus
+        :rtype: OperationStatus
         """
         return self._client.delete_fax_file(fax_id)
 
@@ -158,7 +162,7 @@ class _Fax(object):
         Resend a fax
 
         :param fax_id: Fax ID
-        :return: SendFaxResponse
+        :rtype: SendFaxResponse
         """
         return self._client.resend_fax(fax_id)
 
@@ -175,7 +179,7 @@ class _Fax(object):
         :param tags_dict: A tag name and value that you want to use to filter results.
         :param per_page: The maximum number of results to return per call or "page" (1000 max).
         :param page: The page number to return for the request. 1-based.
-        :return: GetFaxesResponse
+        :rtype: GetFaxesResponse
         """
 
         opt_args = _opt_args_to_dict(created_before=created_before, created_after=created_after, direction=direction,
@@ -195,7 +199,7 @@ class _Account(object):
         """
         Get Account Status
 
-        :return: AccountStatus
+        :rtype: AccountStatus
         """
         return self._client.get_account_status()
 
@@ -213,7 +217,7 @@ class _PhoneNumber(object):
 
         :param page: The maximum number of results to return per call or "page" (1000 max).
         :param per_page: The page number to return for the request. 1-based.
-        :return: GetAreaCodesResponse
+        :rtype: GetAreaCodesResponse
         """
         opt_args = _opt_args_to_dict(page=page, per_page=per_page)
         return self._client.get_area_codes(**opt_args)
@@ -223,7 +227,7 @@ class _PhoneNumber(object):
         Get number info
 
         :param number: A phone number in E.164 format
-        :return: PhoneNumberResponse
+        :rtype: PhoneNumberResponse
         """
         return self._client.get_phone_number(number)
 
@@ -232,7 +236,7 @@ class _PhoneNumber(object):
         Release a phone number you no longer need
 
         :param number: A phone number in E.164 format
-        :return: OperationStatus
+        :rtype: OperationStatus
         """
         return self._client.release_phone_number(number)
 
@@ -243,7 +247,7 @@ class _PhoneNumber(object):
         :param country_code: The country code (E.164) of the number you'd like to provision.
         :param area_code: The area code of the number you'd like to provision.
         :param callback_url: A callback URL that we'll post to when a fax is received by this number.
-        :return: PhoneNumberResponse
+        :rtype: PhoneNumberResponse
         """
         opt_args = _opt_args_to_dict(callback_url=callback_url)
         return self._client.provision_phone_number(country_code, area_code, **opt_args)
@@ -256,7 +260,7 @@ class _PhoneNumber(object):
         :param area_code: An area code you'd like to filter by.
         :param page: The maximum number of results to return per call or "page" (1000 max).
         :param per_page: The page number to return for the request. 1-based.
-        :return: ListPhoneNumbersResponse
+        :rtype: ListPhoneNumbersResponse
         """
         opt_args = _opt_args_to_dict(country_code=country_code, area_code=area_code, page=page, per_page=per_page)
         return self._client.query_phone_numbers(**opt_args)
@@ -274,7 +278,7 @@ class _PhaxCode(object):
         Retrieve a PhaxCode. Response is JSON.
 
         :param phax_code_id: PhaxCode ID to retrieve. If omitted, gets the default PhaxCode.
-        :return: PhaxCode
+        :rtype: PhaxCode
         """
         if not phax_code_id:
             return self._client.get_default_phax_code()
@@ -304,7 +308,7 @@ class _PhaxCode(object):
         Create a custom PhaxCode. Response is JSON.
 
         :param metadata: Custom metadata to be associated with this barcode.
-        :return: GeneratePhaxCodeJsonResponse
+        :rtype: GeneratePhaxCodeJsonResponse
         """
         return self._client.create_phax_code_json(metadata=metadata)
 
@@ -336,7 +340,7 @@ class _Countries(object):
 
         :param page: The maximum number of results to return per call or "page" (1000 max).
         :param per_page: The page number to return for the request. 1-based.
-        :return: GetCountriesResponse
+        :rtype: GetCountriesResponse
         """
         opt_args = _opt_args_to_dict(page=page, per_page=per_page)
 
