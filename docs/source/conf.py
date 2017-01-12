@@ -33,10 +33,11 @@ sys.path.insert(0, os.path.abspath('../../'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.ifconfig',
+    'sphinx.ext.ifconfig'
 #    'sphinx.ext.githubpages',
-    'sphinx.ext.autosectionlabel',
-    'sphinx.ext.autosummary']
+#    'sphinx.ext.autosectionlabel',
+#    'sphinx.ext.autosummary'
+]
 autosummary_generate = True
 autodoc_default_flags = ['members', 'undoc-members']
 
