@@ -37,9 +37,13 @@ Send a fax to multiple people using HTML message:
 The full set of Phaxio APIs is available and split into functional groups:
 
 Fax
+
 PhoneNumber
+
 PhaxCode
+
 Account
+
 Countries
 
 Generally, each supported method takes keyword arguments with the exact
