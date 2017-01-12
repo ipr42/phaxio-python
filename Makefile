@@ -4,3 +4,19 @@ swagger-codegen-cli.jar:
 
 swagger-generate: swagger-codegen-cli.jar
 	java -jar swagger-codegen-cli.jar generate -i ./spec/api.yaml -o ./phaxio -l python -t ./modified_templates
+	# delete all the stuff it creates that we don't need
+	rm -rf ./phaxio/test
+	rm -rf ./phaxio/docs
+	rm ./phaxio/.gitignore
+	rm ./phaxio/.travis.yml
+	rm ./phaxio/git_push.sh
+	rm ./phaxio/LICENSE
+	rm ./phaxio/README.md
+	rm ./phaxio/requirements.txt
+	rm ./phaxio/setup.py
+	rm ./phaxio/test-requirements.txt
+	rm ./phaxio/tox.ini
+
+	
+	
+

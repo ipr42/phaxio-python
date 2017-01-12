@@ -10,6 +10,9 @@ from phaxio import ApiException
 import unittest
 import logging
 
+test_filename1 = './_test_fax_file1.txt'
+test_filename2 = './_test_fax_file2.txt'
+
 
 class TestV2Api(unittest.TestCase):
     logger = logging.getLogger(__name__)
@@ -25,6 +28,13 @@ class TestV2Api(unittest.TestCase):
         # wait between API calls to avoid being rate-limited
         time.sleep(1)
 
+    def create_test_files(self):
+        with open(test_filename1, mode='w+') as file:
+            file.write('test file 1 contents')
+
+        with open(test_filename2, mode='w+') as file:
+            file.write('test file 2 contents')
+
     def setUp(self):
 
         api_key = os.getenv('API_KEY')
@@ -37,8 +47,9 @@ class TestV2Api(unittest.TestCase):
         self._pause()
 
     def test_send_fax(self):
+        self.create_test_files()
 
-        response = self.client.Fax.send(self.test_number, files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
+        response = self.client.Fax.send(self.test_number, files=[test_filename1, test_filename2],
                         content_urls=['http://www.google.com', 'http://www.bing.com'], tags_dict={'foo': 'bar'})
         self.logger.info('response={}'.format(response))
         self.assertTrue(response.success)
@@ -46,7 +57,7 @@ class TestV2Api(unittest.TestCase):
         self._pause()
         # test multiple recipients
         response = self.client.Fax.send([self.test_number, '2065551234'],
-                                        files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
+                                        files=test_filename1,
                                         content_urls=['http://www.google.com', 'http://www.bing.com'],
                                         tags_dict={'foo': 'bar'})
         self.logger.info('response={}'.format(response))

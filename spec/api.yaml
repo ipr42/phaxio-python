@@ -448,7 +448,9 @@ paths:
           type: string
           required: false
           description: A phone number in E.164 format that you want to use to filter results.
-          # TODO: figure out how to do tag
+          # NOTE: tags as specified in the Phaxio are not supported by OpenAPI because there is no way to declare
+          # a parameter that has no defined name known at build time like tag[SOMETHING]=VALUE. Instead, I modified
+          # the python templates to allow passing extra parameters directly all the way through.
         - $ref: '#/parameters/pageParam'
         - $ref: '#/parameters/perPageParam'
       responses:
@@ -519,7 +521,7 @@ paths:
           type: integer
           required: false
           description: Number of minutes to wait for successful send before cancelling fax
-          # TODO: figure out how to support tag
+          # See above note about how we support tags
         - name: caller_id
           in: formData
           type: string
@@ -634,7 +636,6 @@ paths:
             $ref: '#/definitions/OperationStatus'
   /phax_codes:
     post:
-      # TODO: figure out how to support png phax codes
       operationId: create_phax_code_json
       consumes:
         - multipart/form-data
@@ -653,7 +654,6 @@ paths:
             $ref: '#/definitions/GeneratePhaxCodeJsonResponse'
   /phax_codes.png:
     post:
-      # TODO: figure out how to support png phax codes
       operationId: create_phax_code_png
       consumes:
         - multipart/form-data
