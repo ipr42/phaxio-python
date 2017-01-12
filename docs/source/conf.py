@@ -50,7 +50,6 @@ def skip_member(app, what, name, obj, skip, options):
 # skips all docstrings in model types, but leave the :rtype: tags so we have type information and links
 def remove_module_docstring(app, what, name, obj, options, lines):
     if name.startswith("phaxio.swagger_client"):
-        print("skipping={}".format(name))
         lines[:] = [x for x in lines if 'rtype' in x]
 
 
