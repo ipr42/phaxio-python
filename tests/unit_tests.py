@@ -27,7 +27,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
     logging.getLogger().addHandler(handler)
 
     def setUp(self):
-        self.client = PhaxioApi()
+        self.client = PhaxioApi('TEST_API_KEY', 'TEST_API_SECRET')
         self.request = None
 
         # this will cause all API requests to get routed to request_callback, which just returns empty reponses

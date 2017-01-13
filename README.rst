@@ -36,26 +36,28 @@ Send a fax to multiple people using HTML message:
 
 The full set of Phaxio APIs is available and split into functional groups:
 
-Fax
+::
 
-PhoneNumber
+    Fax
 
-PhaxCode
+    PhoneNumber
 
-Account
+    PhaxCode
 
-Countries
+    Account
+
+    Countries
 
 Generally, each supported method takes keyword arguments with the exact
 same names of the API method parameters as they’re described in the
-`documentation`_.
+`Phaxio documentation`_.
 
-See the `tests`_ for additional examples.
+See the `tests`_ for additional examples, or the `full documentation`_.
 
 Error Handling
 ~~~~~~~~~~~~~~
 
-Errors will cause an ApiException, with fields for HTTP status code, reponse headers, and json response data in the body.
+Errors will cause an ``ApiException``, with fields for HTTP status code, reponse headers, and json response data in the body.
 
 
 Testing
@@ -71,8 +73,19 @@ Testing
 Contributing
 ------------
 
+Making API changes:
+
+# Make changes to ``spec/api.yaml``
+# Run ``make swagger-generate``
+# Make changes to ``phaxio/api.py`` as necessary
+# Update documentation if necessary
+## ``docs/source/phaxio.rst`` will probably not require updates unless it's a very big change
+## ``docs/source/models.rst`` will require updates only if there are new model types
+
+
 .. _Phaxio API: https://www.phaxio.com/docs
-.. _documentation: https://www.phaxio.com/docs
+.. _full documentation: http://phaxio-python.readthedocs.io/en/latest/
+.. _Phaxio documentation: https://www.phaxio.com/docs
 .. _tests: tests/test_api.py
 .. |PyPI| image:: https://img.shields.io/pypi/v/pyphaxio.svg
     :target: https://pypi.python.org/pypi/phaxio

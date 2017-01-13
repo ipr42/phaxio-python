@@ -17,6 +17,14 @@ swagger-generate: swagger-codegen-cli.jar
 	rm ./phaxio/test-requirements.txt
 	rm ./phaxio/tox.ini
 
+test:
+    python setup.py test
+
+pip-publish:
+    python setup.py sdist upload
+    python setup.py bdist upload
+
+
 	
 	
 

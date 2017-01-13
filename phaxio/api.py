@@ -44,7 +44,7 @@ class PhaxioApi(object):
     :ivar _Countries Countries: Object for querying countries
     :ivar _Account Account: Object for querying account info
     """
-    def __init__(self, api_key="", api_secret="", file_download_path=None):
+    def __init__(self, api_key, api_secret, file_download_path=None):
         """
         Initialize a Phaxio Api client
 
@@ -52,7 +52,7 @@ class PhaxioApi(object):
         :param api_secret: Your API secret
         :param file_download_path: Destination directory for downloaded files
         """
-        # default to "" instead of None because the swagger-generated code will try string ops on it
+
         swagger_client.configuration.username = api_key
         swagger_client.configuration.password = api_secret
         if file_download_path:
