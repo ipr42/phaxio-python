@@ -38,15 +38,15 @@ The full set of Phaxio APIs is available and split into functional groups:
 
 ::
 
-    Fax
+    api.Fax
 
-    PhoneNumber
+    api.PhoneNumber
 
-    PhaxCode
+    api.PhaxCode
 
-    Account
+    api.Account
 
-    Countries
+    api.Countries
 
 Generally, each supported method takes keyword arguments with the exact
 same names of the API method parameters as they’re described in the
@@ -71,16 +71,17 @@ Testing
 
 
 Contributing
-------------
+============
 
-Making API changes:
+Making API changes
+------------------
 
-# Make changes to ``spec/api.yaml``
-# Run ``make swagger-generate``
-# Make changes to ``phaxio/api.py`` as necessary
-# Update documentation if necessary
-## ``docs/source/phaxio.rst`` will probably not require updates unless it's a very big change
-## ``docs/source/models.rst`` will require updates only if there are new model types
+#. Make changes to ``spec/api.yaml``
+#. Run ``make swagger-generate``
+#. Make changes to ``phaxio/api.py`` as necessary
+#. Update documentation if necessary
+##. ``docs/source/phaxio.rst`` will probably not require updates unless it's a very big change
+##. ``docs/source/models.rst`` will require updates only if there are new model types
 
 
 .. _Phaxio API: https://www.phaxio.com/docs
