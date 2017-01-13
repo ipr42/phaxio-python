@@ -89,7 +89,7 @@ Making API changes
 .. _full documentation: http://phaxio-python.readthedocs.io/en/latest/
 .. _Phaxio documentation: https://www.phaxio.com/docs
 .. _tests: tests/test_api.py
-.. |PyPI| image:: https://img.shields.io/pypi/v/pyphaxio.svg
+.. |PyPI| image:: https://img.shields.io/pypi/v/phaxio.svg
     :target: https://pypi.python.org/pypi/phaxio
-.. |GitHub license| image:: https://img.shields.io/badge/license-MIT-blue.svg
+.. |GitHub license| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
     :target: https://github.com/anpolsky/phaxio-python/blob/master/LICENSE
