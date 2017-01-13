@@ -18,13 +18,10 @@ swagger-generate: swagger-codegen-cli.jar
 	rm ./phaxio/tox.ini
 
 test:
-    python setup.py test
+	python setup.py test
 
 pip-publish:
-    python setup.py sdist upload
-    python setup.py bdist upload
+	python setup.py sdist upload
+	python setup.py bdist upload
 
-
-	
-	
 

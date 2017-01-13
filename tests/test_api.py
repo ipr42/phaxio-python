@@ -40,6 +40,9 @@ class TestV2Api(unittest.TestCase):
         api_key = os.getenv('API_KEY')
         api_secret = os.getenv('API_SECRET')
 
+        if not api_key or not api_secret:
+            self.skipTest("API_KEY or API_SECRET environment variables not defined. Skipping.")
+
         file_download_path = './'
         self.client = PhaxioApi(api_key, api_secret, file_download_path=file_download_path)
 
