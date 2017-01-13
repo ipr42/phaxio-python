@@ -80,8 +80,9 @@ Making API changes
 #. Run ``make swagger-generate``
 #. Make changes to ``phaxio/api.py`` as necessary
 #. Update documentation if necessary
-##. ``docs/source/phaxio.rst`` will probably not require updates unless it's a very big change
-##. ``docs/source/models.rst`` will require updates only if there are new model types
+
+- ``docs/source/phaxio.rst`` will probably not require updates unless it's a very big change
+- ``docs/source/models.rst`` will require updates only if there are new model types
 
 
 .. _Phaxio API: https://www.phaxio.com/docs
