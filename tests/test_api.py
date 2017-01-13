@@ -5,9 +5,13 @@ from datetime import datetime
 from dateutil.tz import tzlocal
 
 from phaxio.api import PhaxioApi
+from phaxio import ApiException
 
 import unittest
 import logging
+
+test_filename1 = './_test_fax_file1.txt'
+test_filename2 = './_test_fax_file2.txt'
 
 
 class TestV2Api(unittest.TestCase):
@@ -24,10 +28,20 @@ class TestV2Api(unittest.TestCase):
         # wait between API calls to avoid being rate-limited
         time.sleep(1)
 
+    def create_test_files(self):
+        with open(test_filename1, mode='w+') as file:
+            file.write('test file 1 contents')
+
+        with open(test_filename2, mode='w+') as file:
+            file.write('test file 2 contents')
+
     def setUp(self):
 
         api_key = os.getenv('API_KEY')
         api_secret = os.getenv('API_SECRET')
+
+        if not api_key or not api_secret:
+            self.skipTest("API_KEY or API_SECRET environment variables not defined. Skipping.")
 
         file_download_path = './'
         self.client = PhaxioApi(api_key, api_secret, file_download_path=file_download_path)
@@ -36,9 +50,19 @@ class TestV2Api(unittest.TestCase):
         self._pause()
 
     def test_send_fax(self):
+        self.create_test_files()
 
-        response = self.client.Fax.send(self.test_number, files=['/mnt/d/src/pyphaxio/phaxio/requirements.txt'],
+        response = self.client.Fax.send(self.test_number, files=[test_filename1, test_filename2],
                         content_urls=['http://www.google.com', 'http://www.bing.com'], tags_dict={'foo': 'bar'})
+        self.logger.info('response={}'.format(response))
+        self.assertTrue(response.success)
+
+        self._pause()
+        # test multiple recipients
+        response = self.client.Fax.send([self.test_number, '2065551234'],
+                                        files=test_filename1,
+                                        content_urls=['http://www.google.com', 'http://www.bing.com'],
+                                        tags_dict={'foo': 'bar'})
         self.logger.info('response={}'.format(response))
         self.assertTrue(response.success)
 
@@ -132,7 +156,7 @@ class TestV2Api(unittest.TestCase):
         phax_id = result.data.identifier
 
         self._pause()
-        result = self.client.PhaxCode.get_phax_code(phax_code_id=phax_id)
+        result = self.client.PhaxCode.get_phax_code_json_response(phax_code_id=phax_id)
         self.logger.debug('get_phax_code_result={}'.format(result))
         self.assertTrue(result.success)
 
@@ -151,4 +175,7 @@ class TestV2Api(unittest.TestCase):
         self._pause()
         result = self.client.PhaxCode.create_phax_code_png_response(metadata=test_metadata)
         self.logger.debug('create_phax_code_result={}'.format(result))
+
+    def test_exceptions(self):
+        self.assertRaises(ApiException, self.client.Fax.get_file, 36965299, thumbnail='x')
 

@@ -1,4 +1,3 @@
-from v2.phaxio.api import PhaxioApiV2
 import exceptions
 
 """

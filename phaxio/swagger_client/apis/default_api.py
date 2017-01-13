@@ -2272,7 +2272,7 @@ class DefaultApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str to: phone number (required)
+        :param list[str] to: phone number (required)
         :param str direction: Set to 'received' to receive test fax.
         :param list[file] file: file to send
         :param list[str] content_url: url of file to send
@@ -2307,7 +2307,7 @@ class DefaultApi(object):
 
         :param callback function: The callback function
             for asynchronous request. (optional)
-        :param str to: phone number (required)
+        :param list[str] to: phone number (required)
         :param str direction: Set to 'received' to receive test fax.
         :param list[file] file: file to send
         :param list[str] content_url: url of file to send
@@ -2358,7 +2358,8 @@ class DefaultApi(object):
         form_params = []
         local_var_files = {}
         if 'to' in params:
-            form_params.append(('to', params['to']))
+            form_params.append(('to[]', params['to']))
+            collection_formats['to[]'] = 'multi'
         if 'file' in params:
             local_var_files['file[]'] = params['file']
             collection_formats['file[]'] = 'multi'
