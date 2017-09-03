@@ -2,6 +2,9 @@ import unittest
 import re
 import logging
 import urllib
+import six
+from six import PY3
+
 from urllib3_mock import Responses
 from datetime import datetime
 
@@ -15,6 +18,7 @@ responses_urllib = Responses()
 test_phone_number = '2065551234'
 test_phone_number2 = '2065551235'
 test_fax_id = 12345
+
 
 
 class PhaxioApiUnitTests(unittest.TestCase):
@@ -32,11 +36,14 @@ class PhaxioApiUnitTests(unittest.TestCase):
 
         # this will cause all API requests to get routed to request_callback, which just returns empty reponses
         # and saves the request in self.request so it can be validated
-        url_re = re.compile(r'/v2/.*')
+        url_re = re.compile(r'/v2/.*', flags=re.UNICODE)
         responses_urllib.add_callback('GET', url_re, callback=self.request_callback)
         responses_urllib.add_callback('POST', url_re, callback=self.request_callback)
-        responses_requests.add_callback('POST', url_re, callback=self.request_callback)
         responses_urllib.add_callback('DELETE', url_re, callback=self.request_callback)
+
+        responses_requests.add_callback('POST', url_re, callback=self.request_callback)
+        responses_requests.add_callback('GET', url_re, callback=self.request_callback)
+        responses_requests.add_callback('DELETE', url_re, callback=self.request_callback)
 
     def request_callback(self, r):
         self.request = r
@@ -45,9 +52,17 @@ class PhaxioApiUnitTests(unittest.TestCase):
 
     def assert_request_is_correct(self, method, url, headers_dict=None, body=None):
         self.assertEqual(self.request.method, method)
-        self.assertEqual(self.request.url, url)
+
+        parsed_url = url.split('?')
+        parsed_request_url = self.request.url.split('?')
+
+        self.assertEqual(parsed_request_url[0], parsed_url[0])
+        self.assertEqual(len(parsed_request_url), len(parsed_url))
+        if len(parsed_request_url) > 1:
+            six.assertCountEqual(self, parsed_request_url[1].split('&'), parsed_url[1].split('&'))
+
         if headers_dict:
-            self.assertDictContainsSubset(headers_dict, self.request.headers)
+            self.assertTrue(set(headers_dict.items()).issubset(set(self.request.headers.items())))
         if body:
             self.assertEqual(body, self.request.body)
 
@@ -65,7 +80,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
         self.assert_request_is_correct('GET', '/v2/phone_numbers/{}'.format(test_phone_number))
 
         self.client.PhoneNumber.get_area_codes(page=3, per_page=49)
-        self.assert_request_is_correct('GET', '/v2/public/area_codes?per_page=49&page=3')
+        self.assert_request_is_correct('GET', '/v2/public/area_codes?page=3&per_page=49')
         # auth not required for this api
         self.assertNotIn('Authorization', self.request.headers)
 
@@ -79,7 +94,7 @@ class PhaxioApiUnitTests(unittest.TestCase):
                                        body='country_code=1&area_code=206&callback_url=http%3A%2F%2Ffake%2Fcallback')
 
         self.client.PhoneNumber.query_phone_numbers(country_code=1, area_code=206, page=4, per_page=12)
-        self.assert_request_is_correct('GET', '/v2/phone_numbers?per_page=12&area_code=206&page=4&country_code=1')
+        self.assert_request_is_correct('GET', '/v2/phone_numbers?country_code=1&per_page=12&area_code=206&page=4')
 
         self.client.PhoneNumber.release_phone_number(test_phone_number)
         self.assert_request_is_correct('DELETE', '/v2/phone_numbers/{}'.format(test_phone_number))
@@ -139,7 +154,10 @@ class PhaxioApiUnitTests(unittest.TestCase):
                                        headers_dict={'Accept': 'application/octet-stream'})
         timestamp = datetime.now().replace(microsecond=0)
         ts_str = timestamp.isoformat('T')
-        ts_str_encoded = urllib.quote_plus(ts_str)
+        if PY3:
+            ts_str_encoded = urllib.parse.quote_plus(ts_str)
+        else:
+            ts_str_encoded = urllib.quote_plus(ts_str)
 
         # send timestamp as datetime object
         self.client.Fax.query_faxes(created_before=timestamp, created_after=timestamp, direction='send',
@@ -167,7 +185,11 @@ class PhaxioApiUnitTests(unittest.TestCase):
             pass
 
         self.assert_request_is_correct('POST', '/v2/faxes', {'Content-Type': 'application/x-www-form-urlencoded'})
-        body = urllib.unquote_plus(self.request.body)
+
+        if PY3:
+            body = urllib.parse.unquote_plus(self.request.body)
+        else:
+            body = urllib.unquote_plus(self.request.body)
         actual_vals = body.split('&')
         correct_vals = ['to[]={}'.format(test_phone_number), 'to[]={}'.format(test_phone_number2),
                         'caller_id={}'.format(test_phone_number),
@@ -191,7 +213,11 @@ class PhaxioApiUnitTests(unittest.TestCase):
         self.assertTrue(self.request.headers['Content-Type'].startswith('multipart/form-data'))
         delim = '--' + self.request.headers['Content-Type'].split('=')[-1]
         self.logger.debug('delim={}'.format(delim))
-        body_lst = re.split('\s*{}-*\s*'.format(delim), self.request.body)
+        if PY3:
+            body = self.request.body.decode('UTF-8')
+        else:
+            body = self.request.body
+        body_lst = re.split('\s*{}-*\s*'.format(delim), body)
         body_lst = [x for x in body_lst if x]  # remove empty strings from list
         self.logger.debug('body_lst={}'.format(body_lst))
         correct_vals = ['Content-Disposition: form-data; name="to[]"\r\n\r\n2065551234',

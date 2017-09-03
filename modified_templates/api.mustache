@@ -193,7 +193,7 @@ class {{classname}}(object):
 {{/formParams}}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
