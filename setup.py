@@ -4,7 +4,7 @@ import sys
 
 from setuptools import setup, find_packages
 
-version = '0.2'
+version = '0.3'
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -23,7 +23,7 @@ if sys.argv[-1] == 'readme':
     print(readme)
     sys.exit()
 
-requirements = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", "requests", "dateutils"]
+requirements = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", "requests"]
 
 test_requirements = ["mock", "urllib3_mock"]
 
@@ -35,6 +35,11 @@ setup(
     install_requires=requirements,
     tests_require=test_requirements,
     include_package_data=True,
+    classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 2",
+    ],
 
     # metadata for upload to PyPI
     author='Aryeh Polsky',

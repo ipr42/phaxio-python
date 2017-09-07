@@ -120,7 +120,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -227,7 +227,7 @@ class DefaultApi(object):
             form_params.append(('metadata', params['metadata']))
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -338,7 +338,7 @@ class DefaultApi(object):
             form_params.append(('metadata', params['metadata']))
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -451,7 +451,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -560,7 +560,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -661,7 +661,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -787,7 +787,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -897,7 +897,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -996,7 +996,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1095,7 +1095,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1204,7 +1204,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1317,7 +1317,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1424,7 +1424,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1531,7 +1531,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1640,7 +1640,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1760,7 +1760,7 @@ class DefaultApi(object):
             form_params.append(('callback_url', params['callback_url']))
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -1894,7 +1894,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -2012,7 +2012,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -2121,7 +2121,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -2230,7 +2230,7 @@ class DefaultApi(object):
         local_var_files = {}
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:
@@ -2382,7 +2382,7 @@ class DefaultApi(object):
             form_params.append(('test_fail', params['test_fail']))
 
         if '_extra_args' in params:
-            for k, v in params['_extra_args'].iteritems():
+            for k, v in params['_extra_args'].items():
                 if form_params:
                     form_params.append((k, v))
                 else:

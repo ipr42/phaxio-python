@@ -4,16 +4,17 @@ Created December 2016
 @author Ari Polsky
 """
 
-import swagger_client
+from phaxio import swagger_client
 import os
-from swagger_client.apis.default_api import DefaultApi
+from six import string_types
+from phaxio.swagger_client.apis.default_api import DefaultApi
 
 
 def _opt_args_to_dict(**kwargs):
     # return kwargs as a dictionary that excludes parameters that are set to None. It's handy because some APIs don't
     # like having optional params set to null when None was passed in, so we return the kwargs without the nulls
     ret = {}
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         if v is not None:
             ret[k] = v
     return ret
@@ -25,7 +26,7 @@ def _add_tags_dict(tags_dict, opt_args):
     # other form fields it'll put them there, else it'll put them into the query string
     if tags_dict:
         extra_args = {}
-        for k, v in tags_dict.iteritems():
+        for k, v in tags_dict.items():
             key = 'tag[{}]'.format(k)
             extra_args[key] = v
         opt_args['_extra_args'] = extra_args
@@ -94,11 +95,11 @@ class _Fax(object):
         :rtype: SendFaxResponse
         """
         # make sure array parameters are lists if only one instance was passed in
-        if isinstance(files, basestring):
+        if isinstance(files, string_types):
             files = [files]
-        if isinstance(content_urls, basestring):
+        if isinstance(content_urls, string_types):
             content_urls = [content_urls]
-        if isinstance(to, basestring):
+        if isinstance(to, string_types):
             to = [to]
 
 
@@ -301,7 +302,7 @@ class _PhaxCode(object):
             new_dir = swagger_client.configuration.temp_folder_path
             new_full_path = os.path.join(new_dir, '{}.png'.format(phax_code_id or 'phaxcode'))
             os.rename(full_path, new_full_path)
-        return new_full_path
+            return new_full_path
 
     def create_phax_code_json_response(self, metadata):
         """

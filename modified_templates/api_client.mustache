@@ -538,11 +538,15 @@ class ApiClient(object):
                 group(1)
             path = os.path.join(os.path.dirname(path), filename)
 
-        with open(path, "w") as f:
-            if isinstance(response.data, unicode):
-                f.write(str(bytearray(response.data, 'utf8')))
-            else:
+        if isinstance(response.data, bytes):
+            with open(path, "wb") as f:
                 f.write(response.data)
+        else:
+            with open(path, "w") as f:
+                if not PY3 and isinstance(response.data, unicode):
+                    f.write(str(bytearray(response.data, 'utf8')))
+                else:
+                    f.write(response.data)
 
         return path
 
