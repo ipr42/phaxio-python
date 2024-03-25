@@ -67,6 +67,8 @@ Testing
 
     export API_KEY="MY_API_KEY"
     export API_SECRET="MY_API_SECRET"
+    python -m venv .venv
+    . .venv/bin/activate
     python setup.py test
 
 

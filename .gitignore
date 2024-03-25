@@ -41,3 +41,10 @@ _trial_temp
 
 # IntelliJ
 .idea
+
+# Dev and Test files
+_test_fax_*
+.eggs
+.venv
+*.log
+fax-*-largethumb.jpg
